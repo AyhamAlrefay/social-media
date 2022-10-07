@@ -1,14 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
+import 'package:whatsapp/core/widgets/loading_widget.dart';
 
 import '../../../../core/theme/colors.dart';
+import '../../../auth/domain/entities/user_entity.dart';
 import '../widgets/chat_screen/bottom_chat_field.dart';
+import 'chat_lsit.dart';
 
 class ChatUser extends StatelessWidget {
   static const String routeName = '/chat-user';
+  final String name;
+  final String uid;
+  final String profilePic;
+
   final Contact? contactInformation;
 
-  const ChatUser({Key? key, required this.contactInformation})
+  const ChatUser(
+      {Key? key,
+      required this.contactInformation,
+      required this.name,
+      required this.uid,
+      required this.profilePic})
       : super(key: key);
 
   @override
@@ -21,6 +33,7 @@ class ChatUser extends StatelessWidget {
         ),
         backgroundColor: backgroundColor,
         titleSpacing: -10,
+        centerTitle: false,
         title: Row(
           children: [
             const CircleAvatar(
@@ -31,6 +44,7 @@ class ChatUser extends StatelessWidget {
             const SizedBox(
               width: 15,
             ),
+
             Text(
               contactInformation!.name.first + contactInformation!.name.last,
               style: const TextStyle(
@@ -40,18 +54,20 @@ class ChatUser extends StatelessWidget {
           ],
         ),
         actions: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.videocam)),
-          IconButton(onPressed: () {}, icon: Icon(Icons.local_phone_rounded)),
-          IconButton(onPressed: () {}, icon: Icon(Icons.more_vert_outlined)),
+          IconButton(onPressed: () {}, icon: const Icon(Icons.videocam)),
+          IconButton(
+              onPressed: () {}, icon: const Icon(Icons.local_phone_rounded)),
+          IconButton(
+              onPressed: () {}, icon: const Icon(Icons.more_vert_outlined)),
         ],
       ),
       body: Column(children: [
         Expanded(
           child: Container(
-            child: Text(''),
+            child:ChatList(receiverUserId:uid),
           ),
         ),
-       BottomChatField(),
+        BottomChatField(),
       ]),
     );
   }

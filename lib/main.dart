@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whatsapp/core/route.dart';
 import 'package:whatsapp/core/widgets/loading_widget.dart';
+import 'package:whatsapp/features/chat/presentation/bloc/get_message_user/get_message_user_bloc.dart';
 import 'package:whatsapp/mobile_chat_screen.dart';
 import 'features/auth/presentation/bloc/save_user_data/save_user_data_bloc.dart';
 import 'features/auth/presentation/bloc/sign_in_with_phone_number/sign_in_with_phone_number_bloc.dart';
@@ -37,7 +38,8 @@ class _MyAppState extends State<MyApp> {
     return MultiBlocProvider(providers: [
       BlocProvider<SignInWithPhoneNumberBloc>(
           create: (_)=>di.sl<SignInWithPhoneNumberBloc>()),
-      BlocProvider<SaveUserDataBloc>(create: (_)=>di.sl<SaveUserDataBloc>()..add(GetUserData()))
+      BlocProvider<SaveUserDataBloc>(create: (_)=>di.sl<SaveUserDataBloc>()..add(GetUserData())),
+      BlocProvider<GetMessageUserBloc>(create: (_)=>di.sl<GetMessageUserBloc>()),
     ], child:  MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(),

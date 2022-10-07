@@ -7,3 +7,10 @@ class ServerAuthFailure extends Failure{
   List<Object?> get props => [];
 
 }
+
+class ServerChatFailure extends Failure{
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+
+}

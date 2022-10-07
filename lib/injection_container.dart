@@ -12,22 +12,39 @@ import 'package:whatsapp/features/auth/domain/usecases/sign_in_with_phone_number
 import 'package:whatsapp/features/auth/domain/usecases/verify_otp_use_case.dart';
 import 'package:whatsapp/features/auth/presentation/bloc/save_user_data/save_user_data_bloc.dart';
 import 'package:whatsapp/features/auth/presentation/bloc/sign_in_with_phone_number/sign_in_with_phone_number_bloc.dart';
+import 'package:whatsapp/features/chat/data/datasourses/remote_data_sources.dart';
+import 'package:whatsapp/features/chat/data/repositories/chat_repositories_impl.dart';
+import 'package:whatsapp/features/chat/domain/repositories/chat_repositories.dart';
+import 'package:whatsapp/features/chat/domain/usecases/get_message_user_usecase.dart';
+import 'package:whatsapp/features/chat/presentation/bloc/get_message_user/get_message_user_bloc.dart';
 final sl=GetIt.instance;
 Future<void>init()async{
-  //!Features - auth
-  //Bloc
+
+  ///Bloc
   sl.registerFactory(() => SignInWithPhoneNumberBloc(signInWithPhoneNumberUseCase: sl(), verifyOtpUseCase: sl()));
   sl.registerFactory(() => SaveUserDataBloc(saveUserDataUseCase: sl(),getCurrentUserDataUseCase: sl()));
-  // UseCases
+  sl.registerFactory(() => GetMessageUserBloc(getMessageUserUseCase: sl()));
+
+
+  /// UseCases
   sl.registerLazySingleton(() => SignInWithPhoneNumberUseCase(repository: sl()));
   sl.registerLazySingleton(() => VerifyOtpUseCase(authRepository: sl()));
   sl.registerLazySingleton(() => SaveUserDataUseCase(authRepository: sl()));
   sl.registerLazySingleton(() => GetCurrentUserDataUseCase(authRepository: sl()));
-  //Repository
+  sl.registerLazySingleton(() => GetMessageUserUseCase(chatRepositories: sl()));
+
+
+  ///Repository
   sl.registerLazySingleton<AuthRepository>(() => AuthRepositoriesImpl(remoteDataSources: sl()));
-  //RemoteDataSources
+  sl.registerLazySingleton<ChatRepositories>(() => ChatRepositoriesImpl(chatRemoteDataSources: sl()));
+
+
+  ///RemoteDataSources
   sl.registerLazySingleton<AuthRemoteDataSources>(() => AuthRemoteDataSourcesImpl(auth: sl(), firestore: sl()));
+  sl.registerLazySingleton<ChatRemoteDataSources>(() => ChatRemoteDataSourcesImpl(auth: sl(), firestore: sl()));
   sl.registerLazySingleton(() => FirebaseStorageDataSources( firebaseStorage: sl()));
+
+  ///Firebase
   sl.registerLazySingleton(() => FirebaseAuth.instance);
   sl.registerLazySingleton(() => FirebaseFirestore.instance);
   sl.registerLazySingleton(() => FirebaseStorage.instance);
