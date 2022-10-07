@@ -7,9 +7,9 @@ import 'package:whatsapp/features/auth/presentation/pages/user_information_scree
 import 'package:whatsapp/features/mobile_chat_screen/presentation/pages/chat_screen.dart';
 import 'package:whatsapp/injection_container.dart' as di;
 import 'package:whatsapp/mobile_chat_screen.dart';
-import '../features/mobile_chat_screen/presentation/pages/calls.dart';
+import '../features/calls/presentation/pages/calls.dart';
 import '../features/mobile_chat_screen/presentation/pages/chats.dart';
-import '../features/mobile_chat_screen/presentation/pages/status.dart';
+import '../features/status/presentation/pages/status.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {

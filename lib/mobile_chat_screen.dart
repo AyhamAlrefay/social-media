@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:whatsapp/core/theme/colors.dart';
 
-import 'features/mobile_chat_screen/presentation/pages/calls.dart';
+import 'features/calls/presentation/pages/calls.dart';
 import 'features/mobile_chat_screen/presentation/pages/chats.dart';
-import 'features/mobile_chat_screen/presentation/pages/status.dart';
+import 'features/status/presentation/pages/status.dart';
 
 class MobileChatScreen extends StatefulWidget {
   static const String routeName = '/mobile-chat-screen';

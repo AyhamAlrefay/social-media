@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 
 import '../../../../core/theme/colors.dart';
+import '../widgets/chat_screen/bottom_chat_field.dart';
 
 class ChatUser extends StatelessWidget {
   static const String routeName = '/chat-user';
@@ -14,6 +15,7 @@ class ChatUser extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        scrolledUnderElevation: 15,
         iconTheme: const IconThemeData(
           color: Colors.amberAccent,
         ),
@@ -43,7 +45,14 @@ class ChatUser extends StatelessWidget {
           IconButton(onPressed: () {}, icon: Icon(Icons.more_vert_outlined)),
         ],
       ),
-      body: Center(child: Text('}')),
+      body: Column(children: [
+        Expanded(
+          child: Container(
+            child: Text(''),
+          ),
+        ),
+       BottomChatField(),
+      ]),
     );
   }
 }
