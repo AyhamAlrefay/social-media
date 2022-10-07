@@ -1,0 +1,1 @@
+class ServerAuthException implements Exception{}
