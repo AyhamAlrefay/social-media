@@ -52,10 +52,10 @@ class AuthRepositoriesImpl extends AuthRepository {
   }
 
   @override
-  Future<Either<Failure, User>> getCurrentUserData() async {
+  Future<Either<Failure, UserEntity>> getCurrentUserData({required String userId}) async {
     try {
       final userEntity =
-          await remoteDataSources.getCurrentUserData();
+          await remoteDataSources.getCurrentUserData(userId:userId);
       print(userEntity);
       return Right(userEntity);
     } on ServerAuthException {

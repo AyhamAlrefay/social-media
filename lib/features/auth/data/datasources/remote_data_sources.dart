@@ -21,7 +21,7 @@ abstract class AuthRemoteDataSources {
       required String userOTP});
 
   Future<Unit> saveUserData({required String name, required File profilePic});
-  Future<UserModel>getCurrentUserData();
+  Future<UserModel>getCurrentUserData({required String userId});
 }
 
 class AuthRemoteDataSourcesImpl extends AuthRemoteDataSources {
@@ -94,10 +94,10 @@ class AuthRemoteDataSourcesImpl extends AuthRemoteDataSources {
   }
 
   @override
-  Future<UserModel> getCurrentUserData() async{
+  Future<UserModel> getCurrentUserData({required String userId}) async{
     try{
       DocumentSnapshot snapshot =
-          await firestore.collection('users').doc(auth.currentUser!.uid).get();
+          await firestore.collection('users').doc(userId).get();
       final userModel =
           UserModel.fromMap(snapshot.data() as Map<String, dynamic>);
       print(userModel);

@@ -10,4 +10,7 @@ class SaveUserData extends SaveUserDataEvent{
   });
 }
 class GetUserData extends SaveUserDataEvent{
+  final String userId;
+
+  GetUserData({required this.userId});
 }

@@ -20,7 +20,7 @@ class GetUserDataStateError extends SaveUserDataState{
   GetUserDataStateError({required this.error});
 }
 class GetUserDataStateSuccess extends SaveUserDataState{
-  final User user;
+  final UserEntity user;
 
   GetUserDataStateSuccess({required this.user});
 }
