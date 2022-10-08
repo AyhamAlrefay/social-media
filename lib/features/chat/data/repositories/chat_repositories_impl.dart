@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:whatsapp/core/error/exceptions.dart';
 import 'package:whatsapp/core/error/failures.dart';
@@ -67,7 +68,7 @@ class ChatRepositoriesImpl extends ChatRepositories {
   }
 
   @override
-  Either<Failure,Stream<List<ChatContact>>> getChatContacts(){
+ Either<Failure,Stream<QuerySnapshot<Map<String, dynamic>>>> getChatContacts(){
     final f=chatRemoteDataSources.getChatContacts();
     try{
 

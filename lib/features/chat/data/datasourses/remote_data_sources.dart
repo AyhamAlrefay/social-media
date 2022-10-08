@@ -12,10 +12,12 @@ abstract class ChatRemoteDataSources {
   Future<Stream<List<MessageModel>>> getMessageUser(
       {required String receiverUserId});
 
-  Future<Unit> sendTextMessage({required MessageModel messageModel,
-    required UserModel senderUserModel,
-    required UserModel receiverUserModel});
-  Stream<List<ChatContactModel>>getChatContacts();
+  Future<Unit> sendTextMessage(
+      {required MessageModel messageModel,
+      required UserModel senderUserModel,
+      required UserModel receiverUserModel});
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> getChatContacts();
 }
 
 class ChatRemoteDataSourcesImpl implements ChatRemoteDataSources {
@@ -23,7 +25,6 @@ class ChatRemoteDataSourcesImpl implements ChatRemoteDataSources {
   final FirebaseFirestore firestore;
 
   ChatRemoteDataSourcesImpl({required this.auth, required this.firestore});
-
 
   @override
   Future<Stream<List<MessageModel>>> getMessageUser(
@@ -36,7 +37,7 @@ class ChatRemoteDataSourcesImpl implements ChatRemoteDataSources {
         .collection('messages')
         .orderBy('timeSent')
         .snapshots()
-        .asyncMap((event) {
+        .asyncMap((event) async {
       List<MessageModel> messages = [];
       for (var document in event.docs) {
         messages.add(MessageModel.fromMap(document.data()));
@@ -50,7 +51,7 @@ class ChatRemoteDataSourcesImpl implements ChatRemoteDataSources {
       {required MessageModel messageModel,
       required UserModel senderUserModel,
       required UserModel receiverUserModel}) {
-    try{
+    try {
       _saveDataToContactsSubcollection(
         senderUserModel: senderUserModel,
         receiverUserModel: receiverUserModel,
@@ -60,7 +61,7 @@ class ChatRemoteDataSourcesImpl implements ChatRemoteDataSources {
       );
       saveMessage(messageModel: messageModel);
       return Future.value(unit);
-    }catch(e){
+    } catch (e) {
       throw ServerChatException();
     }
   }
@@ -117,21 +118,11 @@ class ChatRemoteDataSourcesImpl implements ChatRemoteDataSources {
   }
 
   @override
-  Stream<List<ChatContactModel>> getChatContacts() {
-    return  firestore
+  Stream<QuerySnapshot<Map<String, dynamic>>> getChatContacts() {
+    return firestore
         .collection('users')
         .doc(auth.currentUser!.uid)
         .collection('chats')
-        .snapshots()
-        .asyncMap((event) async {
-      List<ChatContactModel> contacts = [];
-      for (var document in event.docs) {
-        var chatContact = ChatContactModel.fromMap(document.data());
-        contacts.add(
-          chatContact,
-        );
-      }
-      return contacts;
-    });
+        .snapshots();
   }
 }

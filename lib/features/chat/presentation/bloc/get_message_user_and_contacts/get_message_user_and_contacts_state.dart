@@ -44,7 +44,7 @@ class GetContactsError extends GetMessageUserAndContactsState{
 
 }
 class GetContactsSuccess extends GetMessageUserAndContactsState{
- final Stream<List<ChatContact>>contacts;
+ final Stream<QuerySnapshot<Map<String, dynamic>>>contacts;
 
  const GetContactsSuccess({
     required this.contacts,
