@@ -3,6 +3,13 @@ import '../../domain/entities/message.dart';
 
 class MessageModel extends Message {
   const MessageModel({
+    //
+    super.senderUserName,
+    super.receiverUserName,
+    super.repliedMessage,
+    super.repliedMessageType,
+    super.repliedTo,
+    //
     required super.senderId,
     required super.receiverId,
     required super.text,
@@ -10,38 +17,63 @@ class MessageModel extends Message {
     required super.timeSent,
     required super.messageId,
     required super.isSeen,
-    required super.repliedMessage,
-    required super.repliedTo,
-    required super.repliedMessageType,
   });
 
   Map<String, dynamic> toMap() {
-    return {
-      'senderId': senderId,
-      'receiverId': receiverId,
-      'text': text,
-      'type': type.type,
-      'timeSent': timeSent.millisecondsSinceEpoch,
-      'messageId': messageId,
-      'isSeen': isSeen,
-      'repliedMessage': repliedMessage,
-      'repliedTo': repliedTo,
-      'repliedMessageType': repliedMessageType.type,
-    };
+    if (repliedMessage!.isNotEmpty) {
+      return {
+        'senderId': senderId,
+        'receiverId': receiverId,
+        'text': text,
+        'type': type.type,
+        'timeSent': timeSent.millisecondsSinceEpoch,
+        'messageId': messageId,
+        'isSeen': isSeen,
+        'repliedMessage': repliedMessage,
+        'repliedMessageType': repliedMessageType,
+        'senderUserName': senderUserName,
+        'receiverUserName': receiverUserName,
+        'repliedTo': repliedTo,
+      };
+    } else {
+      return {
+        'senderId': senderId,
+        'receiverId': receiverId,
+        'text': text,
+        'type': type.type,
+        'timeSent': timeSent.millisecondsSinceEpoch,
+        'messageId': messageId,
+        'isSeen': isSeen,
+      };
+    }
   }
 
   factory MessageModel.fromMap(Map<String, dynamic> map) {
-    return MessageModel(
-      senderId: map['senderId'] ?? '',
-      receiverId: map['receiverId'] ?? '',
-      text: map['text'] ?? '',
-      type: (map['type'] as String).toEnum(),
-      timeSent: DateTime.fromMillisecondsSinceEpoch(map['timeSent']),
-      messageId: map['messageId'] ?? '',
-      isSeen: map['isSeen'] ?? false,
-      repliedMessage: map['repliedMessage'] ?? '',
-      repliedTo: map['repliedTo'] ?? '',
-      repliedMessageType: (map['repliedMessageType'] as String).toEnum(),
-    );
+    if (map.keys.contains('repliedMessage')) {
+      return MessageModel(
+        senderId: map['senderId'] ?? '',
+        receiverId: map['receiverId'] ?? '',
+        text: map['text'] ?? '',
+        type: (map['type'] as String).toEnum(),
+        timeSent: DateTime.fromMillisecondsSinceEpoch(map['timeSent']),
+        messageId: map['messageId'] ?? '',
+        isSeen: map['isSeen'] ?? false,
+        repliedMessage: map['repliedMessage'] ?? '',
+        repliedMessageType: (map['repliedMessageType'] as String).toEnum(),
+        senderUserName: map['senderUserName'],
+        receiverUserName: map['receiverUserName'],
+        repliedTo: map['repliedTo'],
+      );
+    } else {
+      return MessageModel(
+        senderId: map['senderId'] ?? '',
+        receiverId: map['receiverId'] ?? '',
+        text: map['text'] ?? '',
+        type: (map['type'] as String).toEnum(),
+        timeSent: DateTime.fromMillisecondsSinceEpoch(map['timeSent']),
+        messageId: map['messageId'] ?? '',
+        isSeen: map['isSeen'] ?? false,
+      );
+    }
   }
 }

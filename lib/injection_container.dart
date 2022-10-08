@@ -15,15 +15,20 @@ import 'package:whatsapp/features/auth/presentation/bloc/sign_in_with_phone_numb
 import 'package:whatsapp/features/chat/data/datasourses/remote_data_sources.dart';
 import 'package:whatsapp/features/chat/data/repositories/chat_repositories_impl.dart';
 import 'package:whatsapp/features/chat/domain/repositories/chat_repositories.dart';
+import 'package:whatsapp/features/chat/domain/usecases/get_chat_contacts_use_case.dart';
 import 'package:whatsapp/features/chat/domain/usecases/get_message_user_usecase.dart';
-import 'package:whatsapp/features/chat/presentation/bloc/get_message_user/get_message_user_bloc.dart';
+import 'package:whatsapp/features/chat/presentation/bloc/send_message_user/send_message_user_bloc.dart';
+
+import 'features/chat/domain/usecases/send_message_usecase.dart';
+import 'features/chat/presentation/bloc/get_message_user_and_contacts/get_message_user_and_contacts_bloc.dart';
 final sl=GetIt.instance;
 Future<void>init()async{
 
   ///Bloc
   sl.registerFactory(() => SignInWithPhoneNumberBloc(signInWithPhoneNumberUseCase: sl(), verifyOtpUseCase: sl()));
   sl.registerFactory(() => SaveUserDataBloc(saveUserDataUseCase: sl(),getCurrentUserDataUseCase: sl()));
-  sl.registerFactory(() => GetMessageUserBloc(getMessageUserUseCase: sl()));
+  sl.registerFactory(() => GetMessageUserAndContactsBloc(getMessageUserUseCase: sl(), getChatContactsUseCase: sl()));
+  sl.registerFactory(() => SendMessageUserBloc(sendMessageUserUseCase: sl()));
 
 
   /// UseCases
@@ -32,7 +37,8 @@ Future<void>init()async{
   sl.registerLazySingleton(() => SaveUserDataUseCase(authRepository: sl()));
   sl.registerLazySingleton(() => GetCurrentUserDataUseCase(authRepository: sl()));
   sl.registerLazySingleton(() => GetMessageUserUseCase(chatRepositories: sl()));
-
+  sl.registerLazySingleton(() => SendMessageUseCase(chatRepositories: sl()));
+  sl.registerLazySingleton(() => GetChatContactsUseCase(chatRepositories: sl()));
 
   ///Repository
   sl.registerLazySingleton<AuthRepository>(() => AuthRepositoriesImpl(remoteDataSources: sl()));

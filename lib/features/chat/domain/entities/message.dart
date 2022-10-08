@@ -1,8 +1,18 @@
 import 'package:equatable/equatable.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
 
 import '../../../../core/enums/enum_message.dart';
 
 class Message extends Equatable {
+  //
+  final String? senderUserName;
+  final String? receiverUserName;
+  final String? repliedMessage;
+  final String? repliedTo;
+  final MessageEnum? repliedMessageType;
+
+  //
   final String senderId;
   final String receiverId;
   final String text;
@@ -10,11 +20,13 @@ class Message extends Equatable {
   final DateTime timeSent;
   final String messageId;
   final bool isSeen;
-  final String repliedMessage;
-  final String repliedTo;
-  final MessageEnum repliedMessageType;
 
   const Message({
+    this.repliedTo,
+    this.receiverUserName,
+    this.senderUserName,
+    this.repliedMessage,
+    this.repliedMessageType,
     required this.senderId,
     required this.receiverId,
     required this.text,
@@ -22,13 +34,12 @@ class Message extends Equatable {
     required this.timeSent,
     required this.messageId,
     required this.isSeen,
-    required this.repliedMessage,
-    required this.repliedTo,
-    required this.repliedMessageType,
   });
 
   @override
   List<Object?> get props => [
+        senderUserName,
+        receiverUserName,
         senderId,
         receiverId,
         text,
@@ -36,9 +47,8 @@ class Message extends Equatable {
         timeSent,
         messageId,
         isSeen,
-        isSeen,
-        repliedMessage,
-        repliedTo,
         repliedMessageType,
+        repliedMessage,
+        repliedTo
       ];
 }

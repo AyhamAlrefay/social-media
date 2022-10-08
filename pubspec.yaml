@@ -27,12 +27,18 @@ dependencies:
   equatable:
   flutter_bloc:
   get_it:
+  emoji_picker_flutter:
   image_picker:
   bloc: 
   dartz:
   swipe_to:
   change_app_package_name: ^1.1.0
   flutter_contacts: ^1.1.5
+  file_picker:
+  path_provider:
+  uuid:
+  open_file: ^3.2.0
+
 
 dev_dependencies:
   flutter_test:

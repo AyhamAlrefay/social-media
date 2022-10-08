@@ -1,9 +1,15 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
+import 'package:whatsapp/core/widgets/loading_widget.dart';
+import 'package:whatsapp/features/chat/domain/entities/contact.dart';
+import 'package:whatsapp/features/chat/presentation/bloc/get_message_user_and_contacts/get_message_user_and_contacts_bloc.dart';
 
-import 'chat_screen.dart';
+import '../../../auth/presentation/bloc/save_user_data/save_user_data_bloc.dart';
+import 'chat_user.dart';
 
 class Chats extends StatefulWidget {
   static const String routeName = '/chats';
@@ -15,52 +21,49 @@ class Chats extends StatefulWidget {
 }
 
 class _ChatsState extends State<Chats> {
-  List<Contact>? _contacts;
-  bool _permissionDenied = false;
-
-  Future _fetchContacts() async {
-    if (!await FlutterContacts.requestPermission(readonly: true)) {
-      setState(() {
-        _permissionDenied = true;
-      });
-    } else {
-      final contacts = await FlutterContacts.getContacts();
-      setState(() {
-        _contacts = contacts;
-      });
-    }
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _fetchContacts();
-  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _contacts==null?Center(child: CircularProgressIndicator(),):ListView.builder(
-        itemCount: _contacts!.length,
-        itemBuilder: (context, index) {
-          return Padding(padding:EdgeInsets.only(bottom: 15),
-          child: ListTile(
-            leading:const CircleAvatar(
-              backgroundImage: NetworkImage('https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80'),
-              radius: 25,
-            ),
-            title: Text(_contacts![index].displayName,style: TextStyle(fontSize: 15),),
-            onTap: () async {
-              final fullContact =
-              await FlutterContacts.getContact(_contacts![index].id);
-              Navigator.of(context).pushNamed(ChatUser.routeName,arguments:fullContact,);
-
-            },
-          ),
-          );
-        },
-      ),
-    );
+    return BlocBuilder<GetMessageUserAndContactsBloc,
+        GetMessageUserAndContactsState>(builder: (context, state) {
+      if (state is GetContactsError) {
+        return const LoadingWidget();
+      } else if (state is GetContactsSuccess) {
+        return StreamBuilder<List<ChatContact>>(
+            stream: state.contacts,
+            builder: (context, snapShot) {
+              return Scaffold(
+                body: snapShot.data!.isEmpty
+                    ? const Center(
+                        child: Text('There are not any contacts'),
+                      )
+                    : ListView.builder(
+                        itemCount: snapShot.data!.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding:const EdgeInsets.only(bottom: 15),
+                            child: ListTile(
+                              leading:  CircleAvatar(
+                                backgroundImage: NetworkImage(
+                                  snapShot.data![index].profilePic),
+                                radius: 25,
+                              ),
+                              title: Text(
+                                snapShot.data![index].name,
+                                style: const TextStyle(fontSize: 15),
+                              ),
+                              onTap: () async {
+                                BlocProvider.of<SaveUserDataBloc>(context).add(GetUserData(userId: snapShot.data![index].contactId));
+                                Navigator.of(context).pushNamed(ChatUser.routeName);
+                              },
+                            ),
+                          );
+                        },
+                      ),
+              );
+            });
+      }
+      return Container();
+    });
   }
 }

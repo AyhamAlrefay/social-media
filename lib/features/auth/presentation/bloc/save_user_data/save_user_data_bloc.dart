@@ -31,7 +31,7 @@ class SaveUserDataBloc extends Bloc<SaveUserDataEvent, SaveUserDataState> {
       } else if (event is GetUserData) {
         emit(GetUserDataStateLoading());
         final userFailureOrUserData =
-            await getCurrentUserDataUseCase.call();
+            await getCurrentUserDataUseCase.call(userId: event.userId);
         userFailureOrUserData.fold(
             (l) => emit(GetUserDataStateError(error: _mapFailureToMessage(l))),
             (r) => emit(GetUserDataStateSuccess(user: r)));

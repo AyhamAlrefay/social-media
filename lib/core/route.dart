@@ -7,7 +7,7 @@ import 'package:whatsapp/features/auth/presentation/pages/user_information_scree
 import 'package:whatsapp/injection_container.dart' as di;
 import 'package:whatsapp/mobile_chat_screen.dart';
 import '../features/calls/presentation/pages/calls.dart';
-import '../features/chat/presentation/pages/chat_screen.dart';
+import '../features/chat/presentation/pages/chat_user.dart';
 import '../features/chat/presentation/pages/chats.dart';
 import '../features/status/presentation/pages/status.dart';
 
@@ -16,8 +16,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case MobileChatScreen.routeName:
       return MaterialPageRoute(builder:(context)=>MobileChatScreen());
     case ChatUser.routeName:
-      final contactinformation=settings.arguments as Contact?;
-      return MaterialPageRoute(builder: (context)=>ChatUser(contactInformation:contactinformation,name: 'Ayham',uid: 'a',profilePic: '', ));
+      return MaterialPageRoute(builder: (context)=>ChatUser());
     case Chats.routeName:
       return MaterialPageRoute(builder: (context)=>Chats());
     case Calls.routeName:

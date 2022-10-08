@@ -8,7 +8,7 @@ class GetCurrentUserDataUseCase{
   final AuthRepository authRepository;
 
   GetCurrentUserDataUseCase({required this.authRepository});
-  Future<Either<Failure, User>>call()async{
-    return await authRepository.getCurrentUserData();
+  Future<Either<Failure, UserEntity>>call({required String userId})async{
+    return await authRepository.getCurrentUserData(userId: userId);
   }
 }
