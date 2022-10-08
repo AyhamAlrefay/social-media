@@ -22,7 +22,7 @@ class GetMessageUserStateError extends GetMessageUserAndContactsState{
   List<Object?> get props =>[error];
 }
 class GetMessageUserStateSuccess extends GetMessageUserAndContactsState{
-  final Stream<List<Message>> messages;
+  final Stream<QuerySnapshot<Map<String, dynamic>>>  messages;
   const GetMessageUserStateSuccess({required this.messages});
   @override
   // TODO: implement props

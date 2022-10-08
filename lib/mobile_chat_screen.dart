@@ -4,6 +4,7 @@ import 'package:whatsapp/core/theme/colors.dart';
 import 'features/calls/presentation/pages/calls.dart';
 
 import 'features/chat/presentation/pages/chats.dart';
+import 'features/groups/presentation/pages/groups.dart';
 import 'features/status/presentation/pages/status.dart';
 
 class MobileChatScreen extends StatefulWidget {
@@ -21,6 +22,9 @@ class _MobileChatScreenState extends State<MobileChatScreen>
   static const List<Tab> tab = <Tab>[
     Tab(
       text: 'CHATS',
+    ),
+    Tab(
+      text: 'GROUPS',
     ),
     Tab(
       text: 'STATUS',
@@ -91,6 +95,7 @@ class _MobileChatScreenState extends State<MobileChatScreen>
             controller: tabController,
             children: const [
               Chats(),
+              Groups(),
               Status(),
               Calls(),
 

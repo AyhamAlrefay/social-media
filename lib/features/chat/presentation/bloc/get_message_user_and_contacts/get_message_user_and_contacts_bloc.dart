@@ -25,8 +25,7 @@ class GetMessageUserAndContactsBloc extends Bloc<GetMessageUserAndContactsEvent,
         final messageFailureOrUserData =
         await getMessageUserUseCase.call(receiverUserId: event.receiverUserId);
         messageFailureOrUserData.fold(
-                (l) =>
-                emit(GetMessageUserStateError(error: _mapFailureToMessage(l))),
+                (l) => emit(GetMessageUserStateError(error: _mapFailureToMessage(l))),
                 (r) => emit(GetMessageUserStateSuccess(messages: r)));
       }
       else if (event is GetContactsEvent) {

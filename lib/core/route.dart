@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_contacts/contact.dart';
 import 'package:whatsapp/core/widgets/error_widget.dart';
 import 'package:whatsapp/features/auth/presentation/pages/login_screen.dart';
 import 'package:whatsapp/features/auth/presentation/pages/otp_screen.dart';
 import 'package:whatsapp/features/auth/presentation/pages/user_information_screen.dart';
-import 'package:whatsapp/injection_container.dart' as di;
 import 'package:whatsapp/mobile_chat_screen.dart';
 import '../features/calls/presentation/pages/calls.dart';
 import '../features/chat/presentation/pages/chat_user.dart';
 import '../features/chat/presentation/pages/chats.dart';
+import '../features/groups/presentation/pages/groups.dart';
 import '../features/status/presentation/pages/status.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
@@ -19,6 +18,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (context)=>ChatUser());
     case Chats.routeName:
       return MaterialPageRoute(builder: (context)=>Chats());
+    case Groups.routeName:
+      return MaterialPageRoute(builder: (context)=>Groups());
     case Calls.routeName:
      return MaterialPageRoute(builder: (context)=>Calls());
     case Status.routeName:
