@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:whatsapp/features/chat/domain/entities/message.dart';
 
@@ -13,5 +14,5 @@ abstract class ChatRepositories {
       {required Message message,
       required UserEntity senderUser,
       required UserEntity receiverUser});
-  Either<Failure,Stream<List<ChatContact>>>getChatContacts();
+  Either<Failure,Stream<QuerySnapshot<Map<String, dynamic>>>>getChatContacts();
 }

@@ -95,11 +95,14 @@ class AuthRemoteDataSourcesImpl extends AuthRemoteDataSources {
   @override
   Future<UserModel> getCurrentUserData({required String userId}) async{
     try{
-      DocumentSnapshot snapshot =
+      DocumentSnapshot<Map<String, dynamic>> snapshot =
           await firestore.collection('users').doc(userId).get();
+      print('/////////////////////////');
+      print(snapshot.data()!);
       final userModel =
-          UserModel.fromMap(snapshot.data() as Map<String, dynamic>);
-      print(userModel);
+          UserModel.fromMap(snapshot.data()!);
+
+      print('///////////////////');
       return Future.value(userModel);
     }catch(e){
       throw ServerAuthException();

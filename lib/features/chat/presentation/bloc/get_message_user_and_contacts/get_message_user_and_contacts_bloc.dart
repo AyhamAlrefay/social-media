@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
@@ -31,14 +32,14 @@ class GetMessageUserAndContactsBloc extends Bloc<GetMessageUserAndContactsEvent,
       else if (event is GetContactsEvent) {
         emit(GetContactsLoading());
         final failureOrContacts = getChatContactsUseCase.call();
-        _eitherDoneMessageOrErrorState(failureOrContacts);
+        emit(_eitherDoneMessageOrErrorState(failureOrContacts));
       }
     });
   }
   }
 
  GetMessageUserAndContactsState _eitherDoneMessageOrErrorState(
-    Either<Failure, Stream<List<ChatContact>>> failureOrDoneMessage) {
+    Either<Failure, Stream<QuerySnapshot<Map<String, dynamic>>>> failureOrDoneMessage) {
   return failureOrDoneMessage.fold(
           (failure) => GetContactsError(error: _mapFailureToMessage(failure)),
           (r) => GetContactsSuccess(contacts: r));

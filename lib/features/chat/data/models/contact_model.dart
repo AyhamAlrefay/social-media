@@ -24,7 +24,7 @@ class ChatContactModel extends ChatContact{
       name: map['name'] ?? '',
       profilePic: map['profilePic'] ?? '',
       contactId: map['contactId'] ?? '',
-      timeSent: DateTime.fromMillisecondsSinceEpoch(map['timeSent']),
+      timeSent: DateTime.parse(map['timeSent'].toDate().toString()),
       lastMessage: map['lastMessage'] ?? '',
     );
   }

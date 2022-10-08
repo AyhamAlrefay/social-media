@@ -15,7 +15,7 @@ abstract class ChatRemoteDataSources {
   Future<Unit> sendTextMessage({required MessageModel messageModel,
     required UserModel senderUserModel,
     required UserModel receiverUserModel});
-  Stream<List<ChatContactModel>>getChatContacts();
+  Stream<QuerySnapshot<Map<String, dynamic>>>getChatContacts();
 }
 
 class ChatRemoteDataSourcesImpl implements ChatRemoteDataSources {
@@ -34,7 +34,6 @@ class ChatRemoteDataSourcesImpl implements ChatRemoteDataSources {
         .collection('chats')
         .doc(receiverUserId)
         .collection('messages')
-        .orderBy('timeSent')
         .snapshots()
         .asyncMap((event) {
       List<MessageModel> messages = [];
@@ -117,21 +116,12 @@ class ChatRemoteDataSourcesImpl implements ChatRemoteDataSources {
   }
 
   @override
-  Stream<List<ChatContactModel>> getChatContacts() {
-    return  firestore
-        .collection('users')
-        .doc(auth.currentUser!.uid)
-        .collection('chats')
-        .snapshots()
-        .asyncMap((event) async {
-      List<ChatContactModel> contacts = [];
-      for (var document in event.docs) {
-        var chatContact = ChatContactModel.fromMap(document.data());
-        contacts.add(
-          chatContact,
-        );
-      }
-      return contacts;
-    });
+  Stream<QuerySnapshot<Map<String, dynamic>>> getChatContacts() {
+
+  return  firestore
+      .collection('users')
+      .doc(auth.currentUser!.uid)
+      .collection('chats')  
+      .snapshots();
   }
 }
