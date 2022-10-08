@@ -80,7 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(height: size.height * 0.6),
               SizedBox(
                 width: 90,
-                  child: BlocConsumer<SignInWithPhoneNumberBloc,SignInWithPhoneNumberState>(builder: (BuildContext context, state) {
+                  child: BlocBuilder<SignInWithPhoneNumberBloc,SignInWithPhoneNumberState>(builder: (BuildContext context, state) {
                     if(state is LoadingSignInWithPhoneNumberState) {
                       return const LoadingWidget();
                     }
@@ -89,18 +89,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       text: 'NEXT',
                     );
                   },
-                    listener: (BuildContext context, Object? state) {
-                    if(state is ErrorSignInWithPhoneNumberState)
-                      {
-                        showSnackBar(
-                            context: context,
-                            content: state.error);
-                      }
-                    else if (state is SuccessSignInWithPhoneNumberState)
-                      {
-                        showSnackBar(context: context, content: state.message);
-                      }
-                    },
 
                   ),
               ),

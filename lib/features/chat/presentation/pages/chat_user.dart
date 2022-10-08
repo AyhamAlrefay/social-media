@@ -8,6 +8,8 @@ import '../widgets/chat_screen/chat_lsit.dart';
 class ChatUser extends StatelessWidget {
   static const String routeName = '/chat-user';
 
+  const ChatUser({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SaveUserDataBloc, SaveUserDataState>(
@@ -52,9 +54,7 @@ class ChatUser extends StatelessWidget {
             ),
             body: Column(children: [
               Expanded(
-                child: Container(
-                  child: ChatList(receiverUserId: state.user.uid),
-                ),
+                child: ChatList(receiverUserId: state.user.uid),
               ),
               BottomChatField(receiverUser: state.user,),
             ]),

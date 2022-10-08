@@ -34,7 +34,7 @@ class ErrorVerifyOtp extends SignInWithPhoneNumberState {
 }
 
 class SuccessVerifyOtp extends SignInWithPhoneNumberState {
-  final String message;
 
-  const SuccessVerifyOtp({required this.message});
+
+  const SuccessVerifyOtp();
 }

@@ -41,12 +41,14 @@ class _MyAppState extends State<MyApp> {
           create: (_)=>di.sl<SignInWithPhoneNumberBloc>()),
       BlocProvider<SendMessageUserBloc>(create: (_)=>di.sl<SendMessageUserBloc>()),
       BlocProvider<SaveUserDataBloc>(create: (_)=>di.sl<SaveUserDataBloc>()),
-      BlocProvider<GetMessageUserAndContactsBloc>(create: (_)=>di.sl<GetMessageUserAndContactsBloc>()..add(GetContactsEvent())),
+      BlocProvider<GetMessageUserAndContactsBloc>(create: (_)=>di.sl<GetMessageUserAndContactsBloc>()),
     ], child:  MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(),
       onGenerateRoute: (settings)=>generateRoute(settings),
-      home: FirebaseAuth.instance.currentUser!.uid!=null?MobileChatScreen():SplashScreen(),
+      home: FirebaseAuth.instance.currentUser !=null?
+      MobileChatScreen():
+      SplashScreen(),
     ),);
   }
 }

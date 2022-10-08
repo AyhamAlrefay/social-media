@@ -24,7 +24,7 @@ class SignInWithPhoneNumberBloc extends Bloc<SignInWithPhoneNumberEvent,SignInWi
         {
           emit(LoadingVerifyOtp());
                 final failureOrDoneMessage=await verifyOtpUseCase.call(context: event.context, userOTP: event.userOTP, verificationId: event.verificationId);
-              emit(_eitherDoneMessageOrErrorState(failureOrDoneMessage, VERIFYOTP_SUCCESS));
+              emit(SuccessVerifyOtp());
         }
     });
   }

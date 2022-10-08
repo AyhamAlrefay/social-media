@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whatsapp/core/theme/colors.dart';
 import 'package:whatsapp/core/widgets/loading_widget.dart';
-import 'package:whatsapp/features/auth/presentation/bloc/save_user_data/save_user_data_bloc.dart';
 import 'package:whatsapp/features/auth/presentation/pages/user_information_screen.dart';
 import 'package:whatsapp/injection_container.dart' as di;
 import '../bloc/sign_in_with_phone_number/sign_in_with_phone_number_bloc.dart';
@@ -31,13 +30,19 @@ class OtpScreen extends StatelessWidget {
           children: [
             const SizedBox(height: 20),
             const Text('We have sent an SMS with a code.'),
-            BlocProvider<SignInWithPhoneNumberBloc>(
-              create: (_) => di.sl<SignInWithPhoneNumberBloc>(),
-              child: BlocConsumer<SignInWithPhoneNumberBloc,SignInWithPhoneNumberState>(
+           BlocConsumer<SignInWithPhoneNumberBloc,SignInWithPhoneNumberState>(
+             listener: (context,state){
+               if(state is SuccessVerifyOtp)
+               {
+                 Navigator.pushNamedAndRemoveUntil(
+                     context, UserInformationScreen.routeName, (route) => false);
+               }
+             },
                 builder: (BuildContext context, state) {
                   if (state is LoadingVerifyOtp) {
                     return LoadingWidget();
                   }
+
                   return TextField(
                     textAlign: TextAlign.center,
                     keyboardType: TextInputType.number,
@@ -51,11 +56,8 @@ class OtpScreen extends StatelessWidget {
                     },
                   );
                 },
-                listener: (BuildContext context, Object? state) {
 
-                },
               ),
-            ),
           ],
         ),
       ),

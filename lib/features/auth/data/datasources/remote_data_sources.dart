@@ -65,8 +65,7 @@ class AuthRemoteDataSourcesImpl extends AuthRemoteDataSources {
       PhoneAuthCredential credential = PhoneAuthProvider.credential(
           verificationId: verificationId, smsCode: userOTP);
       await auth.signInWithCredential(credential);
-      Navigator.pushNamedAndRemoveUntil(
-          context, UserInformationScreen.routeName, (route) => false);
+
       return Future.value(unit);
     } on FirebaseAuthException catch (e) {
       throw ServerAuthException();

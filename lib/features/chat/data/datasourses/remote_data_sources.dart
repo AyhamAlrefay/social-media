@@ -23,23 +23,8 @@ class ChatRemoteDataSourcesImpl implements ChatRemoteDataSources {
   final FirebaseFirestore firestore;
 
   ChatRemoteDataSourcesImpl({required this.auth, required this.firestore});
-  Stream<List<ChatContactModel>> getChatContacts() {
-    return  firestore
-        .collection('users')
-        .doc(auth.currentUser!.uid)
-        .collection('chats')
-        .snapshots()
-        .asyncMap((event) async {
-      List<ChatContactModel> contacts = [];
-      for (var document in event.docs) {
-        var chatContact = ChatContactModel.fromMap(document.data());
-        contacts.add(
-          chatContact,
-        );
-      }
-      return contacts;
-    });
-  }
+
+
   @override
   Future<Stream<List<MessageModel>>> getMessageUser(
       {required String receiverUserId}) async {
@@ -129,5 +114,24 @@ class ChatRemoteDataSourcesImpl implements ChatRemoteDataSources {
         .collection('messages')
         .doc(messageModel.messageId)
         .set(messageModel.toMap());
+  }
+
+  @override
+  Stream<List<ChatContactModel>> getChatContacts() {
+    return  firestore
+        .collection('users')
+        .doc(auth.currentUser!.uid)
+        .collection('chats')
+        .snapshots()
+        .asyncMap((event) async {
+      List<ChatContactModel> contacts = [];
+      for (var document in event.docs) {
+        var chatContact = ChatContactModel.fromMap(document.data());
+        contacts.add(
+          chatContact,
+        );
+      }
+      return contacts;
+    });
   }
 }

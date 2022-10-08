@@ -68,8 +68,10 @@ class ChatRepositoriesImpl extends ChatRepositories {
 
   @override
   Either<Failure,Stream<List<ChatContact>>> getChatContacts(){
+    final f=chatRemoteDataSources.getChatContacts();
     try{
-      return  Right(chatRemoteDataSources.getChatContacts());
+
+      return  Right(f);
     }on ServerChatException{
       return Left(ServerChatFailure());
     }

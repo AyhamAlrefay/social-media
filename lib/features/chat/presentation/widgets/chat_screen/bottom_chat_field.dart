@@ -153,7 +153,7 @@ class _BottomChatFieldState extends State<BottomChatField> {
               child: GestureDetector(
                 onTap: () {
                   final timeSent = DateTime.now();
-                  late final senderUser;
+                  late final UserEntity senderUser;
                   var messageId = const Uuid().v1();
                   final message = Message(
                       senderId: FirebaseAuth.instance.currentUser!.uid,

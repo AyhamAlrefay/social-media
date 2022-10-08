@@ -8,6 +8,7 @@ import 'package:whatsapp/core/widgets/loading_widget.dart';
 import 'package:whatsapp/features/chat/domain/entities/contact.dart';
 import 'package:whatsapp/features/chat/presentation/bloc/get_message_user_and_contacts/get_message_user_and_contacts_bloc.dart';
 
+import '../../../../core/widgets/snak_bar.dart';
 import '../../../auth/presentation/bloc/save_user_data/save_user_data_bloc.dart';
 import 'chat_user.dart';
 
@@ -21,12 +22,17 @@ class Chats extends StatefulWidget {
 }
 
 class _ChatsState extends State<Chats> {
-
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    BlocProvider.of<GetMessageUserAndContactsBloc>(context).add(GetContactsEvent());
+  }
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<GetMessageUserAndContactsBloc,
         GetMessageUserAndContactsState>(builder: (context, state) {
-      if (state is GetContactsError) {
+      if (state is GetContactsLoading) {
         return const LoadingWidget();
       } else if (state is GetContactsSuccess) {
         return StreamBuilder<List<ChatContact>>(
@@ -54,6 +60,7 @@ class _ChatsState extends State<Chats> {
                               ),
                               onTap: () async {
                                 BlocProvider.of<SaveUserDataBloc>(context).add(GetUserData(userId: snapShot.data![index].contactId));
+                                BlocProvider.of<GetMessageUserAndContactsBloc>(context).add(GetChatMessageUserEvent(receiverUserId: snapShot.data![index].contactId));
                                 Navigator.of(context).pushNamed(ChatUser.routeName);
                               },
                             ),

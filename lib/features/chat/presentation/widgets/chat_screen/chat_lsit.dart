@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whatsapp/core/widgets/loading_widget.dart';
-import 'package:whatsapp/injection_container.dart' as di;
+
 import '../../../domain/entities/message.dart';
 import '../../bloc/get_message_user_and_contacts/get_message_user_and_contacts_bloc.dart';
 import 'sender_message_card.dart';
@@ -30,10 +30,7 @@ class _ChatListState extends State<ChatList> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<GetMessageUserAndContactsBloc>(
-        create: (context) => di.sl<GetMessageUserAndContactsBloc>()
-          ..add(GetChatMessageUserEvent(receiverUserId: widget.receiverUserId)),
-        child: BlocBuilder<GetMessageUserAndContactsBloc,GetMessageUserAndContactsState>(
+    return  BlocBuilder<GetMessageUserAndContactsBloc,GetMessageUserAndContactsState>(
 
         builder: (context,state) {
           if(state is GetMessageUserStateSuccess) {
@@ -61,9 +58,12 @@ class _ChatListState extends State<ChatList> {
                 );
               });
           }
-          return const CircularProgressIndicator();
+          else if(state is GetMessageUserStateError) {
+            return const CircularProgressIndicator();
+          }
+          return const Center(child: Text(''),);
         }
 
-        ));
+        );
   }
 }
