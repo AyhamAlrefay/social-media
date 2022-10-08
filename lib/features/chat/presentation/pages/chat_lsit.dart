@@ -8,7 +8,6 @@ import 'package:whatsapp/injection_container.dart' as di;
 import '../../../../core/enums/enum_message.dart';
 import '../../domain/entities/message.dart';
 import 'package:intl/intl.dart';
-
 import '../../domain/entities/message_replt.dart';
 import '../widgets/chat_screen/my_message_card.dart';
 import '../widgets/chat_screen/sender_message_card.dart';
@@ -69,9 +68,7 @@ class _ChatListState extends State<ChatList> {
                   itemBuilder: (context, index) {
                     var messageData = snapshot.data![index];
                     var timeSent = DateFormat.Hm().format(messageData.timeSent);
-
-                    if (messageData.senderId ==
-                        FirebaseAuth.instance.currentUser!.uid) {
+                    if (messageData.senderId == FirebaseAuth.instance.currentUser!.uid) {
                       return MyMessageCard(
                         message: messageData.text,
                         date: timeSent,
