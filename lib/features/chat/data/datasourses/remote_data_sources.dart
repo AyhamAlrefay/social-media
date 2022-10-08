@@ -4,12 +4,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:whatsapp/core/error/exceptions.dart';
 import 'package:whatsapp/features/chat/data/models/contact_model.dart';
 import 'package:whatsapp/features/chat/data/models/message_model.dart';
-
 import '../../../auth/data/models/user_model.dart';
-import '../../domain/entities/contact.dart';
 
 abstract class ChatRemoteDataSources {
-  Future<Stream<List<MessageModel>>> getMessageUser(
+  Stream<QuerySnapshot<Map<String, dynamic>>> getMessageUser(
       {required String receiverUserId});
 
   Future<Unit> sendTextMessage(
@@ -27,8 +25,8 @@ class ChatRemoteDataSourcesImpl implements ChatRemoteDataSources {
   ChatRemoteDataSourcesImpl({required this.auth, required this.firestore});
 
   @override
-  Future<Stream<List<MessageModel>>> getMessageUser(
-      {required String receiverUserId}) async {
+  Stream<QuerySnapshot<Map<String,dynamic>>>  getMessageUser(
+      {required String receiverUserId}) {
     return firestore
         .collection('users')
         .doc(auth.currentUser!.uid)
@@ -36,14 +34,7 @@ class ChatRemoteDataSourcesImpl implements ChatRemoteDataSources {
         .doc(receiverUserId)
         .collection('messages')
         .orderBy('timeSent')
-        .snapshots()
-        .asyncMap((event) async {
-      List<MessageModel> messages = [];
-      for (var document in event.docs) {
-        messages.add(MessageModel.fromMap(document.data()));
-      }
-      return messages;
-    });
+        .snapshots();
   }
 
   @override

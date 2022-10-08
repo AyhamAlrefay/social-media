@@ -1,7 +1,7 @@
 import 'package:whatsapp/features/chat/domain/entities/contact.dart';
 
 class ChatContactModel extends ChatContact{
-  ChatContactModel({
+  const ChatContactModel({
     required super.name,
     required super.profilePic,
     required super.contactId,

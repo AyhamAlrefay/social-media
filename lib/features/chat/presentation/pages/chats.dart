@@ -6,6 +6,7 @@ import 'package:whatsapp/features/chat/domain/entities/contact.dart';
 import 'package:whatsapp/features/chat/presentation/bloc/get_message_user_and_contacts/get_message_user_and_contacts_bloc.dart';
 import '../../../auth/presentation/bloc/save_user_data/save_user_data_bloc.dart';
 import 'chat_user.dart';
+import 'package:intl/intl.dart';
 
 class Chats extends StatefulWidget {
   static const String routeName = '/chats';
@@ -61,22 +62,25 @@ class _ChatsState extends State<Chats> {
                               leading: CircleAvatar(
                                 backgroundImage:
                                     NetworkImage(listContact[index].profilePic),
-                                radius: 25,
+                                radius: 30,
                               ),
+
                               title: Text(
                                 listContact[index].name,
                                 style: const TextStyle(fontSize: 15),
                               ),
+                              subtitle: Text(listContact[index].lastMessage),
+                              trailing:Text('${DateFormat('hh:mm a').format(listContact[index].timeSent)}',style:const TextStyle(fontSize: 12),),
                               onTap: () async {
                                 BlocProvider.of<SaveUserDataBloc>(context).add(
                                     GetUserData(
                                         userId:
-                                        listContact[index].contactId));
+                                        listContact[index].contactId.replaceAll(' ', '')));
                                 BlocProvider.of<GetMessageUserAndContactsBloc>(
                                         context)
                                     .add(GetChatMessageUserEvent(
                                         receiverUserId:
-                                        listContact[index].contactId));
+                                        listContact[index].contactId.replaceAll(' ', '')));
                                 Navigator.of(context)
                                     .pushNamed(ChatUser.routeName);
                               },
@@ -87,7 +91,7 @@ class _ChatsState extends State<Chats> {
               );
             });
       }
-    return Container();
+           return Container();
     });
   }
 }

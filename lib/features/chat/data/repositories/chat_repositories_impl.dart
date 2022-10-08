@@ -5,7 +5,6 @@ import 'package:whatsapp/core/error/failures.dart';
 import 'package:whatsapp/features/auth/data/models/user_model.dart';
 import 'package:whatsapp/features/chat/data/datasourses/remote_data_sources.dart';
 import 'package:whatsapp/features/chat/data/models/message_model.dart';
-import 'package:whatsapp/features/chat/domain/entities/contact.dart';
 import 'package:whatsapp/features/chat/domain/entities/message.dart';
 import 'package:whatsapp/features/chat/domain/repositories/chat_repositories.dart';
 
@@ -17,10 +16,10 @@ class ChatRepositoriesImpl extends ChatRepositories {
   ChatRepositoriesImpl({required this.chatRemoteDataSources});
 
   @override
-  Future<Either<Failure, Stream<List<Message>>>> getMessageUser(
-      {required String receiverUserId}) async {
+ Either<Failure, Stream<QuerySnapshot<Map<String, dynamic>>>> getMessageUser(
+      {required String receiverUserId}) {
     try {
-      final chatMessage = await chatRemoteDataSources.getMessageUser(
+      final chatMessage = chatRemoteDataSources.getMessageUser(
           receiverUserId: receiverUserId);
       return Right(chatMessage);
     } on ServerChatFailure {
@@ -69,10 +68,8 @@ class ChatRepositoriesImpl extends ChatRepositories {
 
   @override
  Either<Failure,Stream<QuerySnapshot<Map<String, dynamic>>>> getChatContacts(){
-    final f=chatRemoteDataSources.getChatContacts();
     try{
-
-      return  Right(f);
+      return  Right(chatRemoteDataSources.getChatContacts());
     }on ServerChatException{
       return Left(ServerChatFailure());
     }

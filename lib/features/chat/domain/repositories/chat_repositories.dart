@@ -7,7 +7,7 @@ import '../../../auth/domain/entities/user_entity.dart';
 import '../entities/contact.dart';
 
 abstract class ChatRepositories {
-  Future<Either<Failure, Stream<List<Message>>>> getMessageUser(
+  Either<Failure,Stream<QuerySnapshot<Map<String, dynamic>>> > getMessageUser(
       {required String receiverUserId});
 
   Future<Either<Failure, Unit>> sendMessage(

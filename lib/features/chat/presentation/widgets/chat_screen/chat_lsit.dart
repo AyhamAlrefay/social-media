@@ -1,9 +1,10 @@
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whatsapp/core/widgets/loading_widget.dart';
+import 'package:whatsapp/core/widgets/snak_bar.dart';
 
 import '../../../domain/entities/message.dart';
 import '../../bloc/get_message_user_and_contacts/get_message_user_and_contacts_bloc.dart';
@@ -22,6 +23,7 @@ class ChatList extends StatefulWidget {
 
 class _ChatListState extends State<ChatList> {
   final ScrollController messageController = ScrollController();
+
   @override
   void dispose() {
     super.dispose();
@@ -30,40 +32,53 @@ class _ChatListState extends State<ChatList> {
 
   @override
   Widget build(BuildContext context) {
-    return  BlocBuilder<GetMessageUserAndContactsBloc,GetMessageUserAndContactsState>(
-
-        builder: (context,state) {
-          if(state is GetMessageUserStateSuccess) {
-            return StreamBuilder<List<Message>>(
-              stream:state.messages ,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const LoadingWidget();
-                }
-                SchedulerBinding.instance.addPostFrameCallback((_) {
-                  messageController
-                      .jumpTo(messageController.position.maxScrollExtent);
-                });
-                return ListView.builder(
-                  controller: messageController,
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) {
-                    var messageData = snapshot.data![index];
-                    if (messageData.senderId ==
-                        FirebaseAuth.instance.currentUser!.uid) {
-                      return SenderMessageCard(message: messageData,);
-                    }
-                    return ReceiverMessageCard(message: messageData,);
-                  },
-                );
+    return BlocBuilder<GetMessageUserAndContactsBloc,
+        GetMessageUserAndContactsState>(builder: (context, state) {
+      if (state is GetMessageUserStateSuccess) {
+        return StreamBuilder(
+            stream: state.messages,
+            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const LoadingWidget();
+              }
+              SchedulerBinding.instance.addPostFrameCallback((_) {
+                messageController
+                    .jumpTo(messageController.position.maxScrollExtent);
               });
-          }
-          else if(state is GetMessageUserStateError) {
-            return const CircularProgressIndicator();
-          }
-          return const Center(child: Text(''),);
-        }
 
-        );
+              List<Message> listMessage = snapshot.data!.docs
+                  .map((e) => Message(
+                      senderId: e['senderId'],
+                      receiverId: e['receiverId'],
+                      text: e['text'],
+                      type: e['type'],
+                      timeSent: e['timeSent'],
+                      messageId: e['messageId'],
+                      isSeen: e['isSeen']))
+                  .toList();
+              return ListView.builder(
+                controller: messageController,
+                itemCount: listMessage.length,
+                itemBuilder: (context, index) {
+                  var messageData = listMessage;
+                  if (messageData[index].senderId ==
+                      FirebaseAuth.instance.currentUser!.uid) {
+                    return SenderMessageCard(
+                      message: messageData[index],
+                    );
+                  }
+                  return ReceiverMessageCard(
+                    message: messageData[index],
+                  );
+                },
+              );
+            });
+      } else if (state is GetMessageUserStateError) {
+        showSnackBar(context: context, content:state.error );
+      }
+      return const Center(
+        child: Text(''),
+      );
+    });
   }
 }
