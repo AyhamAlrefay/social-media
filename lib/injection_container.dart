@@ -30,7 +30,7 @@ Future<void>init()async{
   ///Bloc
   sl.registerFactory(() => SignInWithPhoneNumberBloc(signInWithPhoneNumberUseCase: sl(), verifyOtpUseCase: sl()));
   sl.registerFactory(() => SaveUserDataBloc(saveUserDataUseCase: sl(),getCurrentUserDataUseCase: sl()));
-  sl.registerFactory(() => GetMessageUserBloc(getMessageUserUseCase: sl(), getChatContactsUseCase: sl()));
+  sl.registerFactory(() => GetMessageUserBloc(getMessageUserUseCase: sl()));
   sl.registerFactory(() => SendMessageUserBloc(sendMessageUserUseCase: sl()));
   sl.registerFactory(() => GetUsersDataBloc(getCurrentUserDataUseCase: sl(), getOtherUserDataUseCase: sl()));
   sl.registerFactory(() =>GetContactsUserBloc(getChatContactsUseCase: sl()));
