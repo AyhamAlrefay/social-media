@@ -28,7 +28,7 @@ class MessageModel extends Message {
         'receiverId': receiverId,
         'text': text,
         'type': type.type,
-        'timeSent': Timestamp.fromDate(timeSent),
+        'timeSent':Timestamp.fromDate(timeSent),
         'messageId': messageId,
         'isSeen': isSeen,
         'repliedMessage': repliedMessage,
@@ -72,7 +72,7 @@ class MessageModel extends Message {
         receiverId: map['receiverId'] ?? '',
         text: map['text'] ?? '',
         type: (map['type'] as String).toEnum(),
-        timeSent:  DateTime.parse(map['timeSent'].toDate().toString()),
+        timeSent: DateTime.parse(map['timeSent'].toDate().toString()),
         messageId: map['messageId'] ?? '',
         isSeen: map['isSeen'] ?? false,
       );

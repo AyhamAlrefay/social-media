@@ -52,7 +52,7 @@ final Message message;
                   ),
                   child: Column(
                     children: [
-                      if (message.repliedMessage!.isNotEmpty) ...[
+                      if (message.repliedMessage!=null) ...[
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
                           decoration:const BoxDecoration(
