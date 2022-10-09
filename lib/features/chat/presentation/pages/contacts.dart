@@ -68,8 +68,7 @@ class _ChatsState extends State<Chats> {
         name: e['name'],
         profilePic: e['profilePic'],
         contactId: e['contactId'],
-        timeSent:
-        DateTime.parse(e['timeSent'].toDate().toString()),
+        timeSent: DateTime.parse(e['timeSent'].toDate().toString()),
         lastMessage: e['lastMessage']))
         .toList();
   }
