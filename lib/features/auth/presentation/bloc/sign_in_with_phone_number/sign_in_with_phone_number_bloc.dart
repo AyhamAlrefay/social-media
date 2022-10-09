@@ -18,23 +18,21 @@ class SignInWithPhoneNumberBloc extends Bloc<SignInWithPhoneNumberEvent,SignInWi
         {
           emit(LoadingSignInWithPhoneNumberState());
           final failureOrDoneMessage=await signInWithPhoneNumberUseCase(context: event.context,phoneNumber: event.phoneNumber);
-          emit(_eitherDoneMessageOrErrorState(failureOrDoneMessage,SIGN_IN_WITH_PHONE_NUMBER_SUCCESS));
+          failureOrDoneMessage.fold(
+                  (failure)=>emit(ErrorSignInWithPhoneNumberState(error:_mapFailureToMessage(failure)),),
+                  (_)=>emit(SuccessSignInWithPhoneNumberState()));
+
         }
       else if(event is VerifyOtpEvent)
         {
           emit(LoadingVerifyOtp());
-                final failureOrDoneMessage=await verifyOtpUseCase.call(context: event.context, userOTP: event.userOTP, verificationId: event.verificationId);
-              emit(SuccessVerifyOtp());
+            await verifyOtpUseCase.call(context: event.context, userOTP: event.userOTP, verificationId: event.verificationId);
+              emit(const SuccessVerifyOtp());
         }
     });
   }
 }
-SignInWithPhoneNumberState _eitherDoneMessageOrErrorState(Either<Failure,Unit> either,String message){
-  return either.fold(
-      (failure)=>ErrorSignInWithPhoneNumberState(error:_mapFailureToMessage(failure),),
-      (_)=>SuccessSignInWithPhoneNumberState(message: message),
-  );
-}
+
 String _mapFailureToMessage(Failure failure){
   switch(failure.runtimeType){
     case ServerAuthFailure:

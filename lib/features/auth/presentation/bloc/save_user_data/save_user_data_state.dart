@@ -13,14 +13,3 @@ class SaveUserDataStateError extends SaveUserDataState {
 
   SaveUserDataStateError({required this.error});
 }
-class GetUserDataStateLoading extends SaveUserDataState{}
-class GetUserDataStateError extends SaveUserDataState{
-  final String error;
-
-  GetUserDataStateError({required this.error});
-}
-class GetUserDataStateSuccess extends SaveUserDataState{
-  final UserEntity user;
-
-  GetUserDataStateSuccess({required this.user});
-}

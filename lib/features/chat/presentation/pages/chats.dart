@@ -1,17 +1,12 @@
-
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_contacts/flutter_contacts.dart';
-import 'package:whatsapp/core/theme/colors.dart';
 import 'package:whatsapp/core/widgets/loading_widget.dart';
+import 'package:whatsapp/features/auth/presentation/bloc/get_users_data/get_users_data_bloc.dart';
 import 'package:whatsapp/features/chat/domain/entities/contact.dart';
-import 'package:whatsapp/features/chat/presentation/bloc/get_message_user_and_contacts/get_message_user_and_contacts_bloc.dart';
 import '../../../auth/presentation/bloc/save_user_data/save_user_data_bloc.dart';
-import '../../data/models/contact_model.dart';
+import '../bloc/get_contacts_user/get_contacts_user_bloc.dart';
+import '../bloc/get_messages_user/get_message_user_bloc.dart';
 import 'chat_user.dart';
 import 'package:intl/intl.dart';
 
@@ -29,18 +24,18 @@ class _ChatsState extends State<Chats> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    BlocProvider.of<GetMessageUserAndContactsBloc>(context)
+    BlocProvider.of<GetMessageUserBloc>(context)
         .add(GetContactsEvent());
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GetMessageUserAndContactsBloc,
-        GetMessageUserAndContactsState>(builder: (context, state) {
-          if(state is GetContactsLoading) {
+    return BlocBuilder<GetContactsUserBloc,
+        GetContactsUserState>(builder: (context, state) {
+          if(state is GetContactsUserLoading) {
             return const LoadingWidget();
           }
-   if (state is GetContactsSuccess) {
+   if (state is GetContactsUserSuccess) {
         return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
             stream: state.contacts,
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -79,11 +74,11 @@ class _ChatsState extends State<Chats> {
                               subtitle: Text(listContact[index].lastMessage),
                               trailing:Text('${DateFormat('hh:mm a').format(listContact[index].timeSent)}',style:const TextStyle(fontSize: 12),),
                               onTap: () async {
-                                BlocProvider.of<SaveUserDataBloc>(context).add(
-                                    GetUserData(
-                                        userId:
+                                BlocProvider.of<GetUsersDataBloc>(context).add(
+                                    GetOtherUsersData(
+                                        receiverUserId:
                                         listContact[index].contactId.replaceAll(' ', '')));
-                                BlocProvider.of<GetMessageUserAndContactsBloc>(
+                                BlocProvider.of<GetMessageUserBloc>(
                                         context)
                                     .add(GetChatMessageUserEvent(
                                         receiverUserId:
@@ -102,8 +97,8 @@ class _ChatsState extends State<Chats> {
             return Container();
    }
     },
-    buildWhen: (GetContactsLoading,state){
-          return state is!GetContactsError;
+    buildWhen: (GetContactsUserLoading,state){
+          return state is!GetContactsUserError;
     },
     );
   }

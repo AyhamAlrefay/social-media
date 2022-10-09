@@ -5,9 +5,8 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whatsapp/core/widgets/loading_widget.dart';
 import 'package:whatsapp/core/widgets/snak_bar.dart';
-
 import '../../../domain/entities/message.dart';
-import '../../bloc/get_message_user_and_contacts/get_message_user_and_contacts_bloc.dart';
+import '../../bloc/get_messages_user/get_message_user_bloc.dart';
 import 'sender_message_card.dart';
 import 'receiver_message_card.dart';
 
@@ -32,8 +31,8 @@ class _ChatListState extends State<ChatList> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GetMessageUserAndContactsBloc,
-        GetMessageUserAndContactsState>(builder: (context, state) {
+    return BlocBuilder<GetMessageUserBloc,
+        GetMessageUserState>(builder: (context, state) {
       if (state is GetMessageUserStateSuccess) {
         return StreamBuilder(
             stream: state.messages,
@@ -48,13 +47,13 @@ class _ChatListState extends State<ChatList> {
 
               List<Message> listMessage = snapshot.data!.docs
                   .map((e) => Message(
-                      senderId: e['senderId'],
-                      receiverId: e['receiverId'],
-                      text: e['text'],
-                      type: e['type'],
-                      timeSent: e['timeSent'],
-                      messageId: e['messageId'],
-                      isSeen: e['isSeen']))
+                  senderId: e['senderId'],
+                  receiverId: e['receiverId'],
+                  text: e['text'],
+                  type: e['type'],
+                  timeSent: e['timeSent'],
+                  messageId: e['messageId'],
+                  isSeen: e['isSeen']))
                   .toList();
               return ListView.builder(
                 controller: messageController,

@@ -12,14 +12,14 @@ import '../../../domain/entities/message.dart';
 import '../../../domain/usecases/get_chat_contacts_use_case.dart';
 import '../../../domain/usecases/get_message_user_usecase.dart';
 
-part 'get_message_user_and_contacts_event.dart';
-part 'get_message_user_and_contacts_state.dart';
+part 'get_message_user_event.dart';
+part 'get_message_user_state.dart';
 
-class GetMessageUserAndContactsBloc extends Bloc<GetMessageUserAndContactsEvent, GetMessageUserAndContactsState> {
+class GetMessageUserBloc extends Bloc<GetMessageUserEvent, GetMessageUserState> {
   final GetMessageUserUseCase getMessageUserUseCase;
   final GetChatContactsUseCase getChatContactsUseCase;
-  GetMessageUserAndContactsBloc({required this.getChatContactsUseCase, required this.getMessageUserUseCase}) : super(GetMessageUserInitial()) {
-    on<GetMessageUserAndContactsEvent>((event, state) async {
+  GetMessageUserBloc({required this.getChatContactsUseCase, required this.getMessageUserUseCase}) : super(GetMessageUserInitial()) {
+    on<GetMessageUserEvent>((event, state) async {
       if (event is GetChatMessageUserEvent) {
         emit(GetMessageUserStateLoading());
         final messageFailureOrUserData =
@@ -28,21 +28,11 @@ class GetMessageUserAndContactsBloc extends Bloc<GetMessageUserAndContactsEvent,
                 (l) => emit(GetMessageUserStateError(error: _mapFailureToMessage(l))),
                 (r) => emit(GetMessageUserStateSuccess(messages: r)));
       }
-      else if (event is GetContactsEvent) {
-        emit(GetContactsLoading());
-        final failureOrContacts = getChatContactsUseCase.call();
-        emit(_eitherDoneMessageOrErrorState(failureOrContacts));
-      }
     });
   }
   }
 
- GetMessageUserAndContactsState _eitherDoneMessageOrErrorState(
-    Either<Failure, Stream<QuerySnapshot<Map<String, dynamic>>>> failureOrDoneMessage) {
-  return failureOrDoneMessage.fold(
-          (failure) => GetContactsError(error: _mapFailureToMessage(failure)),
-          (r) => GetContactsSuccess(contacts: r));
-}
+
 String _mapFailureToMessage(failure) {
   switch (failure.runtimeType) {
     case ServerChatFailure:

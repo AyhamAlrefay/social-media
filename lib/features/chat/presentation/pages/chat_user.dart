@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:whatsapp/features/auth/presentation/bloc/get_users_data/get_users_data_bloc.dart';
 import 'package:whatsapp/features/auth/presentation/bloc/save_user_data/save_user_data_bloc.dart';
 import '../../../../core/theme/colors.dart';
 import '../widgets/chat_screen/bottom_chat_field.dart';
@@ -12,9 +13,9 @@ class ChatUser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SaveUserDataBloc, SaveUserDataState>(
+    return BlocBuilder<GetUsersDataBloc, GetUsersDataState>(
       builder: (context, state) {
-        if (state is GetUserDataStateSuccess) {
+        if (state is GetOtherUserDataSateSuccess) {
           return Scaffold(
             appBar: AppBar(
               scrolledUnderElevation: 15,
@@ -27,7 +28,7 @@ class ChatUser extends StatelessWidget {
               title: Row(
                 children: [
                   CircleAvatar(
-                    backgroundImage: NetworkImage(state.user.profilePic),
+                    backgroundImage: NetworkImage(state.otherUser.profilePic),
                     radius: 25,
                   ),
                   const SizedBox(
@@ -35,7 +36,7 @@ class ChatUser extends StatelessWidget {
                   ),
 
                   Text(
-                    state.user.name,
+                    state.otherUser.name,
                     style: const TextStyle(
                       fontSize: 17,
                     ),
@@ -54,9 +55,9 @@ class ChatUser extends StatelessWidget {
             ),
             body: Column(children: [
               Expanded(
-                child: ChatList(receiverUserId: state.user.uid),
+                child: ChatList(receiverUserId: state.otherUser.uid),
               ),
-              BottomChatField(receiverUser: state.user,),
+              BottomChatField(receiverUser: state.otherUser,),
             ]),
           );
         }

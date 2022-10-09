@@ -4,11 +4,11 @@ import 'package:whatsapp/features/auth/domain/repositories/repository.dart';
 
 import '../../../../core/error/failures.dart';
 
-class GetCurrentUserDataUseCase{
+class GetOtherUserDataUseCase{
   final AuthRepository authRepository;
 
-  GetCurrentUserDataUseCase({required this.authRepository});
-  Future<Either<Failure, UserEntity>>call()async{
-    return await authRepository.getCurrentUserData();
+  GetOtherUserDataUseCase({required this.authRepository});
+  Future<Either<Failure, UserEntity>>call({required String receiverUserId})async{
+    return await authRepository.getOtherUserData(receiverUserId: receiverUserId);
   }
 }

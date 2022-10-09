@@ -9,8 +9,3 @@ class SaveUserData extends SaveUserDataEvent{
    required this.profilePic,
   });
 }
-class GetUserData extends SaveUserDataEvent{
-  final String userId;
-
-  GetUserData({required this.userId});
-}

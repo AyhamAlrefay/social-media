@@ -26,25 +26,13 @@ class SaveUserDataBloc extends Bloc<SaveUserDataEvent, SaveUserDataState> {
         emit(SaveUserDataStateLoading());
         final failureOrDoneMessage = await saveUserDataUseCase.call(
             name: event.name, profilePic: event.profilePic);
+        failureOrDoneMessage.fold(
+                (failure) => emit(SaveUserDataStateError(error: _mapFailureToMessage(failure))),
+                (_) => emit(SaveUserDataStateSuccess()));
 
-        emit(_eitherDoneMessageOrErrorState(failureOrDoneMessage));
-      } else if (event is GetUserData) {
-        emit(GetUserDataStateLoading());
-        final userFailureOrUserData =
-            await getCurrentUserDataUseCase.call(userId: event.userId);
-        userFailureOrUserData.fold(
-            (l) => emit(GetUserDataStateError(error: _mapFailureToMessage(l))),
-            (r) => emit(GetUserDataStateSuccess(user: r)));
       }
     });
   }
-}
-
-SaveUserDataState _eitherDoneMessageOrErrorState(
-    Either<Failure, Unit> failureOrDoneMessage) {
-  return failureOrDoneMessage.fold(
-      (failure) => SaveUserDataStateError(error: _mapFailureToMessage(failure)),
-      (_) => SaveUserDataStateSuccess());
 }
 
 String _mapFailureToMessage(failure) {

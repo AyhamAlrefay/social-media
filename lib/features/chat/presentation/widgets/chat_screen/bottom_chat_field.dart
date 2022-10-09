@@ -8,13 +8,10 @@ import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:whatsapp/core/enums/enum_message.dart';
 import 'package:whatsapp/core/theme/colors.dart';
-import 'package:whatsapp/core/widgets/snak_bar.dart';
 import 'package:whatsapp/features/auth/domain/entities/user_entity.dart';
 import 'package:whatsapp/features/chat/domain/entities/message.dart';
-import 'package:whatsapp/features/chat/presentation/bloc/send_message_user/send_message_user_bloc.dart';
 import 'dart:io';
-
-import '../../../../auth/presentation/bloc/save_user_data/save_user_data_bloc.dart';
+import '../../bloc/send_messages_user/send_message_user_bloc.dart';
 import 'file.dart';
 
 class BottomChatField extends StatefulWidget {
@@ -27,6 +24,7 @@ class BottomChatField extends StatefulWidget {
 }
 
 class _BottomChatFieldState extends State<BottomChatField> {
+  late final UserEntity senderUser;
   bool isShowSendButton = true;
   TextEditingController messageController = TextEditingController();
   bool isShowEmojiContainer = false;
@@ -57,6 +55,7 @@ class _BottomChatFieldState extends State<BottomChatField> {
       showEmojiContainer();
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -153,7 +152,7 @@ class _BottomChatFieldState extends State<BottomChatField> {
               child: GestureDetector(
                 onTap: () {
                   final timeSent = DateTime.now();
-                  late final UserEntity senderUser;
+
                   var messageId = const Uuid().v1();
                   final message = Message(
                       senderId: FirebaseAuth.instance.currentUser!.uid,
@@ -163,21 +162,19 @@ class _BottomChatFieldState extends State<BottomChatField> {
                       timeSent: timeSent,
                       messageId: messageId,
                       isSeen: false);
-                  BlocProvider.of<SaveUserDataBloc>(context).add(GetUserData(userId: FirebaseAuth.instance.currentUser!.uid));
-                BlocConsumer<SaveUserDataBloc,SaveUserDataState>(
-                  listener:  (context,state){
-                    if(state is GetUserDataStateSuccess) {
-                      senderUser=state.user;
-                    }
 
-                  },
-                  builder: (context,state){
-                    if(state is GetUserDataStateError) {
-                        showSnackBar(context: context, content: state.error);
-                      }
-                      return const Text('');
-                  },
-                  );
+                print('||||||||||||||||||||||||||||||||||||||||||||||');
+                print(senderUser);
+
+                  print('||||||||||||||||||||||||||||||||||||||||||||||');
+                  print(widget.receiverUser);
+
+                  print('||||||||||||||||||||||||||||||||||||||||||||||');
+
+                  print('||||||||||||||||||||||||||||||||||||||||||||||');
+                  print(message);
+                  print('||||||||||||||||||||||||||||||||||||||||||||||');
+
                   BlocProvider.of<SendMessageUserBloc>(context).add(
                       SendMessageUser(message: message,
                           senderUser: senderUser,
