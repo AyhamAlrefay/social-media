@@ -2,12 +2,12 @@ import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
-import 'package:whatsapp/core/error/exceptions.dart';
-import 'package:whatsapp/core/error/failures.dart';
-import 'package:whatsapp/features/auth/data/datasources/remote_data_sources.dart';
-import 'package:whatsapp/features/auth/data/models/user_model.dart';
-import 'package:whatsapp/features/auth/domain/entities/user_entity.dart';
-import 'package:whatsapp/features/auth/domain/repositories/repository.dart';
+import '../../../../core/error/exceptions.dart';
+import '../../../../core/error/failures.dart';
+import '../datasources/remote_data_sources.dart';
+import '../models/user_model.dart';
+import '../../domain/entities/user_entity.dart';
+import '../../domain/repositories/repository.dart';
 
 class AuthRepositoriesImpl extends AuthRepository {
   final AuthRemoteDataSources remoteDataSources;

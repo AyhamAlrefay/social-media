@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
-import 'package:whatsapp/core/error/failures.dart';
-import 'package:whatsapp/features/auth/domain/repositories/repository.dart';
+import '../../../../core/error/failures.dart';
+import '../repositories/repository.dart';
 
 class VerifyOtpUseCase{
   final AuthRepository authRepository;

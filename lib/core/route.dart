@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:whatsapp/core/widgets/error_widget.dart';
-import 'package:whatsapp/features/auth/presentation/pages/login_screen.dart';
-import 'package:whatsapp/features/auth/presentation/pages/otp_screen.dart';
-import 'package:whatsapp/features/auth/presentation/pages/user_information_screen.dart';
-import 'package:whatsapp/mobile_chat_screen.dart';
+import 'widgets/error_widget.dart';
+import '../features/auth/presentation/pages/login_screen.dart';
+import '../features/auth/presentation/pages/otp_screen.dart';
+import '../features/auth/presentation/pages/user_information_screen.dart';
+import '../mobile_chat_screen.dart';
 import '../features/calls/presentation/pages/calls.dart';
 import '../features/chat/presentation/pages/chat_user.dart';
 import '../features/chat/presentation/pages/chats.dart';

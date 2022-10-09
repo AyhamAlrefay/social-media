@@ -1,4 +1,4 @@
-import 'package:whatsapp/features/chat/domain/entities/contact.dart';
+import '../../domain/entities/contact.dart';
 
 class ChatContactModel extends ChatContact{
   const ChatContactModel({

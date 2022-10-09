@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:whatsapp/core/error/exceptions.dart';
-import 'package:whatsapp/features/chat/data/models/contact_model.dart';
-import 'package:whatsapp/features/chat/data/models/message_model.dart';
+import '../../../../core/error/exceptions.dart';
+import '../models/contact_model.dart';
+import '../models/message_model.dart';
 import '../../../auth/data/models/user_model.dart';
 
 abstract class ChatRemoteDataSources {

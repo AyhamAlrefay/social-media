@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
-import 'package:whatsapp/core/error/exceptions.dart';
-import 'package:whatsapp/core/error/failures.dart';
-import 'package:whatsapp/features/auth/data/models/user_model.dart';
-import 'package:whatsapp/features/chat/data/datasourses/remote_data_sources.dart';
-import 'package:whatsapp/features/chat/data/models/message_model.dart';
-import 'package:whatsapp/features/chat/domain/entities/message.dart';
-import 'package:whatsapp/features/chat/domain/repositories/chat_repositories.dart';
+import '../../../../core/error/exceptions.dart';
+import '../../../../core/error/failures.dart';
+import '../../../auth/data/models/user_model.dart';
+import '../datasourses/remote_data_sources.dart';
+import '../models/message_model.dart';
+import '../../domain/entities/message.dart';
+import '../../domain/repositories/chat_repositories.dart';
 
 import '../../../auth/domain/entities/user_entity.dart';
 

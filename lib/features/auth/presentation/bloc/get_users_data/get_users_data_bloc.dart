@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:whatsapp/core/error/failures.dart';
-import 'package:whatsapp/features/auth/domain/entities/user_entity.dart';
+import '../../../../../core/error/failures.dart';
+import '../../../domain/entities/user_entity.dart';
 
 import '../../../domain/usecases/get_current_user_data_use_case.dart';
 import '../../../domain/usecases/get_other_user_data_usecase.dart';

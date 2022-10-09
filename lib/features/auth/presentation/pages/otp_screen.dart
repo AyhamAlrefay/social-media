@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:whatsapp/core/theme/colors.dart';
-import 'package:whatsapp/core/widgets/loading_widget.dart';
-import 'package:whatsapp/features/auth/presentation/pages/user_information_screen.dart';
-import 'package:whatsapp/injection_container.dart' as di;
+import '../../../../core/theme/colors.dart';
+import '../../../../core/widgets/loading_widget.dart';
+import 'user_information_screen.dart';
+import '../../../../injection_container.dart' as di;
+import '../bloc/save_user_data/save_user_data_bloc.dart';
 import '../bloc/sign_in_with_phone_number/sign_in_with_phone_number_bloc.dart';
 
 class OtpScreen extends StatelessWidget {
@@ -34,6 +35,7 @@ class OtpScreen extends StatelessWidget {
              listener: (context,state){
                if(state is SuccessVerifyOtp)
                {
+                 BlocProvider<SaveUserDataBloc>(create: (_)=>di.sl<SaveUserDataBloc>());
                  Navigator.pushNamedAndRemoveUntil(
                      context, UserInformationScreen.routeName, (route) => false);
                }

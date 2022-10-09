@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
-import 'package:whatsapp/core/error/failures.dart';
-import 'package:whatsapp/features/chat/domain/entities/message.dart';
-import 'package:whatsapp/features/chat/domain/repositories/chat_repositories.dart';
+import '../../../../core/error/failures.dart';
+import '../entities/message.dart';
+import '../repositories/chat_repositories.dart';
 
 class GetMessageUserUseCase{
   final ChatRepositories chatRepositories;

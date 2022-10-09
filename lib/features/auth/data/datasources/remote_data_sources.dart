@@ -3,14 +3,14 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:whatsapp/core/datasources/firebase_storage_datasources.dart';
-import 'package:whatsapp/core/error/exceptions.dart';
-import 'package:whatsapp/features/auth/presentation/pages/otp_screen.dart';
-import 'package:whatsapp/features/auth/presentation/pages/user_information_screen.dart';
+import '../../../../core/datasources/firebase_storage_datasources.dart';
+import '../../../../core/error/exceptions.dart';
+import '../../presentation/pages/otp_screen.dart';
+import '../../presentation/pages/user_information_screen.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/widgets/snak_bar.dart';
 import '../models/user_model.dart';
-import 'package:whatsapp/injection_container.dart'as di;
+import '../../../../injection_container.dart'as di;
 abstract class AuthRemoteDataSources {
   Future<Unit> signInWithPhone(
       {required BuildContext context, required String phoneNumber});

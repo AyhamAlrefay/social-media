@@ -1,9 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:whatsapp/core/error/failures.dart';
-import 'package:whatsapp/core/strings/messages.dart';
-import 'package:whatsapp/features/auth/domain/usecases/sign_in_with_phone_number_use_case.dart';
-import 'package:whatsapp/features/auth/domain/usecases/verify_otp_use_case.dart';
+import '../../../../../core/error/failures.dart';
+import '../../../../../core/strings/messages.dart';
+import '../../../domain/usecases/sign_in_with_phone_number_use_case.dart';
+import '../../../domain/usecases/verify_otp_use_case.dart';
 import '../../../../../core/strings/failures.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';

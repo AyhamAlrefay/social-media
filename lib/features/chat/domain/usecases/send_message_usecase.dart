@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
-import 'package:whatsapp/core/error/failures.dart';
-import 'package:whatsapp/features/chat/domain/repositories/chat_repositories.dart';
+import '../../../../core/error/failures.dart';
+import '../repositories/chat_repositories.dart';
 import '../../../auth/domain/entities/user_entity.dart';
 import '../entities/message.dart';
 

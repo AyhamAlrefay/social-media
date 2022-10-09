@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
-import 'package:whatsapp/features/chat/domain/entities/message.dart';
+import '../entities/message.dart';
 
 import '../../../../core/error/failures.dart';
 import '../../../auth/domain/entities/user_entity.dart';

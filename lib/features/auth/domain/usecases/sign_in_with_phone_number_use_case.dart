@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
-import 'package:whatsapp/features/auth/domain/repositories/repository.dart';
+import '../repositories/repository.dart';
 
 import '../../../../core/error/failures.dart';
 

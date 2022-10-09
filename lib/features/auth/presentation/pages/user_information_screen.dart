@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:whatsapp/core/theme/colors.dart';
-import 'package:whatsapp/core/widgets/loading_widget.dart';
-import 'package:whatsapp/features/auth/presentation/bloc/save_user_data/save_user_data_bloc.dart';
-import 'package:whatsapp/mobile_chat_screen.dart';
+import '../../../../core/theme/colors.dart';
+import '../../../../core/widgets/loading_widget.dart';
+import '../bloc/save_user_data/save_user_data_bloc.dart';
+import '../../../../mobile_chat_screen.dart';
 
 class UserInformationScreen extends StatefulWidget {
   static const String routeName = '/user-information-screen';

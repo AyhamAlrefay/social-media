@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
-import 'package:whatsapp/core/strings/failures.dart';
-import 'package:whatsapp/features/auth/domain/usecases/save_user_data_use_case.dart';
+import '../../../../../core/strings/failures.dart';
+import '../../../domain/usecases/save_user_data_use_case.dart';
 
 import '../../../../../core/error/failures.dart';
 import '../../../domain/entities/user_entity.dart';
