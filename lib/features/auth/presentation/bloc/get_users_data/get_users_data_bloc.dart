@@ -19,11 +19,13 @@ class GetUsersDataBloc extends Bloc<GetUsersDataEvent, GetUsersDataState> {
     on<GetUsersDataEvent>((event, emit) async{
      if(event is GetCurrentUserData){
      final  Either<Failure, UserEntity> currentUser =await getCurrentUserDataUseCase.call();
-     currentUser.fold((l) => (){}, (r) => emit(GetCurrentUserDataSuccess(currentUser: r)));
+     currentUser.fold((l) => (){},
+             (r) => emit(GetCurrentUserDataSuccess(currentUser: r)));
      }
 else   if(event is GetOtherUsersData){
        final  Either<Failure, UserEntity> otherUser =await getOtherUserDataUseCase.call(receiverUserId: event.receiverUserId);
-       otherUser.fold((l) => (){}, (r) => emit(GetOtherUserDataSateSuccess(otherUser: r)));
+       otherUser.fold((l) => (){},
+               (r) => emit(GetOtherUserDataSateSuccess(otherUser: r)));
      }
     });
   }

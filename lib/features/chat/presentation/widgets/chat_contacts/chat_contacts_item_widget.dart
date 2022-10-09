@@ -7,18 +7,20 @@ import '../../bloc/get_messages_user/get_message_user_bloc.dart';
 import '../../bloc/send_messages_user/send_message_user_bloc.dart';
 import '../../pages/chat_user.dart';
 import 'package:whatsapp/injection_container.dart' as di;
+
 class ChatContactsItemWidget extends StatelessWidget {
   final ChatContact chatContact;
-  const ChatContactsItemWidget({Key? key, required this.chatContact}) : super(key: key);
+
+  const ChatContactsItemWidget({Key? key, required this.chatContact})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return  Padding(
+    return Padding(
       padding: const EdgeInsets.only(bottom: 15),
       child: ListTile(
         leading: CircleAvatar(
-          backgroundImage: NetworkImage(
-              chatContact.profilePic),
+          backgroundImage: NetworkImage(chatContact.profilePic),
           radius: 30,
         ),
         title: Text(
@@ -31,24 +33,27 @@ class ChatContactsItemWidget extends StatelessWidget {
           style: const TextStyle(fontSize: 12),
         ),
         onTap: () async {
-          BlocProvider<SendMessageUserBloc>(
-              create: (_) =>
-                  di.sl<SendMessageUserBloc>());
-          BlocProvider.of<GetUsersDataBloc>(context)
-              .add(GetOtherUsersData(
-              receiverUserId: chatContact
-                  .contactId
-                  .replaceAll(' ', '')));
-          BlocProvider.of<GetUsersDataBloc>(context)
-              .add(GetCurrentUserData());
-          BlocProvider.of<GetMessageUserBloc>(context)
-              .add(GetChatMessageUserEvent(
-              receiverUserId: chatContact
-                  .contactId
-                  .replaceAll(' ', '')));
 
-          Navigator.of(context)
-              .pushNamed(ChatUser.routeName);
+       Navigator.push(context, MaterialPageRoute(builder: (context)=>MultiBlocProvider(
+         providers: [
+       BlocProvider<SendMessageUserBloc>(
+       create: (_) => di.sl<SendMessageUserBloc>()),
+       BlocProvider<GetUsersDataBloc>(
+           create: (_) => di.sl<GetUsersDataBloc>()
+             ..add(GetCurrentUserData())
+             ..add(GetOtherUsersData(
+                 receiverUserId:
+                 chatContact.contactId.replaceAll(' ', '')))),
+           BlocProvider<GetMessageUserBloc>(
+             create: (_) => di.sl<GetMessageUserBloc>()
+               ..add(GetChatMessageUserEvent(
+                   receiverUserId:
+                   chatContact.contactId.replaceAll(' ', ''))),)
+
+         ], child: ChatUser() ,
+       )));
+
+
         },
       ),
     );

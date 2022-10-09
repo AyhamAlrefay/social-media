@@ -16,15 +16,16 @@ import 'file.dart';
 
 class BottomChatField extends StatefulWidget {
   final UserEntity receiverUser;
+final UserEntity senderUser;
 
-  const BottomChatField({Key? key, required this.receiverUser}) : super(key: key);
+  const BottomChatField({Key? key, required this.receiverUser, required this.senderUser}) : super(key: key);
 
   @override
   State<BottomChatField> createState() => _BottomChatFieldState();
 }
 
 class _BottomChatFieldState extends State<BottomChatField> {
-  late final UserEntity senderUser;
+
   bool isShowSendButton = true;
   TextEditingController messageController = TextEditingController();
   bool isShowEmojiContainer = false;
@@ -155,7 +156,7 @@ class _BottomChatFieldState extends State<BottomChatField> {
 
                   var messageId = const Uuid().v1();
                   final message = Message(
-                      senderId: FirebaseAuth.instance.currentUser!.uid,
+                      senderId:widget.senderUser.uid,
                       receiverId: widget.receiverUser.uid,
                       text: messageController.text,
                       type: MessageEnum.text,
@@ -163,21 +164,10 @@ class _BottomChatFieldState extends State<BottomChatField> {
                       messageId: messageId,
                       isSeen: false);
 
-                print('||||||||||||||||||||||||||||||||||||||||||||||');
-                print(senderUser);
-
-                  print('||||||||||||||||||||||||||||||||||||||||||||||');
-                  print(widget.receiverUser);
-
-                  print('||||||||||||||||||||||||||||||||||||||||||||||');
-
-                  print('||||||||||||||||||||||||||||||||||||||||||||||');
-                  print(message);
-                  print('||||||||||||||||||||||||||||||||||||||||||||||');
 
                   BlocProvider.of<SendMessageUserBloc>(context).add(
                       SendMessageUser(message: message,
-                          senderUser: senderUser,
+                          senderUser:widget.senderUser,
                           receiverUser: widget.receiverUser));
                   setState(() {
                     messageController.clear();

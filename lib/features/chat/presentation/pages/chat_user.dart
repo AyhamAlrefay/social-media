@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:whatsapp/features/auth/domain/entities/user_entity.dart';
 import '../../../../core/widgets/loading_widget.dart';
 import '../../../auth/presentation/bloc/get_users_data/get_users_data_bloc.dart';
 import '../../../../core/theme/colors.dart';
@@ -8,33 +9,41 @@ import '../widgets/chat_screen/chat_lsit.dart';
 
 class ChatUser extends StatelessWidget {
   static const String routeName = '/chat-user';
+UserEntity? senderUser;
+UserEntity? receiverUser;
 
-  const ChatUser({super.key});
+ ChatUser({super.key,  this.senderUser, this.receiverUser});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GetUsersDataBloc, GetUsersDataState>(
-      builder: (context, state) {
-        if (state is GetOtherUserDataSateSuccess) {
-          return Scaffold(
-            appBar: buildAppBar(state),
-            body: buildBody(state),
-          );
+    return BlocConsumer<GetUsersDataBloc, GetUsersDataState>(
+      listener:(context, state) {
+        if(state is GetOtherUserDataSateSuccess ) {
+          receiverUser=state.otherUser;
         }
-        return const LoadingWidget();
+        if(state is GetCurrentUserDataSuccess){
+          senderUser=state.currentUser;
+        }
+      } ,
+      builder: (context, state) {
+
+          return Scaffold(
+            appBar: buildAppBar(),
+            body: buildBody(),
+          );
       },);
   }
 
-  Column buildBody(GetOtherUserDataSateSuccess state) {
+  Column buildBody() {
     return Column(children: [
             Expanded(
-              child: ChatList(receiverUserId: state.otherUser.uid),
+              child: ChatList(receiverUserId:receiverUser!.uid),
             ),
-            BottomChatField(receiverUser: state.otherUser,),
+            BottomChatField(receiverUser: receiverUser!,senderUser:senderUser!,),
           ]);
   }
 
-  AppBar buildAppBar(GetOtherUserDataSateSuccess state) {
+  AppBar buildAppBar() {
     return AppBar(
             scrolledUnderElevation: 15,
             iconTheme: const IconThemeData(
@@ -46,7 +55,7 @@ class ChatUser extends StatelessWidget {
             title: Row(
               children: [
                 CircleAvatar(
-                  backgroundImage: NetworkImage(state.otherUser.profilePic),
+                  backgroundImage: NetworkImage(receiverUser!.profilePic),
                   radius: 25,
                 ),
                 const SizedBox(
@@ -54,7 +63,7 @@ class ChatUser extends StatelessWidget {
                 ),
 
                 Text(
-                  state.otherUser.name,
+                  receiverUser!.name,
                   style: const TextStyle(
                     fontSize: 17,
                   ),
