@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:whatsapp/core/widgets/snak_bar.dart';
 import '../../../../core/theme/colors.dart';
 import '../../../../core/widgets/loading_widget.dart';
 import 'user_information_screen.dart';
@@ -11,15 +12,18 @@ class OtpScreen extends StatelessWidget {
   static const String routeName = '/otp-screen';
   final String verificationId;
 
-  const OtpScreen({Key? key, required this.verificationId}) : super(key: key);
+   OtpScreen({Key? key, required this.verificationId}) : super(key: key);
 
   void verifyOTP({required BuildContext context, required String userOTP}) {
     BlocProvider.of<SignInWithPhoneNumberBloc>(context).add(VerifyOtpEvent(
         context: context, userOTP: userOTP, verificationId: verificationId));
   }
 
+
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Verifying your number'),
@@ -39,12 +43,16 @@ class OtpScreen extends StatelessWidget {
                  Navigator.pushNamedAndRemoveUntil(
                      context, UserInformationScreen.routeName, (route) => false);
                }
+               else if (state is LoadingVerifyOtp) {
+                 const  LoadingWidget();
+               }
+
              },
                 builder: (BuildContext context, state) {
-                  if (state is LoadingVerifyOtp) {
-                    return LoadingWidget();
-                  }
 
+                  if(state is ErrorVerifyOtp){
+                  showSnackBar(context: context, content: state.message);
+                  }
                   return TextField(
                     textAlign: TextAlign.center,
                     keyboardType: TextInputType.number,

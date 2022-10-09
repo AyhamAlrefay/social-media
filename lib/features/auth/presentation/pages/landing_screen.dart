@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'login_screen.dart';
-
+import '../bloc/sign_in_with_phone_number/sign_in_with_phone_number_bloc.dart';
+import '../../../../injection_container.dart' as di;
+import 'package:flutter_bloc/flutter_bloc.dart';
 class LandingScreen extends StatelessWidget {
   const LandingScreen({Key? key}) : super(key: key);
 
@@ -55,6 +57,8 @@ class LandingScreen extends StatelessWidget {
                   minimumSize: Size(size.width * 0.5, 50),
                 ),
                 onPressed: () {
+                  BlocProvider<SignInWithPhoneNumberBloc>(
+                      create: (_)=>di.sl<SignInWithPhoneNumberBloc>());
                  Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
                 },
                 child: const Text('AGREE AND CONTINUE'),

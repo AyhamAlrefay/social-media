@@ -92,16 +92,17 @@ class _LoginScreenState extends State<LoginScreen> {
             child: BlocBuilder<SignInWithPhoneNumberBloc,
                 SignInWithPhoneNumberState>(
               builder: (BuildContext context, state) {
-                if (state is SuccessSignInWithPhoneNumberState) {
-                  return CustomButton(
-                    onPressed: sendPhoneNumber,
-                    text: 'NEXT',
-                  );
+                if (state is LoadingSignInWithPhoneNumberState) {
+                  return const LoadingWidget();
                 }
                 if (state is ErrorSignInWithPhoneNumberState) {
                   showSnackBar(context: context, content: state.error);
                 }
-                return const LoadingWidget();
+
+                return CustomButton(
+                  onPressed: sendPhoneNumber,
+                  text: 'NEXT',
+                );
               },
             ),
           ),

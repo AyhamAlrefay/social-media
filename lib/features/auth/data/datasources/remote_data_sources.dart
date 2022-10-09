@@ -73,6 +73,7 @@ class AuthRemoteDataSourcesImpl extends AuthRemoteDataSources {
     }
   }
 
+  @override
   Future<Unit> saveUserData(
       {required String name, required File profilePic}) async {
     String uid = auth.currentUser!.uid;
@@ -87,7 +88,7 @@ class AuthRemoteDataSourcesImpl extends AuthRemoteDataSources {
       profilePic: photoUrl,
       isOnline: true,
       phoneNumber: auth.currentUser!.phoneNumber!,
-      groupId: [],
+      groupId: const [],
     );
     await firestore.collection('users').doc(uid).set(user.toMap());
     return Future.value(unit);

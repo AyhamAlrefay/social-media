@@ -40,9 +40,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(),
       onGenerateRoute: (settings)=>generateRoute(settings),
-      home: FirebaseAuth.instance.currentUser !=null?
-      const MobileChatScreen():
-      const SplashScreen(),
+      home: const  SplashScreen(),
     );
   }
 }

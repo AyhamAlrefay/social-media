@@ -1,11 +1,12 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../mobile_chat_screen.dart';
 import 'landing_screen.dart';
 
-import '../bloc/sign_in_with_phone_number/sign_in_with_phone_number_bloc.dart';
-import '../../../../injection_container.dart' as di;
+
 class SplashScreen extends StatefulWidget {
   static String routeName = '/SplashScreen';
 
@@ -25,8 +26,12 @@ class _SplashScreenState extends State<SplashScreen> {
         const Duration(seconds: 5),
         ()
     {
-      BlocProvider<SignInWithPhoneNumberBloc>(
-          create: (_)=>di.sl<SignInWithPhoneNumberBloc>());
+      if(FirebaseAuth.instance.currentUser !=null) {
+        const MobileChatScreen();
+      }
+     else {
+        const SplashScreen();
+      }
       Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (BuildContext context) => const LandingScreen()));
     }
