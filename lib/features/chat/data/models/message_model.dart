@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../../../../core/enums/enum_message.dart';
 import '../../domain/entities/message.dart';
 
@@ -26,7 +28,7 @@ class MessageModel extends Message {
         'receiverId': receiverId,
         'text': text,
         'type': type.type,
-        'timeSent': timeSent.millisecondsSinceEpoch,
+        'timeSent': Timestamp.fromDate(timeSent),
         'messageId': messageId,
         'isSeen': isSeen,
         'repliedMessage': repliedMessage,
@@ -41,7 +43,7 @@ class MessageModel extends Message {
         'receiverId': receiverId,
         'text': text,
         'type': type.type,
-        'timeSent': timeSent.millisecondsSinceEpoch,
+        'timeSent': Timestamp.fromDate(timeSent),
         'messageId': messageId,
         'isSeen': isSeen,
       };
@@ -55,7 +57,7 @@ class MessageModel extends Message {
         receiverId: map['receiverId'] ?? '',
         text: map['text'] ?? '',
         type: (map['type'] as String).toEnum(),
-        timeSent: DateTime.fromMillisecondsSinceEpoch(map['timeSent']),
+        timeSent: DateTime.parse(map['timeSent'].toDate().toString()),
         messageId: map['messageId'] ?? '',
         isSeen: map['isSeen'] ?? false,
         repliedMessage: map['repliedMessage'] ?? '',
@@ -70,7 +72,7 @@ class MessageModel extends Message {
         receiverId: map['receiverId'] ?? '',
         text: map['text'] ?? '',
         type: (map['type'] as String).toEnum(),
-        timeSent: DateTime.fromMillisecondsSinceEpoch(map['timeSent']),
+        timeSent:  DateTime.parse(map['timeSent'].toDate().toString()),
         messageId: map['messageId'] ?? '',
         isSeen: map['isSeen'] ?? false,
       );

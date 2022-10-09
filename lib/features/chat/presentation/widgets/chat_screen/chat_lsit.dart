@@ -77,7 +77,7 @@ class _ChatListState extends State<ChatList> {
         receiverId: e['receiverId'],
         text: e['text'],
         type:(e['type'] as String).toEnum(),
-        timeSent: DateTime.fromMillisecondsSinceEpoch(e['timeSent']),
+        timeSent: DateTime.parse(e['timeSent'].toDate().toString()),
         messageId: e['messageId'],
         isSeen: e['isSeen']))
         .toList();
