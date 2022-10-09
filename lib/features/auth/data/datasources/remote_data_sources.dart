@@ -6,7 +6,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../../../../core/datasources/firebase_storage_datasources.dart';
 import '../../../../core/error/exceptions.dart';
 import '../../presentation/pages/otp_screen.dart';
-import '../../presentation/pages/user_information_screen.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/widgets/snak_bar.dart';
 import '../models/user_model.dart';

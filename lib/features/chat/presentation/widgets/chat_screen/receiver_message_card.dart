@@ -1,7 +1,6 @@
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:swipe_to/swipe_to.dart';
-
+import 'package:intl/intl.dart';
 import '../../../../../core/enums/enum_message.dart';
 import '../../../domain/entities/message.dart';
 import 'display_text_image.dart';
@@ -87,18 +86,14 @@ final Message message;
                         type: message.type,
                       ),
                       const SizedBox(height: 5),
+                      Text(
+                        DateFormat('hh:mm a').format(message.timeSent),
+                        style: TextStyle(
+                          fontSize: 8,
+                          color: Colors.grey[600],
+                        ),
+                      ),
                     ],
-                  ),
-                ),
-                Positioned(
-                  bottom: 2,
-                  right: 10,
-                  child: Text(
-                   '${ message.timeSent}',
-                    style: TextStyle(
-                      fontSize: 8,
-                      color: Colors.grey[600],
-                    ),
                   ),
                 ),
               ],
