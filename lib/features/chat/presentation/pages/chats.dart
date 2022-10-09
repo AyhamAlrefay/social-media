@@ -25,41 +25,41 @@ class _ChatsState extends State<Chats> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GetContactsUserBloc, GetContactsUserState>(
-      builder: (context, state) {
-        if (state is GetContactsUserSuccess) {
-          return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-              stream: state.contacts,
-              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const LoadingWidget();
-                }
-                final List<ChatContact> listContact =creatChatContacts(snapshot);
-                return Scaffold(
-                  body: listContact.isEmpty
-                      ? const Center(
-                          child: Text('There are not any contacts'),
-                        )
-                      : ListView.builder(
-                          itemCount: listContact.length,
-                          itemBuilder: (context, index) {
-                            return ChatContactsItemWidget( chatContact:listContact[index],);
-                          },
-                        ),
-                );
-              });
-        }
-        if(state is GetContactsUserError) {
-          showSnackBar(context: context, content: state.error);
-        }
-        return const LoadingWidget();
-      },
-      buildWhen: (previous,  current) {
-        return previous !=current;
-      },
-    );
+    return  BlocBuilder<GetContactsUserBloc, GetContactsUserState>(
+        builder: (context, state) {
+          if (state is GetContactsUserSuccess) {
+            return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                stream: state.contacts,
+                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const LoadingWidget();
+                  }
+                  final List<ChatContact> listContact =createChatContacts(snapshot);
+                  return Scaffold(
+                    body: listContact.isEmpty
+                        ? const Center(
+                            child: Text('There are not any contacts'),
+                          )
+                        : ListView.builder(
+                            itemCount: listContact.length,
+                            itemBuilder: (context, index) {
+                              return ChatContactsItemWidget( chatContact:listContact[index],);
+                            },
+                          ),
+                  );
+                });
+          }
+          if(state is GetContactsUserError) {
+            showSnackBar(context: context, content: state.error);
+          }
+          return const LoadingWidget();
+        },
+        buildWhen: (previous,  current) {
+          return previous !=current;
+        },
+      );
   }
-  List<ChatContact>creatChatContacts(AsyncSnapshot<QuerySnapshot<Object?>> snapshot){
+  List<ChatContact>createChatContacts(AsyncSnapshot<QuerySnapshot<Object?>> snapshot){
     return  snapshot.data!.docs
         .map((e) => ChatContact(
         name: e['name'],

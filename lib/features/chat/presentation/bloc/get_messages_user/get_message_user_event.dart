@@ -12,9 +12,3 @@ class GetChatMessageUserEvent extends GetMessageUserEvent{
   // TODO: implement props
   List<Object?> get props => [];
 }
-class GetContactsEvent extends GetMessageUserEvent{
-  @override
-  // TODO: implement props
-  List<Object?> get props => [];
-
-}
