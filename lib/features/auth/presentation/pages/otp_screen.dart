@@ -10,20 +10,16 @@ import '../bloc/sign_in_with_phone_number/sign_in_with_phone_number_bloc.dart';
 
 class OtpScreen extends StatelessWidget {
   static const String routeName = '/otp-screen';
-  final String verificationId;
 
-   OtpScreen({Key? key, required this.verificationId}) : super(key: key);
+
+  const OtpScreen({Key? key}) : super(key: key);
 
   void verifyOTP({required BuildContext context, required String userOTP}) {
-    BlocProvider.of<SignInWithPhoneNumberBloc>(context).add(VerifyOtpEvent(
-        context: context, userOTP: userOTP, verificationId: verificationId));
+    BlocProvider.of<SignInWithPhoneNumberBloc>(context).add(VerifyOtpEvent(userOTP: userOTP));
   }
-
-
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Verifying your number'),
@@ -35,39 +31,40 @@ class OtpScreen extends StatelessWidget {
           children: [
             const SizedBox(height: 20),
             const Text('We have sent an SMS with a code.'),
-           BlocConsumer<SignInWithPhoneNumberBloc,SignInWithPhoneNumberState>(
-             listener: (context,state){
-               if(state is SuccessVerifyOtp)
-               {
-                 BlocProvider<SaveUserDataBloc>(create: (_)=>di.sl<SaveUserDataBloc>());
-                 Navigator.pushNamedAndRemoveUntil(
-                     context, UserInformationScreen.routeName, (route) => false);
-               }
-               else if (state is LoadingVerifyOtp) {
-                 const  LoadingWidget();
-               }
-
-             },
-                builder: (BuildContext context, state) {
-
-                  if(state is ErrorVerifyOtp){
+            BlocConsumer<SignInWithPhoneNumberBloc, SignInWithPhoneNumberState>(
+              listener: (context, state) {
+                if (state is SuccessVerifyOtp) {
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => BlocProvider<SaveUserDataBloc>(
+                          create: (_) => di.sl<SaveUserDataBloc>(),
+                          child:const UserInformationScreen(),
+                        ),
+                      ),
+                      (route) => false);
+                } else if (state is LoadingVerifyOtp) {
+                  const LoadingWidget();
+                }
+              },
+              builder: (BuildContext context, state) {
+                if (state is ErrorVerifyOtp) {
                   showSnackBar(context: context, content: state.message);
-                  }
-                  return TextField(
-                    textAlign: TextAlign.center,
-                    keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(
-                        hintText: '- - - - - -',
-                        hintStyle: TextStyle(fontSize: 30)),
-                    onChanged: (value) {
-                      if (value.length == 6) {
-                        verifyOTP(context: context, userOTP: value.trim());
-                      }
-                    },
-                  );
-                },
-
-              ),
+                }
+                return TextField(
+                  textAlign: TextAlign.center,
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                      hintText: '- - - - - -',
+                      hintStyle: TextStyle(fontSize: 30)),
+                  onChanged: (value) {
+                    if (value.length == 6) {
+                      verifyOTP(context: context, userOTP: value.trim());
+                    }
+                  },
+                );
+              },
+            ),
           ],
         ),
       ),

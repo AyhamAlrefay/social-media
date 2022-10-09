@@ -8,7 +8,7 @@ class SignInWithPhoneNumberUseCase {
   final AuthRepository repository;
 
   SignInWithPhoneNumberUseCase({required this.repository});
-  Future<Either<Failure,Unit>>call({required BuildContext context ,required String phoneNumber})async{
-    return await repository.signInWithPhoneNumber(context: context, phoneNumber: phoneNumber);
+  Future<Either<Failure,Unit>>call({ required String phoneNumber})async{
+    return await repository.signInWithPhoneNumber( phoneNumber: phoneNumber);
   }
 }

@@ -6,18 +6,15 @@ abstract class SignInWithPhoneNumberEvent extends Equatable{
   List<Object>get props=>[];
 }
 class PhoneNumberEvent extends SignInWithPhoneNumberEvent{
-  final BuildContext context;
   final String phoneNumber;
 
-  const PhoneNumberEvent({required this.context,required this.phoneNumber});
+  const PhoneNumberEvent({required this.phoneNumber});
   @override
-  List<Object>get props=>[context,phoneNumber];
+  List<Object>get props=>[phoneNumber];
 }
 class VerifyOtpEvent extends SignInWithPhoneNumberEvent{
-  final BuildContext context;
   final String userOTP;
-  final String verificationId;
 
-  const VerifyOtpEvent({required this.context,required  this.userOTP,required this.verificationId});
+  const VerifyOtpEvent({required  this.userOTP});
 
 }

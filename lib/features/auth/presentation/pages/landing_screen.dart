@@ -57,9 +57,9 @@ class LandingScreen extends StatelessWidget {
                   minimumSize: Size(size.width * 0.5, 50),
                 ),
                 onPressed: () {
-                  BlocProvider<SignInWithPhoneNumberBloc>(
-                      create: (_)=>di.sl<SignInWithPhoneNumberBloc>());
-                 Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
+
+                 Navigator.of(context).pushReplacement(MaterialPageRoute(builder:(context)=>   BlocProvider<SignInWithPhoneNumberBloc>(
+                     create: (_)=>di.sl<SignInWithPhoneNumberBloc>(),child: const LoginScreen(),),));
                 },
                 child: const Text('AGREE AND CONTINUE'),
               ),
