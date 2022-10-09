@@ -17,8 +17,7 @@ part 'get_message_user_state.dart';
 
 class GetMessageUserBloc extends Bloc<GetMessageUserEvent, GetMessageUserState> {
   final GetMessageUserUseCase getMessageUserUseCase;
-  final GetChatContactsUseCase getChatContactsUseCase;
-  GetMessageUserBloc({required this.getChatContactsUseCase, required this.getMessageUserUseCase}) : super(GetMessageUserInitial()) {
+  GetMessageUserBloc({ required this.getMessageUserUseCase}) : super(GetMessageUserInitial()) {
     on<GetMessageUserEvent>((event, state) async {
       if (event is GetChatMessageUserEvent) {
         emit(GetMessageUserStateLoading());
