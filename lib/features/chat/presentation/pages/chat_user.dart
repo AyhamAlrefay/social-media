@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/widgets/loading_widget.dart';
+import 'package:whatsapp/features/auth/domain/entities/user_entity.dart';
 import '../../../auth/presentation/bloc/get_users_data/get_users_data_bloc.dart';
 import '../../../../core/theme/colors.dart';
 import '../widgets/chat_screen/bottom_chat_field.dart';
@@ -8,33 +8,28 @@ import '../widgets/chat_screen/chat_lsit.dart';
 
 class ChatUser extends StatelessWidget {
   static const String routeName = '/chat-user';
-
-  const ChatUser({super.key});
+  final UserEntity receiver;
+ final  UserEntity sender;
+   ChatUser({super.key, required this.receiver, required this.sender});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GetUsersDataBloc, GetUsersDataState>(
-      builder: (context, state) {
-        if (state is GetOtherUserDataSateSuccess) {
           return Scaffold(
-            appBar: buildAppBar(state),
-            body: buildBody(state),
+            appBar: buildAppBar(),
+            body: buildBody(),
           );
-        }
-        return const LoadingWidget();
-      },);
   }
 
-  Column buildBody(GetOtherUserDataSateSuccess state) {
+  Column buildBody() {
     return Column(children: [
             Expanded(
-              child: ChatList(receiverUserId: state.otherUser.uid),
+              child: ChatList(receiverUserId:receiver!.uid),
             ),
-            BottomChatField(receiverUser: state.otherUser,),
+            BottomChatField(receiverUser: receiver!,senderUser: sender!,),
           ]);
   }
 
-  AppBar buildAppBar(GetOtherUserDataSateSuccess state) {
+  AppBar buildAppBar() {
     return AppBar(
             scrolledUnderElevation: 15,
             iconTheme: const IconThemeData(
@@ -46,7 +41,7 @@ class ChatUser extends StatelessWidget {
             title: Row(
               children: [
                 CircleAvatar(
-                  backgroundImage: NetworkImage(state.otherUser.profilePic),
+                  backgroundImage: NetworkImage(receiver!.profilePic),
                   radius: 25,
                 ),
                 const SizedBox(
@@ -54,7 +49,7 @@ class ChatUser extends StatelessWidget {
                 ),
 
                 Text(
-                  state.otherUser.name,
+                  receiver!.name,
                   style: const TextStyle(
                     fontSize: 17,
                   ),

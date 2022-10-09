@@ -24,8 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    BlocProvider<GetContactsUserBloc>(
-      create: (_) => di.sl<GetContactsUserBloc>()..add(GetContactsUser()),);
+
     timer = Timer(
         const Duration(seconds: 3),
         ()
@@ -33,8 +32,12 @@ class _SplashScreenState extends State<SplashScreen> {
 
 
       if(FirebaseAuth.instance.currentUser !=null) {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (BuildContext context) => const MobileChatScreen()));
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+            builder: (BuildContext context) =>   BlocProvider<GetContactsUserBloc>(
+              create: (_) => di.sl<GetContactsUserBloc>()..add(GetContactsUser()),
+            child: MobileChatScreen(),
+            ),),);
       }
      else {
         Navigator.of(context).pushReplacement(MaterialPageRoute(

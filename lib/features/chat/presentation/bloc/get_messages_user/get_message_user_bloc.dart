@@ -1,15 +1,9 @@
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-
 import '../../../../../core/error/failures.dart';
 import '../../../../../core/strings/failures.dart';
-import '../../../domain/entities/contact.dart';
-import '../../../domain/entities/message.dart';
-import '../../../domain/usecases/get_chat_contacts_use_case.dart';
 import '../../../domain/usecases/get_message_user_usecase.dart';
 
 part 'get_message_user_event.dart';
