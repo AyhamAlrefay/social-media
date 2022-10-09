@@ -39,11 +39,14 @@ class ChatContactsItemWidget extends StatelessWidget {
               receiverUserId: chatContact
                   .contactId
                   .replaceAll(' ', '')));
+          BlocProvider.of<GetUsersDataBloc>(context)
+              .add(GetCurrentUserData());
           BlocProvider.of<GetMessageUserBloc>(context)
               .add(GetChatMessageUserEvent(
               receiverUserId: chatContact
                   .contactId
                   .replaceAll(' ', '')));
+
           Navigator.of(context)
               .pushNamed(ChatUser.routeName);
         },

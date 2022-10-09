@@ -2,10 +2,12 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../mobile_chat_screen.dart';
+import '../../../chat/presentation/bloc/get_contacts_user/get_contacts_user_bloc.dart';
 import 'landing_screen.dart';
-
+import 'package:whatsapp/injection_container.dart' as di;
 
 class SplashScreen extends StatefulWidget {
   static String routeName = '/SplashScreen';
@@ -22,18 +24,23 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    BlocProvider<GetContactsUserBloc>(
+      create: (_) => di.sl<GetContactsUserBloc>()..add(GetContactsUser()),);
     timer = Timer(
-        const Duration(seconds: 5),
+        const Duration(seconds: 3),
         ()
     {
+
+
       if(FirebaseAuth.instance.currentUser !=null) {
-        const MobileChatScreen();
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (BuildContext context) => const MobileChatScreen()));
       }
      else {
-        const SplashScreen();
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (BuildContext context) => const LandingScreen()));
       }
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (BuildContext context) => const LandingScreen()));
+
     }
     );
 

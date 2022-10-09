@@ -98,10 +98,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 if (state is ErrorSignInWithPhoneNumberState) {
                   showSnackBar(context: context, content: state.error);
                 }
-<<<<<<< HEAD
-
-=======
->>>>>>> cba8d9ad1e7bb854244e7937d1f0aea5c5b362e6
                 return CustomButton(
                   onPressed: sendPhoneNumber,
                   text: 'NEXT',

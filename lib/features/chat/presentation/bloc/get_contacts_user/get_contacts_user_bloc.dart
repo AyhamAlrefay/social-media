@@ -18,7 +18,8 @@ class GetContactsUserBloc extends Bloc<GetContactsUserEvent, GetContactsUserStat
       if (event is GetContactsUser) {
         emit(GetContactsUserLoading());
         final failureOrContacts = getChatContactsUseCase.call();
-        failureOrContacts.fold((l) => emit( GetContactsUserError(error: _mapFailureToMessage(l))), (r) =>emit( GetContactsUserSuccess(contacts: r)));
+        failureOrContacts.fold((l) => emit( GetContactsUserError(error: _mapFailureToMessage(l))),
+                (r) =>emit( GetContactsUserSuccess(contacts: r)));
       }
     });
   }

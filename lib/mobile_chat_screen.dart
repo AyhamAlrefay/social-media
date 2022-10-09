@@ -6,10 +6,10 @@ import 'features/calls/presentation/pages/calls.dart';
 
 import 'features/chat/presentation/bloc/get_contacts_user/get_contacts_user_bloc.dart';
 import 'features/chat/presentation/bloc/get_messages_user/get_message_user_bloc.dart';
-import 'features/chat/presentation/pages/chats.dart';
+import 'features/chat/presentation/pages/contacts.dart';
 import 'features/groups/presentation/pages/groups.dart';
 import 'features/status/presentation/pages/status.dart';
-import 'injection_container.dart' as di;
+
 
 class MobileChatScreen extends StatefulWidget {
   static const String routeName = '/mobile-chat-screen';
@@ -54,9 +54,7 @@ class _MobileChatScreenState extends State<MobileChatScreen>
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<GetContactsUserBloc>(
-      create: (_) => di.sl<GetContactsUserBloc>()..add(GetContactsUser()),
-      child: DefaultTabController(
+    return  DefaultTabController(
           length: tab.length,
           child: NestedScrollView(
             headerSliverBuilder:
@@ -73,7 +71,8 @@ class _MobileChatScreenState extends State<MobileChatScreen>
               ];
             },
             body: buildTabBarView(),
-          )),
+
+    ),
     );
   }
 
