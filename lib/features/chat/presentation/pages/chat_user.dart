@@ -1,45 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whatsapp/features/auth/domain/entities/user_entity.dart';
-import '../../../../core/widgets/loading_widget.dart';
-import '../../../auth/presentation/bloc/get_users_data/get_users_data_bloc.dart';
 import '../../../../core/theme/colors.dart';
 import '../widgets/chat_screen/bottom_chat_field.dart';
 import '../widgets/chat_screen/chat_lsit.dart';
 
 class ChatUser extends StatelessWidget {
   static const String routeName = '/chat-user';
-UserEntity? senderUser;
-UserEntity? receiverUser;
-
- ChatUser({super.key,  this.senderUser, this.receiverUser});
+  final UserEntity receiver;
+ final  UserEntity sender;
+  const ChatUser({super.key, required this.receiver, required this.sender});
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<GetUsersDataBloc, GetUsersDataState>(
-      listener:(context, state) {
-        if(state is GetOtherUserDataSateSuccess ) {
-          receiverUser=state.otherUser;
-        }
-        if(state is GetCurrentUserDataSuccess){
-          senderUser=state.currentUser;
-        }
-      } ,
-      builder: (context, state) {
-
           return Scaffold(
             appBar: buildAppBar(),
             body: buildBody(),
           );
-      },);
   }
 
   Column buildBody() {
     return Column(children: [
             Expanded(
-              child: ChatList(receiverUserId:receiverUser!.uid),
+             child: ChatList(receiverUserId:receiver.uid),
             ),
-            BottomChatField(receiverUser: receiverUser!,senderUser:senderUser!,),
+            BottomChatField(receiverUser: receiver,senderUser: sender,),
           ]);
   }
 
@@ -55,7 +39,7 @@ UserEntity? receiverUser;
             title: Row(
               children: [
                 CircleAvatar(
-                  backgroundImage: NetworkImage(receiverUser!.profilePic),
+                  backgroundImage: NetworkImage(receiver.profilePic),
                   radius: 25,
                 ),
                 const SizedBox(
@@ -63,7 +47,7 @@ UserEntity? receiverUser;
                 ),
 
                 Text(
-                  receiverUser!.name,
+                  receiver.name,
                   style: const TextStyle(
                     fontSize: 17,
                   ),

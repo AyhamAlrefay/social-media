@@ -30,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
         ()
     {
       if(FirebaseAuth.instance.currentUser !=null) {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
+  Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (BuildContext context) =>BlocProvider<GetContactsUserBloc>(
               create: (_) => di.sl<GetContactsUserBloc>()..add(GetContactsUser()),
               child:const MobileChatScreen(),)

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:whatsapp/features/auth/domain/entities/user_entity.dart';
 import 'widgets/error_widget.dart';
 import '../features/auth/presentation/pages/login_screen.dart';
 import '../features/auth/presentation/pages/otp_screen.dart';
@@ -15,7 +16,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case MobileChatScreen.routeName:
       return MaterialPageRoute(builder:(context)=>MobileChatScreen());
     case ChatUser.routeName:
-      return MaterialPageRoute(builder: (context)=>ChatUser());
+      final UserEntity sender=settings.arguments as UserEntity;
+      final UserEntity receiver=settings.arguments as UserEntity;
+      return MaterialPageRoute(builder: (context)=>ChatUser(receiver: receiver,sender: sender,));
     case Chats.routeName:
       return MaterialPageRoute(builder: (context)=>Chats());
     case Groups.routeName:

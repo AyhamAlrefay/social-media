@@ -25,7 +25,6 @@ final UserEntity senderUser;
 }
 
 class _BottomChatFieldState extends State<BottomChatField> {
-
   bool isShowSendButton = true;
   TextEditingController messageController = TextEditingController();
   bool isShowEmojiContainer = false;
@@ -167,7 +166,7 @@ class _BottomChatFieldState extends State<BottomChatField> {
 
                   BlocProvider.of<SendMessageUserBloc>(context).add(
                       SendMessageUser(message: message,
-                          senderUser:widget.senderUser,
+                          senderUser: widget.senderUser,
                           receiverUser: widget.receiverUser));
                   setState(() {
                     messageController.clear();

@@ -1,7 +1,6 @@
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:swipe_to/swipe_to.dart';
-
+import 'package:intl/intl.dart';
 import '../../../../../core/enums/enum_message.dart';
 import '../../../domain/entities/message.dart';
 import 'display_text_image.dart';
@@ -37,10 +36,10 @@ final Message message;
                 Padding(
                   padding: message.type == MessageEnum.text
                       ? const EdgeInsets.only(
-                    left: 5,
+                    left: 10,
                     right: 10,
-                    top: 5,
-                    bottom: 10,
+                    top: 8,
+                    bottom: 18,
                   )
                       : const EdgeInsets.only(
                     left: 5,
@@ -50,7 +49,7 @@ final Message message;
                   ),
                   child: Column(
                     children: [
-                      if ( message.repliedMessage!.isNotEmpty) ...[
+                      if ( message.repliedMessage!=null) ...[
 
                         Container(
                           padding: const EdgeInsets.all(10),
@@ -84,32 +83,30 @@ final Message message;
                         message: message.text,
                         type: message.type,
                       ),
-                    ],
-                  ),
-                ),
-                Positioned(
-                  bottom: 1,
-                  right: 10,
-                  child: Row(
-                    children: [
-                      Text(
-                        '${message.timeSent}',
-                        style: const TextStyle(
-                          fontSize: 8,
-                          color: Colors.white60,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      Icon(
-                        message.isSeen ? Icons.done_all : Icons.done,
-                        size: 15,
-                        color: message.isSeen ? Colors.blue : Colors.white60,
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            DateFormat('hh:mm a').format(message.timeSent),
+                            style: const TextStyle(
+                              fontSize: 8,
+                              color: Colors.white60,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Icon(
+                            message.isSeen ? Icons.done_all : Icons.done,
+                            size: 15,
+                            color: message.isSeen ? Colors.blue : Colors.white60,
+                          ),
+                        ],
                       ),
                     ],
                   ),
                 ),
+
               ],
             ),
           ),

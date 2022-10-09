@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../../core/enums/enum_message.dart';
 import '../../../../../core/widgets/loading_widget.dart';
 import '../../../../../core/widgets/snak_bar.dart';
 import '../../../domain/entities/message.dart';
@@ -75,8 +76,8 @@ class _ChatListState extends State<ChatList> {
         senderId: e['senderId'],
         receiverId: e['receiverId'],
         text: e['text'],
-        type: e['type'],
-        timeSent: e['timeSent'],
+        type:(e['type'] as String).toEnum(),
+        timeSent: DateTime.fromMillisecondsSinceEpoch(e['timeSent']),
         messageId: e['messageId'],
         isSeen: e['isSeen']))
         .toList();

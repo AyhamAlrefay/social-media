@@ -20,7 +20,7 @@ class MessageModel extends Message {
   });
 
   Map<String, dynamic> toMap() {
-    if (repliedMessage!.isNotEmpty) {
+    if (repliedMessage!=null) {
       return {
         'senderId': senderId,
         'receiverId': receiverId,
