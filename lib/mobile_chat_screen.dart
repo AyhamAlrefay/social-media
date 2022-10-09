@@ -4,6 +4,7 @@ import 'core/theme/colors.dart';
 
 import 'features/calls/presentation/pages/calls.dart';
 
+import 'features/chat/presentation/bloc/get_contacts_user/get_contacts_user_bloc.dart';
 import 'features/chat/presentation/bloc/get_messages_user/get_message_user_bloc.dart';
 import 'features/chat/presentation/pages/chats.dart';
 import 'features/groups/presentation/pages/groups.dart';
@@ -53,8 +54,8 @@ class _MobileChatScreenState extends State<MobileChatScreen>
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<GetMessageUserBloc>(
-      create: (_) => di.sl<GetMessageUserBloc>()..add(GetContactsEvent()),
+    return BlocProvider<GetContactsUserBloc>(
+      create: (_) => di.sl<GetContactsUserBloc>()..add(GetContactsUser()),
       child: DefaultTabController(
           length: tab.length,
           child: NestedScrollView(

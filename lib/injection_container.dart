@@ -47,6 +47,10 @@ Future<void>init()async{
   sl.registerLazySingleton(() => SendMessageUseCase(chatRepositories: sl()));
   sl.registerLazySingleton(() => GetChatContactsUseCase(chatRepositories: sl()));
   sl.registerLazySingleton(() => GetOtherUserDataUseCase(authRepository:sl() ));
+<<<<<<< HEAD
+=======
+
+>>>>>>> cba8d9ad1e7bb854244e7937d1f0aea5c5b362e6
 
 
   ///Repository
