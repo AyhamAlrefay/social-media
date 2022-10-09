@@ -80,9 +80,9 @@ class ChatRemoteDataSourcesImpl implements ChatRemoteDataSources {
         contactId: receiverUserModel.uid);
     await firestore
         .collection('users')
-        .doc(receiverId)
-        .collection('chats')
         .doc(auth.currentUser!.uid)
+        .collection('chats')
+        .doc(receiverId)
         .set(senderChatContactModel.toMap());
   }
 

@@ -5,9 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../../core/theme/colors.dart';
 import '../../../../core/widgets/loading_widget.dart';
+import '../../../chat/presentation/bloc/get_contacts_user/get_contacts_user_bloc.dart';
 import '../bloc/save_user_data/save_user_data_bloc.dart';
 import '../../../../mobile_chat_screen.dart';
-
+import 'package:whatsapp/injection_container.dart' as di;
 class UserInformationScreen extends StatefulWidget {
   static const String routeName = '/user-information-screen';
 
@@ -131,8 +132,7 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
                       ),
                     ),
                    BlocConsumer<SaveUserDataBloc,SaveUserDataState>(builder: (BuildContext context,state){
-                     if(state is SaveUserDataStateLoading)
-                       return LoadingWidget();
+
                     return IconButton(
                        onPressed: saveUserData,
                        icon: const Icon(
@@ -140,8 +140,14 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
                        ),
                      );
                    }, listener: (BuildContext context,state){
-                     if(state is SaveUserDataStateSuccess){
-                       Navigator.of(context).pushReplacementNamed(MobileChatScreen.routeName);
+                     if(state is SaveUserDataStateLoading) {
+                       const  LoadingWidget();
+                     } else if(state is SaveUserDataStateSuccess){
+                       Navigator.of(context).pushReplacement(MaterialPageRoute(
+                           builder: (BuildContext context) =>BlocProvider<GetContactsUserBloc>(
+                             create: (_) => di.sl<GetContactsUserBloc>()..add(GetContactsUser()),
+                             child:const MobileChatScreen(),)
+                       ));
                      }
                    })
                   ],
