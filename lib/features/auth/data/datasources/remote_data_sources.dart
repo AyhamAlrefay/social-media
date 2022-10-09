@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/datasources/firebase_storage_datasources.dart';
 import '../../../../core/error/exceptions.dart';
+import '../../presentation/bloc/sign_in_with_phone_number/sign_in_with_phone_number_bloc.dart';
 import '../../presentation/pages/otp_screen.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/widgets/snak_bar.dart';
@@ -12,11 +14,10 @@ import '../models/user_model.dart';
 import '../../../../injection_container.dart'as di;
 abstract class AuthRemoteDataSources {
   Future<Unit> signInWithPhone(
-      {required BuildContext context, required String phoneNumber});
+      { required String phoneNumber});
 
   Future<Unit> verifyOTP(
-      {required BuildContext context,
-      required String verificationId,
+      {
       required String userOTP});
 
   Future<Unit> saveUserData({required String name, required File profilePic});
@@ -27,28 +28,24 @@ abstract class AuthRemoteDataSources {
 class AuthRemoteDataSourcesImpl extends AuthRemoteDataSources {
   final FirebaseAuth auth;
   final FirebaseFirestore firestore;
-
+  String  _verificationId='';
   AuthRemoteDataSourcesImpl({required this.auth, required this.firestore});
 
   @override
   Future<Unit> signInWithPhone(
-      {required BuildContext context, required String phoneNumber}) async {
+      {required String phoneNumber}) async {
     await auth.verifyPhoneNumber(
       phoneNumber: phoneNumber,
       verificationCompleted: (PhoneAuthCredential credential) async {
         await auth.signInWithCredential(credential);
       },
       verificationFailed: (FirebaseAuthException e) {
-        if (e.code == 'invalid-phone-number') {
-          showSnackBar(
-              context: context,
-              content: 'The provided phone number is not valid.');
-        }
         throw ServerAuthException();
       },
       codeSent: (String verificationId, int? resendToken) async {
-        Navigator.pushNamed(context, OtpScreen.routeName,
-            arguments: verificationId);
+        _verificationId=verificationId;
+        print('////////////////////////');
+        print(_verificationId);
       },
       codeAutoRetrievalTimeout: (String verificationId) {},
     );
@@ -57,13 +54,11 @@ class AuthRemoteDataSourcesImpl extends AuthRemoteDataSources {
 
   @override
   Future<Unit> verifyOTP({
-    required BuildContext context,
-    required String verificationId,
     required String userOTP,
   }) async {
     try {
       PhoneAuthCredential credential = PhoneAuthProvider.credential(
-          verificationId: verificationId, smsCode: userOTP);
+          verificationId: _verificationId!, smsCode: userOTP);
       await auth.signInWithCredential(credential);
 
       return Future.value(unit);

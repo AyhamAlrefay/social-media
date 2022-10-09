@@ -10,13 +10,12 @@ import '../bloc/sign_in_with_phone_number/sign_in_with_phone_number_bloc.dart';
 
 class OtpScreen extends StatelessWidget {
   static const String routeName = '/otp-screen';
-  final String verificationId;
 
- const OtpScreen({Key? key, required this.verificationId}) : super(key: key);
+
+  const OtpScreen({Key? key}) : super(key: key);
 
   void verifyOTP({required BuildContext context, required String userOTP}) {
-    BlocProvider.of<SignInWithPhoneNumberBloc>(context).add(VerifyOtpEvent(
-        context: context, userOTP: userOTP, verificationId: verificationId));
+    BlocProvider.of<SignInWithPhoneNumberBloc>(context).add(VerifyOtpEvent(userOTP: userOTP));
   }
 
   @override
@@ -41,6 +40,7 @@ class OtpScreen extends StatelessWidget {
                         builder: (context) => BlocProvider<SaveUserDataBloc>(
                           create: (_) => di.sl<SaveUserDataBloc>(),
                           child: const UserInformationScreen(),
+
                         ),
                       ),
                       (route) => false);

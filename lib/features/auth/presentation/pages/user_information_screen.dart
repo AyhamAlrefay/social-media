@@ -3,11 +3,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:whatsapp/features/chat/presentation/bloc/get_contacts_user/get_contacts_user_bloc.dart';
 import '../../../../core/theme/colors.dart';
 import '../../../../core/widgets/loading_widget.dart';
 import '../bloc/save_user_data/save_user_data_bloc.dart';
 import '../../../../mobile_chat_screen.dart';
-
+import 'package:whatsapp/injection_container.dart'as di;
 class UserInformationScreen extends StatefulWidget {
   static const String routeName = '/user-information-screen';
 
@@ -131,8 +132,9 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
                       ),
                     ),
                    BlocConsumer<SaveUserDataBloc,SaveUserDataState>(builder: (BuildContext context,state){
-                     if(state is SaveUserDataStateLoading)
-                       return LoadingWidget();
+                     if(state is SaveUserDataStateLoading) {
+                       return const LoadingWidget();
+                     }
                     return IconButton(
                        onPressed: saveUserData,
                        icon: const Icon(
@@ -141,7 +143,8 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
                      );
                    }, listener: (BuildContext context,state){
                      if(state is SaveUserDataStateSuccess){
-                       Navigator.of(context).pushReplacementNamed(MobileChatScreen.routeName);
+                       Navigator.of(context).push(MaterialPageRoute(builder:(context)=>   BlocProvider<GetContactsUserBloc>(
+                         create: (_)=>di.sl<GetContactsUserBloc>(),child: const MobileChatScreen(),),));
                      }
                    })
                   ],

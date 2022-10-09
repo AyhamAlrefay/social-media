@@ -16,10 +16,9 @@ class AuthRepositoriesImpl extends AuthRepository {
 
   @override
   Future<Either<Failure, Unit>> signInWithPhoneNumber(
-      {required BuildContext context, required String phoneNumber}) async {
+      { required String phoneNumber}) async {
     try {
-      await remoteDataSources.signInWithPhone(
-          context: context, phoneNumber: phoneNumber);
+      await remoteDataSources.signInWithPhone(phoneNumber: phoneNumber);
       return const Right(unit);
     } on ServerAuthException {
       return Left(ServerAuthFailure());
@@ -28,12 +27,10 @@ class AuthRepositoriesImpl extends AuthRepository {
 
   @override
   Future<Either<Failure, Unit>> verifyOTP(
-      {required BuildContext context,
-      required String verificationId,
+      {
       required String userOTP}) async {
     try {
-      await remoteDataSources.verifyOTP(
-          context: context, verificationId: verificationId, userOTP: userOTP);
+      await remoteDataSources.verifyOTP( userOTP: userOTP);
       return const Right(unit);
     } on ServerAuthException {
       return Left(ServerAuthFailure());

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../../domain/entities/contact.dart';
 
 class ChatContactModel extends ChatContact{
@@ -14,7 +16,7 @@ class ChatContactModel extends ChatContact{
       'name': name,
       'profilePic': profilePic,
       'contactId': contactId,
-      'timeSent': timeSent.millisecondsSinceEpoch,
+      'timeSent':Timestamp.fromDate(timeSent),
       'lastMessage': lastMessage,
     };
   }

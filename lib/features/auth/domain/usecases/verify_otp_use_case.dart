@@ -7,7 +7,7 @@ class VerifyOtpUseCase{
   final AuthRepository authRepository;
 
   VerifyOtpUseCase({required this.authRepository});
-  Future<Either<Failure,Unit>>call({required BuildContext context,required String userOTP,required String verificationId})async{
-    return await authRepository.verifyOTP(context: context, verificationId: verificationId, userOTP: userOTP);
+  Future<Either<Failure,Unit>>call({required String userOTP})async{
+    return await authRepository.verifyOTP( userOTP: userOTP);
   }
 }

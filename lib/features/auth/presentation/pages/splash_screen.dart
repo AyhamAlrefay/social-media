@@ -26,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
 
     timer = Timer(
-        const Duration(seconds: 3),
+        const Duration(seconds: 2),
         ()
     {
       if(FirebaseAuth.instance.currentUser !=null) {

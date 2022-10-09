@@ -1,11 +1,13 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:whatsapp/features/auth/presentation/pages/otp_screen.dart';
 import '../../../../core/widgets/loading_widget.dart';
 import '../bloc/sign_in_with_phone_number/sign_in_with_phone_number_bloc.dart';
 import '../../../../core/theme/colors.dart';
 import '../../../../core/widgets/custom_button_widget.dart';
 import '../../../../core/widgets/snak_bar.dart';
+import '../../../../injection_container.dart' as di;
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = '/login-screen';
@@ -34,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
     String phoneNumber = phoneController.text.trim();
     if (country != null && phoneNumber.isNotEmpty) {
       BlocProvider.of<SignInWithPhoneNumberBloc>(context).add(PhoneNumberEvent(
-          context: context,
+
           phoneNumber: '+${country!.phoneCode}$phoneNumber'.trim()));
     } else {
       showSnackBar(context: context, content: 'Fill out all the fields');
@@ -89,15 +91,23 @@ class _LoginScreenState extends State<LoginScreen> {
           SizedBox(height: size.height * 0.6),
           SizedBox(
             width: 90,
-            child: BlocBuilder<SignInWithPhoneNumberBloc,
+            child: BlocConsumer<SignInWithPhoneNumberBloc,
                 SignInWithPhoneNumberState>(
-              builder: (BuildContext context, state) {
-                if (state is LoadingSignInWithPhoneNumberState) {
-                  return const LoadingWidget();
+              listener: (BuildContext context, state) {
+                if(state is SuccessSignInWithPhoneNumberState) {
+                  Navigator.of(context).push(MaterialPageRoute(builder:(context)=>   BlocProvider<SignInWithPhoneNumberBloc>(
+                    create: (_)=>di.sl<SignInWithPhoneNumberBloc>(),child: const OtpScreen(),),));
                 }
-                if (state is ErrorSignInWithPhoneNumberState) {
+               else if (state is LoadingSignInWithPhoneNumberState) {
+                   const LoadingWidget();
+                }
+               else if (state is ErrorSignInWithPhoneNumberState) {
                   showSnackBar(context: context, content: state.error);
                 }
+              },
+              builder: (BuildContext context, state) {
+
+
                 return CustomButton(
                   onPressed: sendPhoneNumber,
                   text: 'NEXT',

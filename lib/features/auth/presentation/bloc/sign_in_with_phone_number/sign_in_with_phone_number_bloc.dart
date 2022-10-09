@@ -17,7 +17,7 @@ class SignInWithPhoneNumberBloc extends Bloc<SignInWithPhoneNumberEvent,SignInWi
       if(event is PhoneNumberEvent)
         {
           emit(LoadingSignInWithPhoneNumberState());
-          final failureOrDoneMessage=await signInWithPhoneNumberUseCase(context: event.context,phoneNumber: event.phoneNumber);
+          final failureOrDoneMessage=await signInWithPhoneNumberUseCase(phoneNumber: event.phoneNumber);
           failureOrDoneMessage.fold(
                   (failure)=>emit(ErrorSignInWithPhoneNumberState(error:_mapFailureToMessage(failure)),),
                   (_)=>emit(SuccessSignInWithPhoneNumberState()));
@@ -26,7 +26,7 @@ class SignInWithPhoneNumberBloc extends Bloc<SignInWithPhoneNumberEvent,SignInWi
       else if(event is VerifyOtpEvent)
         {
           emit(LoadingVerifyOtp());
-            await verifyOtpUseCase.call(context: event.context, userOTP: event.userOTP, verificationId: event.verificationId);
+            await verifyOtpUseCase.call( userOTP: event.userOTP);
               emit(const SuccessVerifyOtp());
         }
     });

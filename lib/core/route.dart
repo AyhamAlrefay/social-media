@@ -28,10 +28,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case Status.routeName:
       return MaterialPageRoute(builder: (context)=>Status());
     case OtpScreen.routeName:
-      final verificationId=settings.arguments as String;
-      return MaterialPageRoute(builder: (context) =>  OtpScreen(
-        verificationId: verificationId,
-      ));
+
+      return MaterialPageRoute(builder: (context) =>  OtpScreen());
     case UserInformationScreen.routeName:
       return MaterialPageRoute(builder: (context)=>const UserInformationScreen());
     case LoginScreen.routeName:return MaterialPageRoute(builder: (context)=> LoginScreen(),);
