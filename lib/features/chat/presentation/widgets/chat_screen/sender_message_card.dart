@@ -16,7 +16,9 @@ final Message message;
   @override
   Widget build(BuildContext context) {
     return SwipeTo(
-      onLeftSwipe: (){},
+      onLeftSwipe: (){
+      },
+
       child: Align(
         alignment: Alignment.centerRight,
         child: ConstrainedBox(
@@ -45,9 +47,10 @@ final Message message;
                     left: 5,
                     top: 5,
                     right: 5,
-                    bottom: 25,
+                    bottom: 10,
                   ),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       if ( message.repliedMessage!=null) ...[
 
@@ -80,10 +83,10 @@ final Message message;
                         const SizedBox(height: 8),
                       ],
                       DisplayTextImage(
-                        message: message.text,
+                        message: message.messageContent,
                         type: message.type,
                       ),
-                      Row(
+                       Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
@@ -103,6 +106,8 @@ final Message message;
                           ),
                         ],
                       ),
+
+
                     ],
                   ),
                 ),

@@ -57,7 +57,7 @@ Future<void>init()async{
 
   ///RemoteDataSources
   sl.registerLazySingleton<AuthRemoteDataSources>(() => AuthRemoteDataSourcesImpl(auth: sl(), firestore: sl()));
-  sl.registerLazySingleton<ChatRemoteDataSources>(() => ChatRemoteDataSourcesImpl(auth: sl(), firestore: sl()));
+  sl.registerLazySingleton<ChatRemoteDataSources>(() => ChatRemoteDataSourcesImpl(auth: sl(), firestore: sl(), firebaseStorageDataSources: sl()));
   sl.registerLazySingleton(() => FirebaseStorageDataSources( firebaseStorage: sl()));
 
   ///Firebase

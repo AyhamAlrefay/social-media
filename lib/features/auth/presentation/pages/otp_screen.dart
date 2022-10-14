@@ -39,7 +39,8 @@ class OtpScreen extends StatelessWidget {
                       MaterialPageRoute(
                         builder: (context) => BlocProvider<SaveUserDataBloc>(
                           create: (_) => di.sl<SaveUserDataBloc>(),
-                          child:const UserInformationScreen(),
+                          child: const UserInformationScreen(),
+
                         ),
                       ),
                       (route) => false);

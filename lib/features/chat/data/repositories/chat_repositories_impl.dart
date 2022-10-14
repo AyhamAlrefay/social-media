@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:camera/camera.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import '../../../../core/error/exceptions.dart';
@@ -16,11 +19,11 @@ class ChatRepositoriesImpl extends ChatRepositories {
   ChatRepositoriesImpl({required this.chatRemoteDataSources});
 
   @override
- Either<Failure, Stream<QuerySnapshot<Map<String, dynamic>>>> getMessageUser(
+  Either<Failure, Stream<QuerySnapshot<Map<String, dynamic>>>> getMessageUser(
       {required String receiverUserId}) {
     try {
-      final chatMessage = chatRemoteDataSources.getMessageUser(
-          receiverUserId: receiverUserId);
+      final chatMessage =
+          chatRemoteDataSources.getMessageUser(receiverUserId: receiverUserId);
       return Right(chatMessage);
     } on ServerChatFailure {
       return Left(ServerChatFailure());
@@ -37,7 +40,7 @@ class ChatRepositoriesImpl extends ChatRepositories {
       final messageModel = MessageModel(
           senderId: message.senderId,
           receiverId: message.receiverId,
-          text: message.text,
+          messageContent: message.messageContent,
           type: message.type,
           timeSent: message.timeSent,
           messageId: message.messageId,
@@ -56,10 +59,20 @@ class ChatRepositoriesImpl extends ChatRepositories {
           isOnline: receiverUser.isOnline,
           phoneNumber: receiverUser.phoneNumber,
           groupId: receiverUser.groupId);
-      await chatRemoteDataSources.sendTextMessage(
+      if(message.messageContent is String) {
+        await chatRemoteDataSources.sendTextMessage(
           messageModel: messageModel,
           senderUserModel: senderUserModel,
           receiverUserModel: receiverUserModel);
+      }
+      else if(message.messageContent is XFile)
+        {
+          await chatRemoteDataSources.sendImageMessage(
+              messageModel: messageModel,
+              senderUserModel: senderUserModel,
+              receiverUserModel: receiverUserModel);
+        }
+
       return const Right(unit);
     } on ServerChatException {
       return Left(ServerChatFailure());
@@ -67,13 +80,14 @@ class ChatRepositoriesImpl extends ChatRepositories {
   }
 
   @override
-
- Either<Failure,Stream<QuerySnapshot<Map<String, dynamic>>>> getChatContacts(){
-    try{
-      return  Right(chatRemoteDataSources.getChatContacts());
-    }on ServerChatException{
+  Either<Failure, Stream<QuerySnapshot<Map<String, dynamic>>>>
+      getChatContacts() {
+    try {
+      return Right(chatRemoteDataSources.getChatContacts());
+    } on ServerChatException {
       return Left(ServerChatFailure());
     }
-
   }
+
+
 }

@@ -38,6 +38,9 @@ dependencies:
   path_provider:
   uuid:
   open_file: ^3.2.0
+  camera:
+  video_player:
+
 
 
 dev_dependencies:

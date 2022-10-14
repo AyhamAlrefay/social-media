@@ -58,8 +58,9 @@ class LandingScreen extends StatelessWidget {
                 ),
                 onPressed: () {
 
-                 Navigator.of(context).pushReplacement(MaterialPageRoute(builder:(context)=>   BlocProvider<SignInWithPhoneNumberBloc>(
-                     create: (_)=>di.sl<SignInWithPhoneNumberBloc>(),child: const LoginScreen(),),));
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>BlocProvider<SignInWithPhoneNumberBloc>(
+                    create: (_)=>di.sl<SignInWithPhoneNumberBloc>(),child:const LoginScreen() ,)));
+
                 },
                 child: const Text('AGREE AND CONTINUE'),
               ),

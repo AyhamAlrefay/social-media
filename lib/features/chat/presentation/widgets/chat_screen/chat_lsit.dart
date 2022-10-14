@@ -75,7 +75,7 @@ class _ChatListState extends State<ChatList> {
         .map((e) => Message(
         senderId: e['senderId'],
         receiverId: e['receiverId'],
-        text: e['text'],
+        messageContent: e['messageContent'],
         type:(e['type'] as String).toEnum(),
         timeSent: DateTime.parse(e['timeSent'].toDate().toString()),
         messageId: e['messageId'],

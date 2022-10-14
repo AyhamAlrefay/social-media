@@ -4,7 +4,7 @@ import '../../../../core/enums/enum_message.dart';
 import '../../domain/entities/message.dart';
 
 class MessageModel extends Message {
-  const MessageModel({
+   MessageModel({
     //
     super.senderUserName,
     super.receiverUserName,
@@ -14,7 +14,7 @@ class MessageModel extends Message {
     //
     required super.senderId,
     required super.receiverId,
-    required super.text,
+    required super.messageContent,
     required super.type,
     required super.timeSent,
     required super.messageId,
@@ -26,9 +26,9 @@ class MessageModel extends Message {
       return {
         'senderId': senderId,
         'receiverId': receiverId,
-        'text': text,
+        'messageContent': messageContent,
         'type': type.type,
-        'timeSent': Timestamp.fromDate(timeSent),
+        'timeSent':Timestamp.fromDate(timeSent),
         'messageId': messageId,
         'isSeen': isSeen,
         'repliedMessage': repliedMessage,
@@ -41,7 +41,7 @@ class MessageModel extends Message {
       return {
         'senderId': senderId,
         'receiverId': receiverId,
-        'text': text,
+        'messageContent': messageContent,
         'type': type.type,
         'timeSent': Timestamp.fromDate(timeSent),
         'messageId': messageId,
@@ -55,7 +55,7 @@ class MessageModel extends Message {
       return MessageModel(
         senderId: map['senderId'] ?? '',
         receiverId: map['receiverId'] ?? '',
-        text: map['text'] ?? '',
+        messageContent: map['text'] ?? '',
         type: (map['type'] as String).toEnum(),
         timeSent: DateTime.parse(map['timeSent'].toDate().toString()),
         messageId: map['messageId'] ?? '',
@@ -70,9 +70,9 @@ class MessageModel extends Message {
       return MessageModel(
         senderId: map['senderId'] ?? '',
         receiverId: map['receiverId'] ?? '',
-        text: map['text'] ?? '',
+        messageContent: map['text'] ?? '',
         type: (map['type'] as String).toEnum(),
-        timeSent:  DateTime.parse(map['timeSent'].toDate().toString()),
+        timeSent: DateTime.parse(map['timeSent'].toDate().toString()),
         messageId: map['messageId'] ?? '',
         isSeen: map['isSeen'] ?? false,
       );

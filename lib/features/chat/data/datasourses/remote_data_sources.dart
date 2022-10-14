@@ -1,25 +1,31 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:uuid/uuid.dart';
+import '../../../../core/datasources/firebase_storage_datasources.dart';
 import '../../../../core/error/exceptions.dart';
 import '../models/contact_model.dart';
 import '../models/message_model.dart';
 import '../../../auth/data/models/user_model.dart';
-
+import 'dart:io';
 abstract class ChatRemoteDataSources {
+  Stream<QuerySnapshot<Map<String, dynamic>>>getChatContacts();
   Stream<QuerySnapshot<Map<String, dynamic>>> getMessageUser(
       {required String receiverUserId});
   Future<Unit> sendTextMessage({required MessageModel messageModel,
     required UserModel senderUserModel,
     required UserModel receiverUserModel});
-  Stream<QuerySnapshot<Map<String, dynamic>>>getChatContacts();
+  Future<Unit>sendImageMessage({required  MessageModel messageModel,required UserModel receiverUserModel,required senderUserModel});
+
+
 }
 
 class ChatRemoteDataSourcesImpl implements ChatRemoteDataSources {
   final FirebaseAuth auth;
   final FirebaseFirestore firestore;
+  final FirebaseStorageDataSources firebaseStorageDataSources;
 
-  ChatRemoteDataSourcesImpl({required this.auth, required this.firestore});
+  ChatRemoteDataSourcesImpl({required this.firebaseStorageDataSources, required this.auth, required this.firestore});
 
   @override
   Stream<QuerySnapshot<Map<String,dynamic>>>  getMessageUser(
@@ -43,7 +49,7 @@ class ChatRemoteDataSourcesImpl implements ChatRemoteDataSources {
       _saveDataToContactsSubcollection(
         senderUserModel: senderUserModel,
         receiverUserModel: receiverUserModel,
-        message: messageModel.text,
+        message: messageModel.messageContent,
         timeSent: messageModel.timeSent,
         receiverId: messageModel.receiverId,
       );
@@ -86,8 +92,9 @@ class ChatRemoteDataSourcesImpl implements ChatRemoteDataSources {
         .set(senderChatContactModel.toMap());
   }
 
-  void saveMessage({required MessageModel messageModel}) async {
-    await firestore
+  void saveMessage({required MessageModel messageModel,String? imageUrl}) async {
+    if(imageUrl==null) {
+      await firestore
         .collection('users')
         .doc(messageModel.receiverId)
         .collection('chats')
@@ -95,14 +102,35 @@ class ChatRemoteDataSourcesImpl implements ChatRemoteDataSources {
         .collection('messages')
         .doc(messageModel.messageId)
         .set(messageModel.toMap());
-    await firestore
-        .collection('users')
-        .doc(messageModel.senderId)
-        .collection('chats')
-        .doc(messageModel.receiverId)
-        .collection('messages')
-        .doc(messageModel.messageId)
-        .set(messageModel.toMap());
+      await firestore
+          .collection('users')
+          .doc(messageModel.senderId)
+          .collection('chats')
+          .doc(messageModel.receiverId)
+          .collection('messages')
+          .doc(messageModel.messageId)
+          .set(messageModel.toMap());
+    }
+    else{
+      messageModel.messageContent=imageUrl;
+      await firestore
+          .collection('users')
+          .doc(messageModel.receiverId)
+          .collection('chats')
+          .doc(messageModel.senderId)
+          .collection('messages')
+          .doc(messageModel.messageId)
+          .set(messageModel.toMap());
+      await firestore
+          .collection('users')
+          .doc(messageModel.senderId)
+          .collection('chats')
+          .doc(messageModel.receiverId)
+          .collection('messages')
+          .doc(messageModel.messageId)
+          .set(messageModel.toMap());
+    }
+
   }
 
   @override
@@ -112,5 +140,25 @@ class ChatRemoteDataSourcesImpl implements ChatRemoteDataSources {
       .doc(auth.currentUser!.uid)
       .collection('chats')  
       .snapshots();
+  }
+
+  @override
+  Future<Unit> sendImageMessage({required MessageModel messageModel, required UserModel receiverUserModel, required senderUserModel})async {
+    try{
+      var messageId = const Uuid().v1();
+      String imageUrl = await firebaseStorageDataSources.storeFileToFirebase(
+          'chat/${messageModel.type}/${senderUserModel.uid}/${receiverUserModel.uid}/$messageId',
+          File(messageModel.messageContent.path));
+      _saveDataToContactsSubcollection(
+          senderUserModel: senderUserModel,
+          receiverUserModel: receiverUserModel,
+          message: imageUrl,
+          timeSent: messageModel.timeSent,
+          receiverId: messageModel.receiverId);
+      saveMessage(messageModel: messageModel,imageUrl: imageUrl);
+      return Future.value(unit);
+    }catch(e){
+      throw Exception();
+    }
   }
 }

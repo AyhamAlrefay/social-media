@@ -15,13 +15,13 @@ class Message extends Equatable {
   //
   final String senderId;
   final String receiverId;
-  final String text;
+   dynamic messageContent;
   final MessageEnum type;
   final DateTime timeSent;
   final String messageId;
   final bool isSeen;
 
-  const Message({
+   Message({
     this.repliedTo,
     this.receiverUserName,
     this.senderUserName,
@@ -29,7 +29,7 @@ class Message extends Equatable {
     this.repliedMessageType,
     required this.senderId,
     required this.receiverId,
-    required this.text,
+    required this.messageContent,
     required this.type,
     required this.timeSent,
     required this.messageId,
@@ -42,7 +42,7 @@ class Message extends Equatable {
         receiverUserName,
         senderId,
         receiverId,
-        text,
+        messageContent,
         type,
         timeSent,
         messageId,

@@ -1,9 +1,11 @@
 
+import 'package:camera/camera.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/route.dart';
+import 'features/chat/presentation/widgets/chat_screen/camer_screen.dart';
 import 'mobile_chat_screen.dart';
 import 'features/auth/presentation/bloc/save_user_data/save_user_data_bloc.dart';
 import 'features/auth/presentation/bloc/sign_in_with_phone_number/sign_in_with_phone_number_bloc.dart';
@@ -14,6 +16,8 @@ import 'features/auth/presentation/pages/splash_screen.dart';
 import 'injection_container.dart' as di;
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+
+  cameras = await availableCameras();
   await di.init();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

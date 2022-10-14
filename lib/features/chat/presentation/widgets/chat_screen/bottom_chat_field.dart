@@ -1,8 +1,8 @@
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
@@ -12,23 +12,28 @@ import '../../../../auth/domain/entities/user_entity.dart';
 import '../../../domain/entities/message.dart';
 import 'dart:io';
 import '../../bloc/send_messages_user/send_message_user_bloc.dart';
+import 'camer_screen.dart';
+import 'camera_view.dart';
 import 'file.dart';
 
 class BottomChatField extends StatefulWidget {
   final UserEntity receiverUser;
-final UserEntity senderUser;
+  final UserEntity senderUser;
 
-  const BottomChatField({Key? key, required this.receiverUser, required this.senderUser}) : super(key: key);
+  const BottomChatField(
+      {Key? key, required this.receiverUser, required this.senderUser})
+      : super(key: key);
 
   @override
   State<BottomChatField> createState() => _BottomChatFieldState();
 }
 
 class _BottomChatFieldState extends State<BottomChatField> {
-  bool isShowSendButton = true;
+  bool isShowSendButton = false;
   TextEditingController messageController = TextEditingController();
   bool isShowEmojiContainer = false;
   FocusNode focusNode = FocusNode();
+  XFile? image;
 
   void hideEmojiContainer() {
     setState(() {
@@ -56,7 +61,6 @@ class _BottomChatFieldState extends State<BottomChatField> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -65,84 +69,10 @@ class _BottomChatFieldState extends State<BottomChatField> {
           children: [
             Expanded(
                 child: Padding(
-                  padding: EdgeInsets.only(
-                      bottom: MediaQuery
-                          .of(context)
-                          .viewInsets
-                          .bottom),
-                  child: TextFormField(
-                    maxLines: null,
-                    onTap: () {
-                      setState(() {
-                        isShowEmojiContainer = false;
-                      });
-                    },
-                    autofocus: true,
-                    focusNode: focusNode,
-                    style: const TextStyle(color: Colors.white),
-                    cursorColor: Colors.white,
-                    controller: messageController,
-                    decoration: InputDecoration(
-                      hintText: 'Type a message!',
-                      hintStyle: const TextStyle(color: Colors.white),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: const BorderSide(
-                          width: 0,
-                          style: BorderStyle.none,
-                        ),
-                      ),
-                      contentPadding: const EdgeInsets.all(10),
-                      filled: true,
-                      fillColor: backgroundColor,
-                      prefixIcon: IconButton(
-                        onPressed: toggleEmojiKeyboardContainer,
-                        icon: const Icon(
-                          Icons.emoji_emotions,
-                          color: Colors.yellowAccent,
-                        ),
-                      ),
-                      suffixIcon: SizedBox(
-                        width: 100,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            IconButton(
-                              onPressed: () {},
-                              icon: const Icon(
-                                Icons.camera_alt,
-                                color: Colors.yellowAccent,
-                              ),
-                            ),
-                            IconButton(
-                              onPressed: () async {
-                                showModalBottomSheet(
-                                  shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(1000.0))),
-                                  backgroundColor: Colors.black.withOpacity(0),
-                                  isScrollControlled: true,
-                                  anchorPoint: const Offset(5, 10),
-                                  constraints: const BoxConstraints(
-                                    maxHeight: 300,
-                                  ),
-                                  elevation: 20,
-                                  enableDrag: true,
-                                  context: context,
-                                  builder: (builder) => bottomSheet(),
-                                );
-                              },
-                              icon: const Icon(
-                                Icons.attach_file,
-                                color: Colors.yellowAccent,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                )),
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
+              child: buildTextFormField(context),
+            )),
             Padding(
               padding: const EdgeInsets.only(
                 bottom: 8,
@@ -152,25 +82,27 @@ class _BottomChatFieldState extends State<BottomChatField> {
               child: GestureDetector(
                 onTap: () {
                   final timeSent = DateTime.now();
-
+                  Message message;
                   var messageId = const Uuid().v1();
-                  final message = Message(
-                      senderId:widget.senderUser.uid,
-                      receiverId: widget.receiverUser.uid,
-                      text: messageController.text,
-                      type: MessageEnum.text,
-                      timeSent: timeSent,
-                      messageId: messageId,
-                      isSeen: false);
+                  if (messageController.text != null) {
+                    message = Message(
+                        senderId: widget.senderUser.uid,
+                        receiverId: widget.receiverUser.uid,
+                        messageContent: messageController.text,
+                        type: MessageEnum.text,
+                        timeSent: timeSent,
+                        messageId: messageId,
+                        isSeen: false);
 
-
-                  BlocProvider.of<SendMessageUserBloc>(context).add(
-                      SendMessageUser(message: message,
-                          senderUser: widget.senderUser,
-                          receiverUser: widget.receiverUser));
-                  setState(() {
-                    messageController.clear();
-                  });
+                    BlocProvider.of<SendMessageUserBloc>(context).add(
+                        SendMessageUser(
+                            message: message,
+                            senderUser: widget.senderUser,
+                            receiverUser: widget.receiverUser));
+                    setState(() {
+                      messageController.clear();
+                    });
+                  }
                 },
                 child: CircleAvatar(
                     backgroundColor: backgroundColor,
@@ -185,49 +117,129 @@ class _BottomChatFieldState extends State<BottomChatField> {
         ),
         isShowEmojiContainer
             ? ConstrainedBox(
-          constraints: BoxConstraints(
-            maxHeight: MediaQuery
-                .of(context)
-                .size
-                .height * 0.35,
-          ),
-          child: EmojiPicker(
-            onEmojiSelected: ((category, emoji) {
-              setState(() {
-                messageController.text =
-                    messageController.text + emoji.emoji;
-                print(messageController.text);
-              });
+                constraints: BoxConstraints(
+                  maxHeight: MediaQuery.of(context).size.height * 0.35,
+                ),
+                child: EmojiPicker(
+                  onEmojiSelected: ((category, emoji) {
+                    setState(() {
+                      messageController.text =
+                          messageController.text + emoji.emoji;
+                    });
 
-              if (!isShowSendButton) {
-                setState(() {
-                  isShowSendButton = true;
-                  print(messageController.text);
-                });
-              }
-            }),
-          ),
-        )
+                    if (!isShowSendButton) {
+                      setState(() {
+                        isShowSendButton = true;
+                      });
+                    }
+                  }),
+                ),
+              )
             : const SizedBox(),
       ],
     );
   }
 
+  TextFormField buildTextFormField(BuildContext context) {
+    return TextFormField(
+      maxLines: null,
+      onTap: () {
+        setState(() {
+          isShowEmojiContainer = false;
+        });
+      },
+      autofocus: true,
+      focusNode: focusNode,
+      style: const TextStyle(color: Colors.white),
+      cursorColor: Colors.white,
+      controller: messageController,
+      onChanged: (value) {
+        setState(() {
+          if (value.isEmpty) {
+            isShowSendButton = false;
+          } else {
+            isShowSendButton = true;
+          }
+        });
+      },
+      decoration: InputDecoration(
+        hintText: 'Type a message!',
+        hintStyle: const TextStyle(color: Colors.white),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20),
+          borderSide: const BorderSide(
+            width: 0,
+            style: BorderStyle.none,
+          ),
+        ),
+        contentPadding: const EdgeInsets.all(10),
+        filled: true,
+        fillColor: backgroundColor,
+        prefixIcon: IconButton(
+          onPressed: toggleEmojiKeyboardContainer,
+          icon: const Icon(
+            Icons.emoji_emotions,
+            color: Colors.yellowAccent,
+          ),
+        ),
+        suffixIcon: SizedBox(
+          width: 100,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => CameraScreen(
+                            receiverUser: widget.receiverUser,
+                            senderUser: widget.senderUser,
+                          )));
+                },
+                icon: const Icon(
+                  Icons.camera_alt,
+                  color: Colors.yellowAccent,
+                ),
+              ),
+              IconButton(
+                onPressed: () async {
+                  showModalBottomSheet(
+                    shape: const RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.all(Radius.circular(1000.0))),
+                    backgroundColor: Colors.black.withOpacity(0),
+                    isScrollControlled: true,
+                    anchorPoint: const Offset(5, 10),
+                    constraints: const BoxConstraints(
+                      maxHeight: 300,
+                    ),
+                    elevation: 20,
+                    enableDrag: true,
+                    context: context,
+                    builder: (builder) => bottomSheet(),
+                  );
+                },
+                icon: const Icon(
+                  Icons.attach_file,
+                  color: Colors.yellowAccent,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget bottomSheet() {
     return Padding(
-      padding: MediaQuery
-          .of(context)
-          .viewInsets,
-      child: Container(
+      padding: MediaQuery.of(context).viewInsets,
+      child: SizedBox(
         height: 278,
-        width: MediaQuery
-            .of(context)
-            .size
-            .width,
+        width: MediaQuery.of(context).size.width,
         child: Card(
           margin: const EdgeInsets.all(18.0),
           shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
             child: Column(
@@ -237,26 +249,42 @@ class _BottomChatFieldState extends State<BottomChatField> {
                   children: [
                     iconCreation(
                         Icons.insert_drive_file, Colors.indigo, "Document",
-                            () async {
-                          final result = await FilePicker.platform.pickFiles(
-                            allowMultiple: true,
-                          );
-                          if (result == null) return;
-                          final PlatformFile file = result.files.first;
-                          openFiles(result.files);
-                          openFile(file);
-                          final newFile = await saveFilePermanently(file);
-                        }),
+                        () async {
+                      final result = await FilePicker.platform.pickFiles(
+                        allowMultiple: true,
+                      );
+                      if (result == null) return;
+                      final PlatformFile file = result.files.first;
+                      openFiles(result.files);
+                      openFile(file);
+                      final newFile = await saveFilePermanently(file);
+                    }),
                     const SizedBox(
                       width: 40,
                     ),
-                    iconCreation(
-                        Icons.camera_alt, Colors.pink, "Camera", () {}),
+                    iconCreation(Icons.camera_alt, Colors.pink, "Camera", () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => CameraScreen(
+                                receiverUser: widget.receiverUser,
+                                senderUser: widget.senderUser,
+                              )));
+                    }),
                     const SizedBox(
                       width: 40,
                     ),
-                    iconCreation(
-                        Icons.insert_photo, Colors.purple, "Gallery", () {}),
+                    iconCreation(Icons.insert_photo, Colors.purple, "Gallery",
+                        () async {
+                      image = await ImagePicker()
+                          .pickImage(source: ImageSource.gallery);
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => CameraViewPage(
+                                file: image!,
+                                receiverUser: widget.receiverUser,
+                                senderUser: widget.senderUser,
+                              ),
+                      ),
+                      );
+                    }),
                   ],
                 ),
                 const SizedBox(
@@ -285,8 +313,8 @@ class _BottomChatFieldState extends State<BottomChatField> {
     );
   }
 
-  Widget iconCreation(IconData icons, Color color, String text,
-      VoidCallback function) {
+  Widget iconCreation(
+      IconData icons, Color color, String text, VoidCallback function) {
     return InkWell(
       onTap: function,
       child: Column(
@@ -301,12 +329,12 @@ class _BottomChatFieldState extends State<BottomChatField> {
               color: Colors.white,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
           Text(
             text,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 12,
               // fontWeight: FontWeight.w100,
             ),

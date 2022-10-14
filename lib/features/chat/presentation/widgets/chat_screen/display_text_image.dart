@@ -15,8 +15,12 @@ class DisplayTextImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return
-    Text(message,
+
+   return type.type=='image'?Container(
+      child: Image(image: NetworkImage(
+        message
+      )),
+    ):Text(message,
       maxLines: null,
       style: const TextStyle(
         fontSize: 14,
