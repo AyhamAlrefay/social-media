@@ -16,11 +16,11 @@ class ChatRepositoriesImpl extends ChatRepositories {
   ChatRepositoriesImpl({required this.chatRemoteDataSources});
 
   @override
- Either<Failure, Stream<QuerySnapshot<Map<String, dynamic>>>> getMessageUser(
+  Either<Failure, Stream<QuerySnapshot<Map<String, dynamic>>>> getMessageUser(
       {required String receiverUserId}) {
     try {
-      final chatMessage = chatRemoteDataSources.getMessageUser(
-          receiverUserId: receiverUserId);
+      final chatMessage =
+          chatRemoteDataSources.getMessageUser(receiverUserId: receiverUserId);
       return Right(chatMessage);
     } on ServerChatFailure {
       return Left(ServerChatFailure());
@@ -35,13 +35,19 @@ class ChatRepositoriesImpl extends ChatRepositories {
       required UserEntity receiverUser}) async {
     try {
       final messageModel = MessageModel(
-          senderId: message.senderId,
-          receiverId: message.receiverId,
-          text: message.text,
-          type: message.type,
-          timeSent: message.timeSent,
-          messageId: message.messageId,
-          isSeen: message.isSeen);
+        senderId: message.senderId,
+        receiverId: message.receiverId,
+        text: message.text,
+        type: message.type,
+        timeSent: message.timeSent,
+        messageId: message.messageId,
+        isSeen: message.isSeen,
+        repliedTo: message.repliedTo,
+        repliedMessageType: message.repliedMessageType,
+        repliedMessage: message.repliedMessage,
+        receiverUserName: message.receiverUserName,
+        senderUserName: message.senderUserName,
+      );
       final senderUserModel = UserModel(
           name: senderUser.name,
           uid: senderUser.uid,
@@ -67,13 +73,12 @@ class ChatRepositoriesImpl extends ChatRepositories {
   }
 
   @override
-
- Either<Failure,Stream<QuerySnapshot<Map<String, dynamic>>>> getChatContacts(){
-    try{
-      return  Right(chatRemoteDataSources.getChatContacts());
-    }on ServerChatException{
+  Either<Failure, Stream<QuerySnapshot<Map<String, dynamic>>>>
+      getChatContacts() {
+    try {
+      return Right(chatRemoteDataSources.getChatContacts());
+    } on ServerChatException {
       return Left(ServerChatFailure());
     }
-
   }
 }

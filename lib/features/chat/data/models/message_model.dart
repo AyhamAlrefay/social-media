@@ -32,7 +32,7 @@ class MessageModel extends Message {
         'messageId': messageId,
         'isSeen': isSeen,
         'repliedMessage': repliedMessage,
-        'repliedMessageType': repliedMessageType,
+        'repliedMessageType': repliedMessageType!.type,
         'senderUserName': senderUserName,
         'receiverUserName': receiverUserName,
         'repliedTo': repliedTo,

@@ -18,13 +18,13 @@ class GetMessageUserStateError extends GetMessageUserState{
   final String error;
   const GetMessageUserStateError({required this.error});
   @override
-  // TODO: implement props
   List<Object?> get props =>[error];
 }
 class GetMessageUserStateSuccess extends GetMessageUserState{
   final Stream<QuerySnapshot<Map<String, dynamic>>>  messages;
   const GetMessageUserStateSuccess({required this.messages});
   @override
-  // TODO: implement props
+
   List<Object?> get props =>[messages];
 }
+
