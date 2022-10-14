@@ -6,11 +6,14 @@ import 'package:image_picker/image_picker.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
+import 'package:whatsapp/features/chat/domain/entities/message_reply.dart';
+import 'package:whatsapp/features/chat/presentation/widgets/chat_screen/message_reply_preview.dart';
 import '../../../../../core/enums/enum_message.dart';
 import '../../../../../core/theme/colors.dart';
 import '../../../../auth/domain/entities/user_entity.dart';
 import '../../../domain/entities/message.dart';
 import 'dart:io';
+import '../../bloc/save_data/save_data_bloc.dart';
 import '../../bloc/send_messages_user/send_message_user_bloc.dart';
 import 'camer_screen.dart';
 import 'camera_view.dart';
@@ -20,7 +23,8 @@ class BottomChatField extends StatefulWidget {
   final UserEntity receiverUser;
   final UserEntity senderUser;
 
-  const BottomChatField(
+
+ const BottomChatField(
       {Key? key, required this.receiverUser, required this.senderUser})
       : super(key: key);
 
@@ -34,6 +38,9 @@ class _BottomChatFieldState extends State<BottomChatField> {
   bool isShowEmojiContainer = false;
   FocusNode focusNode = FocusNode();
   XFile? image;
+
+  late SaveDataBloc saveDataBloc;
+  MessageReply? messageReply;
 
   void hideEmojiContainer() {
     setState(() {
@@ -65,13 +72,30 @@ class _BottomChatFieldState extends State<BottomChatField> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        BlocBuilder<SaveDataBloc, SaveDataState>(
+          builder: (context, state) {
+            if (state is ChangeMessageRelyToData) {
+              messageReply = state.messageReply;
+              return MessageReplyPreview(
+                messageReply: state.messageReply,
+                senderName: widget.senderUser.name,
+                receiverName: widget.receiverUser.name,
+              );
+            } else {
+              return const SizedBox();
+            }
+          },
+        ),
         Row(
           children: [
             Expanded(
                 child: Padding(
               padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).viewInsets.bottom),
+
               child: buildTextFormField(context),
+
+
             )),
             Padding(
               padding: const EdgeInsets.only(
@@ -82,27 +106,42 @@ class _BottomChatFieldState extends State<BottomChatField> {
               child: GestureDetector(
                 onTap: () {
                   final timeSent = DateTime.now();
-                  Message message;
                   var messageId = const Uuid().v1();
-                  if (messageController.text != null) {
-                    message = Message(
-                        senderId: widget.senderUser.uid,
-                        receiverId: widget.receiverUser.uid,
-                        messageContent: messageController.text,
-                        type: MessageEnum.text,
-                        timeSent: timeSent,
-                        messageId: messageId,
-                        isSeen: false);
-
-                    BlocProvider.of<SendMessageUserBloc>(context).add(
-                        SendMessageUser(
-                            message: message,
-                            senderUser: widget.senderUser,
-                            receiverUser: widget.receiverUser));
-                    setState(() {
-                      messageController.clear();
-                    });
-                  }
+                  final  Message message = messageReply != null? Message(
+                          senderId: widget.senderUser.uid,
+                          receiverId: widget.receiverUser.uid,
+                          messageContent: messageController.text,
+                          type: MessageEnum.text,
+                          timeSent: timeSent,
+                          messageId: messageId,
+                          isSeen: false,
+                          senderUserName: widget.senderUser.name,
+                          receiverUserName: widget.receiverUser.name,
+                          repliedMessage: messageReply!.message,
+                          repliedMessageType: messageReply!.messageEnum,
+                          repliedTo: messageReply!.isMe == true
+                              ? widget.senderUser.name
+                              : widget.receiverUser.name,
+                        )
+                      : Message(
+                          senderId: widget.senderUser.uid,
+                          receiverId: widget.receiverUser.uid,
+                          messageContent: messageController.text,
+                          type: MessageEnum.text,
+                          timeSent: timeSent,
+                          messageId: messageId,
+                          isSeen: false);
+                  messageReply = null;
+                  BlocProvider.of<SendMessageUserBloc>(context).add(
+                      SendMessageUser(
+                          message: message,
+                          senderUser: widget.senderUser,
+                          receiverUser: widget.receiverUser));
+                  setState(() {
+                    messageController.clear();
+                    BlocProvider.of<SaveDataBloc>(context)
+                        .add(ChangeMessageReplyToNullEvent(messageReply: null));
+                  });
                 },
                 child: CircleAvatar(
                     backgroundColor: backgroundColor,

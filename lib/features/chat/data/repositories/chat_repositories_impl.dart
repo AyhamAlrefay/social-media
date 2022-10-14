@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -38,13 +37,19 @@ class ChatRepositoriesImpl extends ChatRepositories {
       required UserEntity receiverUser}) async {
     try {
       final messageModel = MessageModel(
-          senderId: message.senderId,
-          receiverId: message.receiverId,
-          messageContent: message.messageContent,
-          type: message.type,
-          timeSent: message.timeSent,
-          messageId: message.messageId,
-          isSeen: message.isSeen);
+        senderId: message.senderId,
+        receiverId: message.receiverId,
+        messageContent: message.messageContent,
+        type: message.type,
+        timeSent: message.timeSent,
+        messageId: message.messageId,
+        isSeen: message.isSeen,
+        repliedTo: message.repliedTo,
+        repliedMessageType: message.repliedMessageType,
+        repliedMessage: message.repliedMessage,
+        receiverUserName: message.receiverUserName,
+        senderUserName: message.senderUserName,
+      );
       final senderUserModel = UserModel(
           name: senderUser.name,
           uid: senderUser.uid,

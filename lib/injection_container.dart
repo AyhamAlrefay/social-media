@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
+import 'package:whatsapp/features/chat/presentation/bloc/save_data/save_data_bloc.dart';
 import 'core/datasources/firebase_storage_datasources.dart';
 import 'features/auth/data/datasources/remote_data_sources.dart';
 import 'features/auth/data/repositories/repositories_impl.dart';
@@ -34,6 +35,7 @@ Future<void>init()async{
   sl.registerFactory(() => SendMessageUserBloc(sendMessageUserUseCase: sl()));
   sl.registerFactory(() => GetUsersDataBloc(getCurrentUserDataUseCase: sl(), getOtherUserDataUseCase: sl()));
   sl.registerFactory(() =>GetContactsUserBloc(getChatContactsUseCase: sl()));
+  sl.registerFactory(() =>SaveDataBloc());
 
 
 

@@ -16,7 +16,6 @@ dependencies:
     sdk: flutter
 
 
-
   cupertino_icons: ^1.0.2
   firebase_core:
   country_picker:
