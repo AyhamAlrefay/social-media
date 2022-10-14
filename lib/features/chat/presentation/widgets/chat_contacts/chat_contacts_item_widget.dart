@@ -1,7 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 import 'package:whatsapp/core/widgets/loading_widget.dart';
 import 'package:whatsapp/features/auth/domain/entities/user_entity.dart';
 import 'package:whatsapp/features/chat/domain/entities/contact.dart';

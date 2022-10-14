@@ -195,8 +195,8 @@ class _BottomChatFieldState extends State<BottomChatField> {
                           timeSent: timeSent,
                           messageId: messageId,
                           isSeen: false);
-                  messageReply=null;
-                 BlocProvider.of<SendMessageUserBloc>(context).add(
+                  messageReply = null;
+                  BlocProvider.of<SendMessageUserBloc>(context).add(
                       SendMessageUser(
                           message: message,
                           senderUser: widget.senderUser,
@@ -204,9 +204,8 @@ class _BottomChatFieldState extends State<BottomChatField> {
                   setState(() {
                     messageController.clear();
                     BlocProvider.of<SaveDataBloc>(context)
-                        .add(ChangeMessageReplyToNullEvent(messageReply:null));
+                        .add(ChangeMessageReplyToNullEvent(messageReply: null));
                   });
-
                 },
                 child: CircleAvatar(
                     backgroundColor: backgroundColor,
