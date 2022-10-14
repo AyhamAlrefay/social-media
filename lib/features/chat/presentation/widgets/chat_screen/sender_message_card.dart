@@ -26,7 +26,7 @@ class SenderMessageCard extends StatelessWidget {
         onLeftSwipe: () {
 
           BlocProvider.of<SaveDataBloc>(context).add(
-              ChangeMessageReplyToDataEvent(MessageReply(
+              ChangeMessageReplyToDataEvent(messageReply:MessageReply(
                   message: message.text,
                   isMe: FirebaseAuth.instance.currentUser!.uid ==
                       message.senderId,

@@ -5,7 +5,7 @@ abstract class SaveDataEvent extends Equatable {
 }
 class ChangeMessageReplyToDataEvent extends SaveDataEvent{
   MessageReply? messageReply;
-  ChangeMessageReplyToDataEvent(this.messageReply);
+  ChangeMessageReplyToDataEvent({required this.messageReply});
   @override
   // TODO: implement props
   List<Object?> get props => [];
@@ -13,7 +13,7 @@ class ChangeMessageReplyToDataEvent extends SaveDataEvent{
 }
 class ChangeMessageReplyToNullEvent extends SaveDataEvent{
   MessageReply? messageReply;
-  ChangeMessageReplyToNullEvent(this.messageReply);
+  ChangeMessageReplyToNullEvent({required this.messageReply});
   @override
   // TODO: implement props
   List<Object?> get props => [];

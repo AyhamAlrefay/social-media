@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:whatsapp/features/chat/presentation/bloc/save_data/save_data_bloc.dart';
 import '../../../../../core/enums/enum_message.dart';
 import '../../../../../core/widgets/loading_widget.dart';
 import '../../../../../core/widgets/snak_bar.dart';
@@ -69,8 +68,6 @@ class _ChatListState extends State<ChatList> {
   }
 
   List<Message> listMessages(AsyncSnapshot<QuerySnapshot<Object?>> snapshot) {
-    print(snapshot.data!.docs);
-
     return snapshot.data!.docs.map((e) {
       if (e.data().toString().contains('repliedMessage')) {
         return Message(

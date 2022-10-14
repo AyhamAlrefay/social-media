@@ -22,7 +22,7 @@ class ReceiverMessageCard extends StatelessWidget {
     return SwipeTo(
       onRightSwipe: () {
         BlocProvider.of<SaveDataBloc>(context)
-            .add(ChangeMessageReplyToDataEvent(MessageReply(
+            .add(ChangeMessageReplyToDataEvent(messageReply:MessageReply(
           message: message.text,
           isMe: FirebaseAuth.instance.currentUser!.uid == message.senderId,
           messageEnum: message.type,

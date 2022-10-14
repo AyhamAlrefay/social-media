@@ -18,7 +18,7 @@ class SaveDataBloc extends Bloc<SaveDataEvent, SaveDataState> {
       {
         reply=event.messageReply;
         emit(ChangeMessageRelyToData(reply));
-
+        reply=null;
       }
        else{
          reply=null;

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:whatsapp/features/chat/domain/entities/message_reply.dart';
 import 'package:whatsapp/features/chat/presentation/widgets/chat_screen/message_reply_preview.dart';
@@ -16,7 +15,6 @@ import 'dart:io';
 import '../../bloc/save_data/save_data_bloc.dart';
 import '../../bloc/send_messages_user/send_message_user_bloc.dart';
 import 'file.dart';
-import 'package:whatsapp/injection_container.dart' as di;
 
 class BottomChatField extends StatefulWidget {
   final UserEntity receiverUser;
@@ -187,7 +185,8 @@ class _BottomChatFieldState extends State<BottomChatField> {
                           repliedMessageType: messageReply!.messageEnum,
                           repliedTo: messageReply!.isMe == true
                               ? widget.senderUser.name
-                              : widget.receiverUser.name,)
+                              : widget.receiverUser.name,
+                        )
                       : Message(
                           senderId: widget.senderUser.uid,
                           receiverId: widget.receiverUser.uid,
@@ -196,16 +195,18 @@ class _BottomChatFieldState extends State<BottomChatField> {
                           timeSent: timeSent,
                           messageId: messageId,
                           isSeen: false);
-                  BlocProvider.of<SendMessageUserBloc>(context).add(
+                  messageReply=null;
+                 BlocProvider.of<SendMessageUserBloc>(context).add(
                       SendMessageUser(
                           message: message,
                           senderUser: widget.senderUser,
                           receiverUser: widget.receiverUser));
                   setState(() {
                     messageController.clear();
+                    BlocProvider.of<SaveDataBloc>(context)
+                        .add(ChangeMessageReplyToNullEvent(messageReply:null));
                   });
-                  BlocProvider.of<SaveDataBloc>(context)
-                      .add(ChangeMessageReplyToNullEvent(null));
+
                 },
                 child: CircleAvatar(
                     backgroundColor: backgroundColor,
@@ -228,13 +229,11 @@ class _BottomChatFieldState extends State<BottomChatField> {
                     setState(() {
                       messageController.text =
                           messageController.text + emoji.emoji;
-                      print(messageController.text);
                     });
 
                     if (!isShowSendButton) {
                       setState(() {
                         isShowSendButton = true;
-                        print(messageController.text);
                       });
                     }
                   }),

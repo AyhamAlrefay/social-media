@@ -50,7 +50,7 @@ class MessageReplyPreview extends StatelessWidget {
                       color: Colors.yellowAccent,
                     ),
                     onTap: () {
-                      BlocProvider.of<SaveDataBloc>(context).add(ChangeMessageReplyToNullEvent(null));
+                      BlocProvider.of<SaveDataBloc>(context).add(ChangeMessageReplyToNullEvent(messageReply: null));
                      },
                   ),
                 ],
