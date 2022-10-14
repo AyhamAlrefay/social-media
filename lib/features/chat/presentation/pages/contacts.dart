@@ -23,10 +23,7 @@ class _ChatsState extends State<Chats> {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-      body: BlocConsumer<GetContactsUserBloc, GetContactsUserState>(
-        listener: (context,state){
-
-        },
+      body: BlocBuilder<GetContactsUserBloc, GetContactsUserState>(
           builder: (context, state) {
             if (state is GetContactsUserSuccess) {
               return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
