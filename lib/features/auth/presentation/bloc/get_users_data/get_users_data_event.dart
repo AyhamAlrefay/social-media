@@ -17,3 +17,8 @@ class GetOtherUsersData extends GetUsersDataEvent{
   // TODO: implement props
   List<Object?> get props => [receiverUserId];
 }
+
+class GetAllUsersData extends GetUsersDataEvent{
+  @override
+  List<Object?> get props => [];
+}

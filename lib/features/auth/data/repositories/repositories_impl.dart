@@ -70,4 +70,14 @@ class AuthRepositoriesImpl extends AuthRepository {
       return Left(ServerAuthFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, List<UserEntity>>> getAllUsersData()async {
+    try {
+      List<UserModel> listUser =
+          await remoteDataSources.getAllUsersData();
+      return Right(listUser);
+    } on ServerAuthException {
+      return Left(ServerAuthFailure());
+    }}
 }

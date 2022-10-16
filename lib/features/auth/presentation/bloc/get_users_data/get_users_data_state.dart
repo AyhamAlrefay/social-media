@@ -22,3 +22,12 @@ class GetOtherUserDataSateSuccess extends GetUsersDataState{
   @override
   List<Object?> get props => [otherUser];
 }
+
+
+class GetAllUsersDataSuccess extends GetUsersDataState{
+  final List<UserEntity> listUsers;
+
+  const GetAllUsersDataSuccess({required this.listUsers});
+  @override
+  List<Object?> get props => [listUsers];
+}

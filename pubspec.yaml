@@ -15,7 +15,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-
+  contacts_service: ^0.6.3
   cupertino_icons: ^1.0.2
   firebase_core:
   country_picker:

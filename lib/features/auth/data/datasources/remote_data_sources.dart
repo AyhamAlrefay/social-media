@@ -3,13 +3,9 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../../core/datasources/firebase_storage_datasources.dart';
 import '../../../../core/error/exceptions.dart';
-import '../../presentation/bloc/sign_in_with_phone_number/sign_in_with_phone_number_bloc.dart';
-import '../../presentation/pages/otp_screen.dart';
-import 'package:flutter/material.dart';
-import '../../../../core/widgets/snak_bar.dart';
 import '../models/user_model.dart';
 import '../../../../injection_container.dart'as di;
 abstract class AuthRemoteDataSources {
@@ -22,6 +18,7 @@ abstract class AuthRemoteDataSources {
 
   Future<Unit> saveUserData({required String name, required File profilePic});
   Future<UserModel>getCurrentUserData();
+  Future<List<UserModel>>getAllUsersData();
   Future<UserModel>getOtherUserData({required String receiverUserId});
 }
 
@@ -111,6 +108,20 @@ class AuthRemoteDataSourcesImpl extends AuthRemoteDataSources {
       return Future.value(userModel);
 
   }
+
+  @override
+  Future<List<UserModel>> getAllUsersData()async {
+    var list= await firestore.collection('users').get().then((value) {
+      List<UserModel> listUsers = [];
+      value.docs.forEach((element) {
+        listUsers.add(UserModel.fromMap(element.data()));
+      });
+    return listUsers;
+
+    });
+    return list;
+
+}
 
 
 }

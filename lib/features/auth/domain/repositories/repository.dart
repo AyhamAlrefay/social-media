@@ -12,5 +12,6 @@ abstract class AuthRepository{
   Future<Either<Failure,Unit>>saveUserData({required String name,required File profilePic});
   Future<Either<Failure,UserEntity>>getCurrentUserData();
   Future<Either<Failure,UserEntity>>getOtherUserData({required String receiverUserId});
+  Future<Either<Failure,List<UserEntity>>>getAllUsersData();
 
 }
