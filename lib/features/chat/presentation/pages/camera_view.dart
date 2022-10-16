@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../../../core/enums/enum_message.dart';
-import '../../../../auth/domain/entities/user_entity.dart';
-import '../../../domain/entities/message.dart';
-import '../../bloc/send_messages_user/send_message_user_bloc.dart';
+import '../../../../../../core/enums/enum_message.dart';
+import '../../../auth/domain/entities/user_entity.dart';
+import '../../domain/entities/message.dart';
+import '../bloc/send_messages_user/send_message_user_bloc.dart';
+import '../widgets/chat_screen/camera/icon_button.dart';
 class CameraViewPage extends StatelessWidget {
   final UserEntity receiverUser;
   final UserEntity senderUser;
@@ -21,30 +22,10 @@ class CameraViewPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.black,
         actions: [
-          IconButton(
-              icon: const Icon(
-                Icons.crop_rotate,
-                size: 27,
-              ),
-              onPressed: () {}),
-          IconButton(
-              icon: const Icon(
-                Icons.emoji_emotions_outlined,
-                size: 27,
-              ),
-              onPressed: () {}),
-          IconButton(
-              icon: const Icon(
-                Icons.title,
-                size: 27,
-              ),
-              onPressed: () {}),
-          IconButton(
-              icon: const Icon(
-                Icons.edit,
-                size: 27,
-              ),
-              onPressed: () {}),
+          BuildIconButton.buildIconButton(icon:Icons.crop_rotate,function: (){} ),
+          BuildIconButton.buildIconButton(icon:  Icons.emoji_emotions_outlined,function: (){} ),
+          BuildIconButton.buildIconButton(icon:  Icons.title,function: (){} ),
+          BuildIconButton.buildIconButton(icon:  Icons.edit,function: (){} ),
         ],
       ),
       body: SizedBox(
@@ -88,13 +69,11 @@ class CameraViewPage extends StatelessWidget {
                       suffixIcon: CircleAvatar(
                         radius: 27,
                         backgroundColor: Colors.tealAccent[700],
-                        child:  IconButton(
-                         icon:const Icon( Icons.check,size: 27,),
-                          color: Colors.white, onPressed: () {
-                           Message message;
+                        child: BuildIconButton.buildIconButton(icon:Icons.check,function: (){
+                          Message message;
                           final timeSent = DateTime.now();
                           var messageId = const Uuid().v1();
-                         message= Message(
+                          message= Message(
                               senderId: senderUser.uid,
                               receiverId: receiverUser.uid,
                               messageContent: file,
@@ -108,10 +87,9 @@ class CameraViewPage extends StatelessWidget {
                                   message: message,
                                   senderUser: senderUser,
                                   receiverUser: receiverUser));
-                           int count = 0;
-                           Navigator.of(context).popUntil((_) => count++ >= 2);
-                        },
-                        ),
+                          int count = 0;
+                          Navigator.of(context).popUntil((_) => count++ >= 2);
+                        } ),
                       )),
                 ),
               ),
@@ -121,4 +99,6 @@ class CameraViewPage extends StatelessWidget {
       ),
     );
   }
+
+
 }

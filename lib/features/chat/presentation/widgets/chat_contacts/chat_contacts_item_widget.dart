@@ -29,7 +29,13 @@ class ChatContactsItemWidget extends StatelessWidget {
           chatContact.name,
           style: const TextStyle(fontSize: 15),
         ),
-        subtitle: Text(chatContact.lastMessage),
+        subtitle: chatContact.lastMessage.contains('https')? RichText(text: TextSpan(
+          children: [
+            TextSpan(text: 'image',style: TextStyle(color: Colors.black45,fontSize: 15)),
+            WidgetSpan(child: Icon(Icons.image),alignment: PlaceholderAlignment.middle)
+          ]
+        ), ):
+       Text( chatContact.name),
         trailing: Text(
           DateFormat('hh:mm a').format(chatContact.timeSent),
           style: const TextStyle(fontSize: 12),

@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whatsapp/features/chat/presentation/widgets/chat_screen/video_view.dart';
 import 'package:whatsapp/injection_container.dart' as di;
-import '../../../../auth/domain/entities/user_entity.dart';
-import '../../bloc/send_messages_user/send_message_user_bloc.dart';
+import '../../../auth/domain/entities/user_entity.dart';
+import '../bloc/send_messages_user/send_message_user_bloc.dart';
+import '../widgets/chat_screen/camera/icon_button.dart';
 import 'camera_view.dart';
 
 late List<CameraDescription> cameras;
@@ -72,21 +73,16 @@ class CameraScreenState extends State<CameraScreen> {
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      IconButton(
-                          icon: Icon(
-                            flash ? Icons.flash_on : Icons.flash_off,
-                            color: Colors.white,
-                            size: 28,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              flash != flash;
-                            });
-                            flash
-                                ? _cameraController
-                                .setFlashMode(FlashMode.torch)
-                                : _cameraController.setFlashMode(FlashMode.off);
-                          }),
+                      BuildIconButton.buildIconButton(icon:  flash ? Icons.flash_on : Icons.flash_off, function: () {
+                        setState(() {
+                          flash != flash;
+                        });
+                        flash
+                            ? _cameraController
+                            .setFlashMode(FlashMode.torch)
+                            : _cameraController.setFlashMode(FlashMode.off);
+                      }),
+
                       GestureDetector(
                         onLongPress: () async {
                           await _cameraController.startVideoRecording();

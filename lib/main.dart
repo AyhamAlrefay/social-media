@@ -8,16 +8,13 @@ import 'core/route.dart';
 import 'features/auth/presentation/bloc/get_users_data/get_users_data_bloc.dart';
 import 'features/chat/presentation/bloc/get_contacts_user/get_contacts_user_bloc.dart';
 import 'features/chat/presentation/bloc/save_data/save_data_bloc.dart';
-import 'features/chat/presentation/widgets/chat_contacts/all_contacts.dart';
-import 'features/chat/presentation/widgets/chat_screen/camer_screen.dart';
-import 'mobile_chat_screen.dart';
-import 'features/auth/presentation/bloc/save_user_data/save_user_data_bloc.dart';
-import 'features/auth/presentation/bloc/sign_in_with_phone_number/sign_in_with_phone_number_bloc.dart';
+import 'features/chat/presentation/pages/camer_screen.dart';
 import 'features/chat/presentation/bloc/get_messages_user/get_message_user_bloc.dart';
 import 'features/chat/presentation/bloc/send_messages_user/send_message_user_bloc.dart';
 import 'firebase_options.dart';
 import 'features/auth/presentation/pages/splash_screen.dart';
 import 'injection_container.dart' as di;
+
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   cameras = await availableCameras();

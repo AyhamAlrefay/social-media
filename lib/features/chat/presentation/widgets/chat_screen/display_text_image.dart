@@ -16,7 +16,12 @@ class DisplayTextImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-   return type.type=='image'?Container(
+   return type.type=='image'?ConstrainedBox(
+
+      constraints: BoxConstraints(
+        maxWidth:  MediaQuery.of(context).size.width,
+        maxHeight: MediaQuery.of(context).size.height/3,
+      ),
       child: Image(image: NetworkImage(
         message
       )),

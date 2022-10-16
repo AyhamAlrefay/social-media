@@ -69,7 +69,7 @@ final TextEditingController _searchController=TextEditingController();
     }
     return Scaffold(
       appBar: AppBar(
-        title: _buildSearchField()
+
       ),
       body:
 
