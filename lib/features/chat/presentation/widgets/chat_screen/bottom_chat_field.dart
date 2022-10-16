@@ -7,7 +7,7 @@ import 'package:whatsapp/features/chat/domain/entities/message_reply.dart';
 import 'package:whatsapp/features/chat/presentation/widgets/chat_screen/bottom_chat_field/bottom_sheet.dart';
 import 'package:whatsapp/features/chat/presentation/widgets/chat_screen/message_reply_preview.dart';
 import '../../../../../core/enums/enum_message.dart';
-import '../../../../../core/theme/colors.dart';
+import '../../../../../core/global/theme/colors.dart';
 import '../../../../auth/domain/entities/user_entity.dart';
 import '../../../domain/entities/message.dart';
 import '../../bloc/save_data/save_data_bloc.dart';
@@ -139,11 +139,11 @@ class _BottomChatFieldState extends State<BottomChatField> {
                   });
                 },
                 child: CircleAvatar(
-                    backgroundColor: backgroundColor,
+                    backgroundColor: const Color.fromRGBO(5, 96, 98, 1),
                     radius: 25,
                     child: Icon(
                       isShowSendButton ? Icons.send : Icons.mic,
-                      color: Colors.yellowAccent,
+                      color: Theme.of(context).iconTheme.color,
                     )),
               ),
             ),
@@ -208,12 +208,12 @@ class _BottomChatFieldState extends State<BottomChatField> {
         ),
         contentPadding: const EdgeInsets.all(10),
         filled: true,
-        fillColor: backgroundColor,
+        fillColor: const Color.fromRGBO(5, 96, 98, 1),
         prefixIcon: IconButton(
           onPressed: toggleEmojiKeyboardContainer,
-          icon: const Icon(
+          icon:  Icon(
             Icons.emoji_emotions,
-            color: Colors.yellowAccent,
+            color:Theme.of(context).iconTheme.color,
           ),
         ),
         suffixIcon: SizedBox(
@@ -229,9 +229,9 @@ class _BottomChatFieldState extends State<BottomChatField> {
                             senderUser: widget.senderUser,
                           )));
                 },
-                icon: const Icon(
+                icon:  Icon(
                   Icons.camera_alt,
-                  color: Colors.yellowAccent,
+                  color:Theme.of(context).iconTheme.color,
                 ),
               ),
               IconButton(
@@ -252,9 +252,9 @@ class _BottomChatFieldState extends State<BottomChatField> {
                     builder: (builder) =>BottomSheetWidget(context: context, senderUser: widget.senderUser, receiverUser: widget.receiverUser),
                   );
                 },
-                icon: const Icon(
+                icon:  Icon(
                   Icons.attach_file,
-                  color: Colors.yellowAccent,
+                  color: Theme.of(context).iconTheme.color,
                 ),
               ),
             ],

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:whatsapp/core/theme/colors.dart';
+import 'package:whatsapp/core/global/theme/colors.dart';
 
 class Status extends StatelessWidget {
   static const String routeName = '/status';

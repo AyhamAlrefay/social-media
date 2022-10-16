@@ -1,9 +1,9 @@
 
 import 'package:camera/camera.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'core/global/theme/theme_data/theme_data_light.dart';
 import 'core/route.dart';
 import 'features/auth/presentation/bloc/get_users_data/get_users_data_bloc.dart';
 import 'features/chat/presentation/bloc/get_contacts_user/get_contacts_user_bloc.dart';
@@ -60,7 +60,7 @@ class _MyAppState extends State<MyApp> {
       ],
       child: MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(),
+      theme:getThemeDataLight(context),
       onGenerateRoute: (settings)=>generateRoute(settings),
       home: const  SplashScreen(),
     ),);

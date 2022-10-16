@@ -1,18 +1,8 @@
 import 'dart:async';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:whatsapp/features/auth/presentation/bloc/get_users_data/get_users_data_bloc.dart';
-
 import '../../../../mobile_chat_screen.dart';
-import '../../../chat/presentation/bloc/get_contacts_user/get_contacts_user_bloc.dart';
-import '../../../chat/presentation/bloc/get_messages_user/get_message_user_bloc.dart';
-import '../../../chat/presentation/bloc/save_data/save_data_bloc.dart';
-import '../../../chat/presentation/bloc/send_messages_user/send_message_user_bloc.dart';
 import 'landing_screen.dart';
-import 'package:whatsapp/injection_container.dart' as di;
-
 class SplashScreen extends StatefulWidget {
   static String routeName = '/SplashScreen';
 
@@ -73,20 +63,16 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: const [
-            Image(
+          children:  [
+           const Image(
               image: AssetImage('assets/images/download (1).jpg'),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Text(
               'WhatsApp',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 30,
-                color: Colors.green,
-              ),
+              style: Theme.of(context).textTheme.displayLarge,
             ),
 
           ],

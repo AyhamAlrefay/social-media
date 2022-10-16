@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:whatsapp/core/theme/colors.dart';
+import 'package:whatsapp/core/global/theme/colors.dart';
 import 'package:whatsapp/core/widgets/snak_bar.dart';
 import 'package:whatsapp/features/auth/domain/entities/user_entity.dart';
 import 'package:whatsapp/features/chat/presentation/widgets/chat_contacts/all_contacts.dart';
@@ -10,18 +10,17 @@ import '../../../auth/presentation/bloc/get_users_data/get_users_data_bloc.dart'
 import '../../domain/entities/contact.dart';
 import '../bloc/get_contacts_user/get_contacts_user_bloc.dart';
 import '../widgets/chat_contacts/chat_contacts_item_widget.dart';
-import 'package:whatsapp/injection_container.dart' as di;
 
-class Chats extends StatefulWidget {
-  static const String routeName = '/chats';
+class Contacts extends StatefulWidget {
+  static const String routeName = '/contacts';
 
-  const Chats({Key? key}) : super(key: key);
+  const Contacts({Key? key}) : super(key: key);
 
   @override
-  State<Chats> createState() => _ChatsState();
+  State<Contacts> createState() => _ContactsState();
 }
 
-class _ChatsState extends State<Chats> {
+class _ContactsState extends State<Contacts> {
   List<UserEntity> listUsers = [];
 
   @override
@@ -78,14 +77,14 @@ class _ChatsState extends State<Chats> {
           );
         }),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: backgroundColor,
+
           onPressed: () async {
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (_) => AllContacts(listUser: listUsers)));
           },
-          child: const Icon(
+          child:  Icon(
             Icons.message,
-            color: Colors.yellowAccent,
+            color: Theme.of(context).iconTheme.color,
           ),
         ));
   }
