@@ -19,7 +19,7 @@ class BottomChatField extends StatefulWidget {
   final UserEntity senderUser;
 
 
- const BottomChatField(
+  const BottomChatField(
       {Key? key, required this.receiverUser, required this.senderUser})
       : super(key: key);
 
@@ -66,6 +66,8 @@ class _BottomChatFieldState extends State<BottomChatField> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         BlocBuilder<SaveDataBloc, SaveDataState>(
           builder: (context, state) {
@@ -82,16 +84,20 @@ class _BottomChatFieldState extends State<BottomChatField> {
           },
         ),
         Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Expanded(
                 child: Padding(
-              padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom),
+                  padding: EdgeInsets.only(
+                      bottom: MediaQuery
+                          .of(context)
+                          .viewInsets
+                          .bottom),
 
-              child: buildTextFormField(context),
+                  child: buildTextFormField(context),
 
 
-            )),
+                )),
             Padding(
               padding: const EdgeInsets.only(
                 bottom: 8,
@@ -102,30 +108,30 @@ class _BottomChatFieldState extends State<BottomChatField> {
                 onTap: () {
                   final timeSent = DateTime.now();
                   var messageId = const Uuid().v1();
-                  final  Message message = messageReply != null? Message(
-                          senderId: widget.senderUser.uid,
-                          receiverId: widget.receiverUser.uid,
-                          messageContent: messageController.text,
-                          type: MessageEnum.text,
-                          timeSent: timeSent,
-                          messageId: messageId,
-                          isSeen: false,
-                          senderUserName: widget.senderUser.name,
-                          receiverUserName: widget.receiverUser.name,
-                          repliedMessage: messageReply!.message,
-                          repliedMessageType: messageReply!.messageEnum,
-                          repliedTo: messageReply!.isMe == true
-                              ? widget.senderUser.name
-                              : widget.receiverUser.name,
-                        )
+                  final Message message = messageReply != null ? Message(
+                    senderId: widget.senderUser.uid,
+                    receiverId: widget.receiverUser.uid,
+                    messageContent: messageController.text,
+                    type: MessageEnum.text,
+                    timeSent: timeSent,
+                    messageId: messageId,
+                    isSeen: false,
+                    senderUserName: widget.senderUser.name,
+                    receiverUserName: widget.receiverUser.name,
+                    repliedMessage: messageReply!.message,
+                    repliedMessageType: messageReply!.messageEnum,
+                    repliedTo: messageReply!.isMe == true
+                        ? widget.senderUser.name
+                        : widget.receiverUser.name,
+                  )
                       : Message(
-                          senderId: widget.senderUser.uid,
-                          receiverId: widget.receiverUser.uid,
-                          messageContent: messageController.text,
-                          type: MessageEnum.text,
-                          timeSent: timeSent,
-                          messageId: messageId,
-                          isSeen: false);
+                      senderId: widget.senderUser.uid,
+                      receiverId: widget.receiverUser.uid,
+                      messageContent: messageController.text,
+                      type: MessageEnum.text,
+                      timeSent: timeSent,
+                      messageId: messageId,
+                      isSeen: false);
                   messageReply = null;
                   BlocProvider.of<SendMessageUserBloc>(context).add(
                       SendMessageUser(
@@ -151,24 +157,27 @@ class _BottomChatFieldState extends State<BottomChatField> {
         ),
         isShowEmojiContainer
             ? ConstrainedBox(
-                constraints: BoxConstraints(
-                  maxHeight: MediaQuery.of(context).size.height * 0.35,
-                ),
-                child: EmojiPicker(
-                  onEmojiSelected: ((category, emoji) {
-                    setState(() {
-                      messageController.text =
-                          messageController.text + emoji.emoji;
-                    });
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery
+                .of(context)
+                .size
+                .height * 0.35,
+          ),
+          child: EmojiPicker(
+            onEmojiSelected: ((category, emoji) {
+              setState(() {
+                messageController.text =
+                    messageController.text + emoji.emoji;
+              });
 
-                    if (!isShowSendButton) {
-                      setState(() {
-                        isShowSendButton = true;
-                      });
-                    }
-                  }),
-                ),
-              )
+              if (!isShowSendButton) {
+                setState(() {
+                  isShowSendButton = true;
+                });
+              }
+            }),
+          ),
+        )
             : const SizedBox(),
       ],
     );
@@ -176,7 +185,8 @@ class _BottomChatFieldState extends State<BottomChatField> {
 
   TextFormField buildTextFormField(BuildContext context) {
     return TextFormField(
-      maxLines: null,
+      maxLines: 6,
+      minLines: 1,
       onTap: () {
         setState(() {
           isShowEmojiContainer = false;
@@ -220,11 +230,13 @@ class _BottomChatFieldState extends State<BottomChatField> {
           width: 100,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisSize: MainAxisSize.min,
             children: [
               IconButton(
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => CameraScreen(
+                      builder: (context) =>
+                          CameraScreen(
                             receiverUser: widget.receiverUser,
                             senderUser: widget.senderUser,
                           )));
@@ -239,7 +251,7 @@ class _BottomChatFieldState extends State<BottomChatField> {
                   showModalBottomSheet(
                     shape: const RoundedRectangleBorder(
                         borderRadius:
-                            BorderRadius.all(Radius.circular(1000.0))),
+                        BorderRadius.all(Radius.circular(1000.0))),
                     backgroundColor: Colors.black.withOpacity(0),
                     isScrollControlled: true,
                     anchorPoint: const Offset(5, 10),
@@ -249,7 +261,10 @@ class _BottomChatFieldState extends State<BottomChatField> {
                     elevation: 20,
                     enableDrag: true,
                     context: context,
-                    builder: (builder) =>BottomSheetWidget(context: context, senderUser: widget.senderUser, receiverUser: widget.receiverUser),
+                    builder: (builder) =>
+                        BottomSheetWidget(context: context,
+                          senderUser: widget.senderUser,
+                          receiverUser: widget.receiverUser,),
                   );
                 },
                 icon: const Icon(
