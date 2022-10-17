@@ -19,8 +19,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       final UserEntity sender=settings.arguments as UserEntity;
       final UserEntity receiver=settings.arguments as UserEntity;
       return MaterialPageRoute(builder: (context)=>ChatUser(receiver: receiver,sender: sender,));
-    case Chats.routeName:
-      return MaterialPageRoute(builder: (context)=>Chats());
+    case Contacts.routeName:
+      return MaterialPageRoute(builder: (context)=>Contacts());
     case Groups.routeName:
       return MaterialPageRoute(builder: (context)=>Groups());
     case Calls.routeName:

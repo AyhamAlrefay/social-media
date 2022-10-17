@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whatsapp/core/widgets/snak_bar.dart';
-import '../../../../core/theme/colors.dart';
 import '../../../../core/widgets/loading_widget.dart';
 import 'user_information_screen.dart';
 import '../../../../injection_container.dart' as di;
@@ -11,11 +10,11 @@ import '../bloc/sign_in_with_phone_number/sign_in_with_phone_number_bloc.dart';
 class OtpScreen extends StatelessWidget {
   static const String routeName = '/otp-screen';
 
-
   const OtpScreen({Key? key}) : super(key: key);
 
   void verifyOTP({required BuildContext context, required String userOTP}) {
-    BlocProvider.of<SignInWithPhoneNumberBloc>(context).add(VerifyOtpEvent(userOTP: userOTP));
+    BlocProvider.of<SignInWithPhoneNumberBloc>(context)
+        .add(VerifyOtpEvent(userOTP: userOTP));
   }
 
   @override
@@ -23,14 +22,15 @@ class OtpScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Verifying your number'),
-        backgroundColor: backgroundColor,
-        elevation: 0,
       ),
       body: Center(
         child: Column(
           children: [
             const SizedBox(height: 20),
-            const Text('We have sent an SMS with a code.'),
+            Text(
+              'We have sent an SMS with a code.',
+              style: Theme.of(context).textTheme.displayMedium,
+            ),
             BlocConsumer<SignInWithPhoneNumberBloc, SignInWithPhoneNumberState>(
               listener: (context, state) {
                 if (state is SuccessVerifyOtp) {
@@ -40,7 +40,6 @@ class OtpScreen extends StatelessWidget {
                         builder: (context) => BlocProvider<SaveUserDataBloc>(
                           create: (_) => di.sl<SaveUserDataBloc>(),
                           child: const UserInformationScreen(),
-
                         ),
                       ),
                       (route) => false);
@@ -55,7 +54,10 @@ class OtpScreen extends StatelessWidget {
                 return TextField(
                   textAlign: TextAlign.center,
                   keyboardType: TextInputType.number,
+                   cursorColor: Theme.of(context).primaryColor,
+                   style: Theme.of(context).textTheme.displayMedium,
                   decoration: const InputDecoration(
+                      border: InputBorder.none,
                       hintText: '- - - - - -',
                       hintStyle: TextStyle(fontSize: 30)),
                   onChanged: (value) {

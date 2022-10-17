@@ -3,6 +3,7 @@ import 'login_screen.dart';
 import '../bloc/sign_in_with_phone_number/sign_in_with_phone_number_bloc.dart';
 import '../../../../injection_container.dart' as di;
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 class LandingScreen extends StatelessWidget {
   const LandingScreen({Key? key}) : super(key: key);
 
@@ -23,12 +24,9 @@ class LandingScreen extends StatelessWidget {
             const SizedBox(
               height: 50.0,
             ),
-            const Text(
+            Text(
               'Welcome to WhatsApp ',
-              style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 33,
-                  color: Colors.green),
+              style: Theme.of(context).textTheme.displayLarge,
             ),
             SizedBox(
               height: size.height / 12,
@@ -40,11 +38,11 @@ class LandingScreen extends StatelessWidget {
               color: Colors.green,
             ),
             SizedBox(height: size.height / 12),
-            const Padding(
-              padding: EdgeInsets.all(15.0),
+            Padding(
+              padding: const EdgeInsets.all(15.0),
               child: Text(
                 'Read our Privacy Policy. Tap "Agree and continue" to accept the Terms of Service.',
-                style: TextStyle(color: Colors.grey),
+                style: Theme.of(context).textTheme.bodySmall,
                 textAlign: TextAlign.center,
               ),
             ),
@@ -52,15 +50,16 @@ class LandingScreen extends StatelessWidget {
             SizedBox(
               width: size.width * 0.75,
               child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.green,
-                  minimumSize: Size(size.width * 0.5, 50),
-                ),
                 onPressed: () {
-
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>BlocProvider<SignInWithPhoneNumberBloc>(
-                    create: (_)=>di.sl<SignInWithPhoneNumberBloc>(),child:const LoginScreen() ,)));
-
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              BlocProvider<SignInWithPhoneNumberBloc>(
+                                create: (_) =>
+                                    di.sl<SignInWithPhoneNumberBloc>(),
+                                child: const LoginScreen(),
+                              )));
                 },
                 child: const Text('AGREE AND CONTINUE'),
               ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:whatsapp/features/auth/domain/entities/user_entity.dart';
-import '../../../../core/theme/colors.dart';
+import '../../../../core/global/theme/colors.dart';
 import '../widgets/chat_screen/bottom_chat_field.dart';
 import '../widgets/chat_screen/chat_lsit.dart';
 
@@ -30,12 +30,6 @@ class ChatUser extends StatelessWidget {
   AppBar buildAppBar() {
     return AppBar(
             scrolledUnderElevation: 15,
-            iconTheme: const IconThemeData(
-              color: Colors.amberAccent,
-            ),
-            backgroundColor: backgroundColor,
-            titleSpacing: -10,
-            centerTitle: false,
             title: Row(
               children: [
                 CircleAvatar(

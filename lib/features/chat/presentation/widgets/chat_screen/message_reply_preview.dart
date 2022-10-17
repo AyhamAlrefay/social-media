@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:whatsapp/core/theme/colors.dart';
+import 'package:whatsapp/core/global/theme/colors.dart';
 import 'package:whatsapp/features/chat/domain/entities/message_reply.dart';
 import 'package:whatsapp/features/chat/presentation/bloc/save_data/save_data_bloc.dart';
 import '../../../../../core/enums/enum_message.dart';

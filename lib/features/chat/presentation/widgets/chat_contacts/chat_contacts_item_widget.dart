@@ -27,18 +27,17 @@ class ChatContactsItemWidget extends StatelessWidget {
         ),
         title: Text(
           chatContact.name,
-          style: const TextStyle(fontSize: 15),
+          style: Theme.of(context).textTheme.bodySmall,
         ),
         subtitle: chatContact.lastMessage.contains('https')? RichText(text: TextSpan(
           children: [
-            TextSpan(text: 'image',style: TextStyle(color: Colors.black45,fontSize: 15)),
-            WidgetSpan(child: Icon(Icons.image),alignment: PlaceholderAlignment.middle)
+            TextSpan(text: 'image',style: Theme.of(context).textTheme.displayMedium),
+           const  WidgetSpan(child: Icon(Icons.image),alignment: PlaceholderAlignment.middle)
           ]
-        ), ):
-       Text( chatContact.name),
+        ), ): Text( chatContact.lastMessage,style: Theme.of(context).textTheme.displayMedium,),
         trailing: Text(
           DateFormat('hh:mm a').format(chatContact.timeSent),
-          style: const TextStyle(fontSize: 12),
+          style: const TextStyle(fontSize: 12,color: Colors.black54),
         ),
         onTap: () async {
           BlocProvider.of<GetUsersDataBloc>(context)
