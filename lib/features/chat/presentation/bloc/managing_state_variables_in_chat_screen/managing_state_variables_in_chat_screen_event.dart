@@ -14,3 +14,15 @@ class NotShowKeyboardEmojiEvent extends ManagingStateVariablesInChatScreenEvent{
   List<Object?> get props =>[];
 
 }
+class ShowSendButtonEvent extends ManagingStateVariablesInChatScreenEvent{
+  @override
+  // TODO: implement props
+  List<Object?> get props =>[];
+
+}
+class NotShowSendButtonEvent extends ManagingStateVariablesInChatScreenEvent{
+  @override
+  // TODO: implement props
+  List<Object?> get props =>[];
+
+}
