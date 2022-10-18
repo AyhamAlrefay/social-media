@@ -98,6 +98,7 @@ class BottomSheetWidget extends StatelessWidget {
       ),
     );
   }
+
   static Future<File> saveFilePermanently(PlatformFile file) async {
     final appStorage = await getApplicationDocumentsDirectory();
     final newFile = File('${appStorage.path}/${file.name}');
