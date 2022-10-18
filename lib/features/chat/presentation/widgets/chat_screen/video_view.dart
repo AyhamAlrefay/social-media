@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
+import '../../../../../core/strings/string_public.dart';
+
 class VideoViewPage extends StatefulWidget {
   const VideoViewPage({Key? key, required this.path}) : super(key: key);
   final String path;
@@ -87,7 +89,7 @@ class VideoViewPageState extends State<VideoViewPage> {
                   minLines: 1,
                   decoration: InputDecoration(
                       border: InputBorder.none,
-                      hintText: "Add Caption....",
+                      hintText: HINT_TEXT_ADD_COPTION,
                       prefixIcon: const Icon(
                         Icons.add_photo_alternate,
                         color: Colors.white,

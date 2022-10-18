@@ -6,7 +6,6 @@ abstract class GetUsersDataEvent extends Equatable {
 
 class GetCurrentUserData extends GetUsersDataEvent{
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }
 class GetOtherUsersData extends GetUsersDataEvent{
@@ -14,7 +13,6 @@ class GetOtherUsersData extends GetUsersDataEvent{
   const GetOtherUsersData({required this.receiverUserId});
 
   @override
-  // TODO: implement props
   List<Object?> get props => [receiverUserId];
 }
 

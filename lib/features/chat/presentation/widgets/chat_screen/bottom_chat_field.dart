@@ -8,6 +8,7 @@ import 'package:whatsapp/features/chat/presentation/widgets/chat_screen/bottom_c
 import 'package:whatsapp/features/chat/presentation/widgets/chat_screen/message_reply_preview.dart';
 import '../../../../../core/enums/enum_message.dart';
 import '../../../../../core/global/theme/colors.dart';
+import '../../../../../core/strings/string_public.dart';
 import '../../../../auth/domain/entities/user_entity.dart';
 import '../../../domain/entities/message.dart';
 import '../../bloc/save_data/save_data_bloc.dart';
@@ -207,7 +208,7 @@ class _BottomChatFieldState extends State<BottomChatField> {
         });
       },
       decoration: InputDecoration(
-        hintText: 'Type a message!',
+        hintText: HINT_TEXT_TYPE_MESSAGE,
         hintStyle: const TextStyle(color: Colors.white),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20),

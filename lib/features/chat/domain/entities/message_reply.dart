@@ -9,7 +9,6 @@ class MessageReply extends Equatable{
 
 
  const MessageReply({required this.message,required this.isMe,required this.messageEnum});
-
   @override
   List<Object?> get props =>[isMe,message,messageEnum];
 }

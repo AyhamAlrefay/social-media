@@ -41,8 +41,7 @@ class AuthRemoteDataSourcesImpl extends AuthRemoteDataSources {
       },
       codeSent: (String verificationId, int? resendToken) async {
         _verificationId=verificationId;
-        print('////////////////////////');
-        print(_verificationId);
+
       },
       codeAutoRetrievalTimeout: (String verificationId) {},
     );
@@ -55,7 +54,7 @@ class AuthRemoteDataSourcesImpl extends AuthRemoteDataSources {
   }) async {
     try {
       PhoneAuthCredential credential = PhoneAuthProvider.credential(
-          verificationId: _verificationId!, smsCode: userOTP);
+          verificationId: _verificationId, smsCode: userOTP);
       await auth.signInWithCredential(credential);
 
       return Future.value(unit);

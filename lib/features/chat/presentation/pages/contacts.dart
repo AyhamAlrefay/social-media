@@ -5,6 +5,7 @@ import 'package:whatsapp/core/global/theme/colors.dart';
 import 'package:whatsapp/core/widgets/snak_bar.dart';
 import 'package:whatsapp/features/auth/domain/entities/user_entity.dart';
 import 'package:whatsapp/features/chat/presentation/widgets/chat_contacts/all_contacts.dart';
+import '../../../../core/strings/string_public.dart';
 import '../../../../core/widgets/loading_widget.dart';
 import '../../../auth/presentation/bloc/get_users_data/get_users_data_bloc.dart';
 import '../../domain/entities/contact.dart';
@@ -26,7 +27,6 @@ class _ContactsState extends State<Contacts> {
   @override
   void initState() {
     BlocProvider.of<GetUsersDataBloc>(context).add(GetAllUsersData());
-    // TODO: implement initState
     super.initState();
   }
 
@@ -53,7 +53,7 @@ class _ContactsState extends State<Contacts> {
                       return Scaffold(
                         body: listContact.isEmpty
                             ? const Center(
-                                child: Text('There are not any contacts'),
+                                child: Text(THERE_ARENOT_CONTACTS),
                               )
                             : ListView.builder(
                                 itemCount: listContact.length,

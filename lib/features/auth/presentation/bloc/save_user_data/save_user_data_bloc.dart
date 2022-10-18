@@ -1,12 +1,9 @@
 import 'dart:io';
-
 import 'package:bloc/bloc.dart';
-import 'package:dartz/dartz.dart';
 import '../../../../../core/strings/failures.dart';
+import '../../../../../core/strings/string_public.dart';
 import '../../../domain/usecases/save_user_data_use_case.dart';
-
 import '../../../../../core/error/failures.dart';
-import '../../../domain/entities/user_entity.dart';
 import '../../../domain/usecases/get_current_user_data_use_case.dart';
 
 part 'save_user_data_event.dart';
@@ -22,6 +19,7 @@ class SaveUserDataBloc extends Bloc<SaveUserDataEvent, SaveUserDataState> {
     required this.saveUserDataUseCase,
   }) : super(SaveUserDataStateInitial()) {
     on<SaveUserDataEvent>((event, emit) async {
+
       if (event is SaveUserData) {
         emit(SaveUserDataStateLoading());
         final failureOrDoneMessage = await saveUserDataUseCase.call(
@@ -29,7 +27,6 @@ class SaveUserDataBloc extends Bloc<SaveUserDataEvent, SaveUserDataState> {
         failureOrDoneMessage.fold(
                 (failure) => emit(SaveUserDataStateError(error: _mapFailureToMessage(failure))),
                 (_) => emit(SaveUserDataStateSuccess()));
-
       }
     });
   }
@@ -40,6 +37,6 @@ String _mapFailureToMessage(failure) {
     case ServerAuthFailure:
       return SERVER_AUTH_FAILURE;
     default:
-      return "Unexpected Error , Please try again later .";
+      return FAILURE_ERROR;
   }
 }

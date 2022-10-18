@@ -13,7 +13,6 @@ class LoadingSignInWithPhoneNumberState extends SignInWithPhoneNumberState {}
 
 class ErrorSignInWithPhoneNumberState extends SignInWithPhoneNumberState {
   final String error;
-
   const ErrorSignInWithPhoneNumberState({required this.error});
 }
 
@@ -25,12 +24,7 @@ class LoadingVerifyOtp extends SignInWithPhoneNumberState {}
 
 class ErrorVerifyOtp extends SignInWithPhoneNumberState {
   final String message;
-
   const ErrorVerifyOtp({required this.message});
 }
 
-class SuccessVerifyOtp extends SignInWithPhoneNumberState {
-
-
-  const SuccessVerifyOtp();
-}
+class SuccessVerifyOtp extends SignInWithPhoneNumberState {const SuccessVerifyOtp();}

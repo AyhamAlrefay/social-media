@@ -7,7 +7,6 @@ class ChangeMessageReplyToDataEvent extends SaveDataEvent{
   MessageReply? messageReply;
   ChangeMessageReplyToDataEvent({required this.messageReply});
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 
 }
@@ -15,7 +14,5 @@ class ChangeMessageReplyToNullEvent extends SaveDataEvent{
   MessageReply? messageReply;
   ChangeMessageReplyToNullEvent({required this.messageReply});
   @override
-  // TODO: implement props
-  List<Object?> get props => [];
-
+ List<Object?> get props => [];
 }

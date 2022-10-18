@@ -1,8 +1,8 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../../../core/strings/string_public.dart';
 import '../../../../core/widgets/loading_widget.dart';
 import '../../../chat/presentation/bloc/get_contacts_user/get_contacts_user_bloc.dart';
 import '../bloc/save_user_data/save_user_data_bloc.dart';
@@ -24,7 +24,7 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
+
     super.dispose();
     nameController.dispose();
   }
@@ -45,7 +45,7 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
                   image == null
                       ? const CircleAvatar(
                           backgroundImage: NetworkImage(
-                              'https://png.pngitem.com/pimgs/s/649-6490124_katie-notopoulos-katienotopoulos-i-write-about-tech-round.png'),
+                             IMAGE_NETWORK),
                           radius: 64,
                         )
                       : CircleAvatar(
@@ -75,7 +75,7 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
                     child: TextField(
                       controller: nameController,
                       decoration: const InputDecoration(
-                        hintText: 'Enter your name',
+                        hintText: HINT_TEXT_ENTER_YOUR_NAME,
                       ),
                     ),
                   ),
@@ -111,7 +111,7 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
 
   AlertDialog buildAlertDialog(BuildContext context) {
     return AlertDialog(
-      title: const Text("chose photo from :"),
+      title: const Text(CHOSE_PHOTO_FROM),
       content: SizedBox(
         height: 150,
         child: Column(
@@ -123,7 +123,7 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
               color: Colors.grey,
               child: ListTile(
                 leading: const Icon(Icons.photo),
-                title: const Text("Gallery"),
+                title: const Text(GALLERY),
                 onTap: () {
                   selectImage(ImageSource.gallery);
                   Navigator.of(context).pop();
@@ -137,7 +137,7 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
               color: Colors.grey,
               child: ListTile(
                 leading: const Icon(Icons.add_a_photo),
-                title: const Text("Camera"),
+                title: const Text(CAMERA),
                 onTap: () {
                   selectImage(ImageSource.camera);
                   Navigator.of(context).pop();

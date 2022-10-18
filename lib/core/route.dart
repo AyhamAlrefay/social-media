@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:whatsapp/core/strings/string_public.dart';
 import 'package:whatsapp/features/auth/domain/entities/user_entity.dart';
 import 'widgets/error_widget.dart';
 import '../features/auth/presentation/pages/login_screen.dart';
@@ -20,23 +21,23 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       final UserEntity receiver=settings.arguments as UserEntity;
       return MaterialPageRoute(builder: (context)=>ChatUser(receiver: receiver,sender: sender,));
     case Contacts.routeName:
-      return MaterialPageRoute(builder: (context)=>Contacts());
+      return MaterialPageRoute(builder: (context)=>const Contacts());
     case Groups.routeName:
-      return MaterialPageRoute(builder: (context)=>Groups());
+      return MaterialPageRoute(builder: (context)=>const Groups());
     case Calls.routeName:
-     return MaterialPageRoute(builder: (context)=>Calls());
+     return MaterialPageRoute(builder: (context)=>const Calls());
     case Status.routeName:
-      return MaterialPageRoute(builder: (context)=>Status());
+      return MaterialPageRoute(builder: (context)=>const Status());
     case OtpScreen.routeName:
 
-      return MaterialPageRoute(builder: (context) =>  OtpScreen());
+      return MaterialPageRoute(builder: (context) => const OtpScreen());
     case UserInformationScreen.routeName:
       return MaterialPageRoute(builder: (context)=>const UserInformationScreen());
     case LoginScreen.routeName:return MaterialPageRoute(builder: (context)=> LoginScreen(),);
     default:
       return MaterialPageRoute(
         builder: (context) => const Scaffold(
-          body: ErrorScreen(error: 'This page doesn\'t exist'),
+          body: ErrorScreen(error: ERROR_SCREEN),
         ),
       );
   }

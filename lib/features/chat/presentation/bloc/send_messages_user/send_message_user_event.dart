@@ -15,6 +15,5 @@ class SendMessageUser extends SendMessageUserEvent{
   });
 
   @override
-  // TODO: implement props
   List<Object?> get props => [message,senderUser,receiverUser];
 }

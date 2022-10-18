@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:whatsapp/core/strings/string_public.dart';
 import 'login_screen.dart';
 import '../bloc/sign_in_with_phone_number/sign_in_with_phone_number_bloc.dart';
 import '../../../../injection_container.dart' as di;
@@ -25,14 +26,14 @@ class LandingScreen extends StatelessWidget {
               height: 50.0,
             ),
             Text(
-              'Welcome to WhatsApp ',
+              WELCOME_TO_WHATSAPP ,
               style: Theme.of(context).textTheme.displayLarge,
             ),
             SizedBox(
               height: size.height / 12,
             ),
             Image.asset(
-              'assets/images/img.png',
+              IMAGE_WELCOME,
               height: 300,
               width: 300,
               color: Colors.green,
@@ -41,7 +42,7 @@ class LandingScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(15.0),
               child: Text(
-                'Read our Privacy Policy. Tap "Agree and continue" to accept the Terms of Service.',
+                DESCRIPTION_WELCOME,
                 style: Theme.of(context).textTheme.bodySmall,
                 textAlign: TextAlign.center,
               ),
@@ -61,7 +62,7 @@ class LandingScreen extends StatelessWidget {
                                 child: const LoginScreen(),
                               )));
                 },
-                child: const Text('AGREE AND CONTINUE'),
+                child: const Text(TEXT_BTN),
               ),
             )
           ],

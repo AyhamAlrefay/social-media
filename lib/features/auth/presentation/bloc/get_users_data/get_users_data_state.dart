@@ -4,10 +4,13 @@ abstract class GetUsersDataState extends Equatable {
   const GetUsersDataState();
 }
 
+
 class GetUsersDataInitial extends GetUsersDataState {
   @override
   List<Object> get props => [];
 }
+
+
 class GetCurrentUserDataSuccess extends GetUsersDataState{
   final UserEntity currentUser;
 
@@ -15,6 +18,8 @@ class GetCurrentUserDataSuccess extends GetUsersDataState{
   @override
   List<Object?> get props => [currentUser];
 }
+
+
 class GetOtherUserDataSateSuccess extends GetUsersDataState{
   final UserEntity otherUser;
 

@@ -1,16 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 import 'package:swipe_to/swipe_to.dart';
 import 'package:intl/intl.dart';
 import 'package:whatsapp/features/chat/presentation/bloc/save_data/save_data_bloc.dart';
 import '../../../../../core/enums/enum_message.dart';
 import '../../../domain/entities/message.dart';
 import '../../../domain/entities/message_reply.dart';
-import '../../bloc/get_messages_user/get_message_user_bloc.dart';
 import 'display_text_image.dart';
-import 'package:whatsapp/injection_container.dart' as di;
 
 class ReceiverMessageCard extends StatelessWidget {
   final Message message;

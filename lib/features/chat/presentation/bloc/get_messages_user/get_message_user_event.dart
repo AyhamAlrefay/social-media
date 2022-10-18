@@ -9,6 +9,5 @@ class GetChatMessageUserEvent extends GetMessageUserEvent{
  const GetChatMessageUserEvent({required this.receiverUserId});
 
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }

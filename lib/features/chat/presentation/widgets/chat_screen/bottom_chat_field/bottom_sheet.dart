@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:open_file/open_file.dart';
+import 'package:whatsapp/core/strings/string_public.dart';
 import '../../../../../auth/domain/entities/user_entity.dart';
 import '../../../pages/camer_screen.dart';
 import '../../../pages/camera_view.dart';
@@ -48,7 +49,7 @@ class BottomSheetWidget extends StatelessWidget {
                     const SizedBox(
                       width: 40,
                     ),
-                    iconCreation(Icons.camera_alt, Colors.pink, "Camera", () {
+                    iconCreation(Icons.camera_alt, Colors.pink, CAMERA, () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => CameraScreen(
                             receiverUser:receiverUser,
@@ -58,7 +59,7 @@ class BottomSheetWidget extends StatelessWidget {
                     const SizedBox(
                       width: 40,
                     ),
-                    iconCreation(Icons.insert_photo, Colors.purple, "Gallery",
+                    iconCreation(Icons.insert_photo, Colors.purple, GALLERY,
                             () async {
                           XFile? image = await ImagePicker().pickImage(source: ImageSource.gallery);
                           Navigator.of(context).push(MaterialPageRoute(
@@ -78,16 +79,16 @@ class BottomSheetWidget extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    iconCreation(Icons.headset, Colors.orange, "Audio", () {}),
+                    iconCreation(Icons.headset, Colors.orange, AUDIO, () {}),
                     const SizedBox(
                       width: 40,
                     ),
                     iconCreation(
-                        Icons.location_pin, Colors.teal, "Location", () {}),
+                        Icons.location_pin, Colors.teal, LOCATION, () {}),
                     const SizedBox(
                       width: 40,
                     ),
-                    iconCreation(Icons.person, Colors.blue, "Contact", () {}),
+                    iconCreation(Icons.person, Colors.blue, CONTACT, () {}),
                   ],
                 ),
               ],

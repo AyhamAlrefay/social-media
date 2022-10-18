@@ -6,12 +6,10 @@ abstract class GetMessageUserState extends Equatable {
 
 class GetMessageUserInitial extends GetMessageUserState {
   @override
-  // TODO: implement props
   List<Object?> get props =>[];
 }
 class GetMessageUserStateLoading extends GetMessageUserState{
   @override
-  // TODO: implement props
   List<Object?> get props =>[];
 }
 class GetMessageUserStateError extends GetMessageUserState{

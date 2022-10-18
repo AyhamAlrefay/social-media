@@ -1,5 +1,7 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../../core/strings/string_public.dart';
 class FilePage extends StatefulWidget {
   final List<PlatformFile>files;
   final ValueChanged<PlatformFile>onOpendFile;
@@ -14,13 +16,13 @@ class _FilePageState extends State<FilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:Text('All Files'),
+        title:const Text(ALL_FILES),
         centerTitle: true,
       ),
       body: Center(
         child: GridView.builder(
-            padding: EdgeInsets.all(16),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            padding:const EdgeInsets.all(16),
+            gridDelegate:const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               mainAxisSpacing: 8,
               crossAxisSpacing: 8,
@@ -39,7 +41,7 @@ class _FilePageState extends State<FilePage> {
     final mb=kb/1024;
     final fileSize='${mb.toStringAsFixed(2)} MB';
     final extension=file.extension??'none';
-    final color=Colors.blue;
+    const color=Colors.blue;
     return InkWell(
       onTap: ()=>widget.onOpendFile(file),
       child: Container(
@@ -57,7 +59,7 @@ class _FilePageState extends State<FilePage> {
               ),
               child: Text(
                 '.$extension',
-                style: TextStyle(
+                style:const TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
@@ -68,12 +70,12 @@ class _FilePageState extends State<FilePage> {
             const SizedBox(height: 8,),
             Text(
               file.name,
-              style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
+              style:const TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
             overflow: TextOverflow.ellipsis,
             ),
             Text(
-             ' ${fileSize}',
-              style: TextStyle(fontSize:16),
+             fileSize,
+              style:const TextStyle(fontSize:16),
 
             ),
 

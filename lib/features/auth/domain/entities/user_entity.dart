@@ -8,7 +8,7 @@ class UserEntity extends Equatable {
   final String phoneNumber;
   final List<String> groupId;
 
-  UserEntity(
+ const UserEntity(
       {required this.name,
       required this.uid,
       required this.profilePic,
@@ -17,7 +17,6 @@ class UserEntity extends Equatable {
       required this.groupId});
 
   @override
-  // TODO: implement props
   List<Object?> get props =>
       [name, uid, profilePic, isOnline, phoneNumber, groupId];
 }

@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/error/failures.dart';
 import '../../../../../core/strings/messages.dart';
+import '../../../../../core/strings/string_public.dart';
 import '../../../domain/usecases/sign_in_with_phone_number_use_case.dart';
 import '../../../domain/usecases/verify_otp_use_case.dart';
 import '../../../../../core/strings/failures.dart';
@@ -14,6 +15,7 @@ class SignInWithPhoneNumberBloc extends Bloc<SignInWithPhoneNumberEvent,SignInWi
   final VerifyOtpUseCase verifyOtpUseCase;
   SignInWithPhoneNumberBloc({required this.verifyOtpUseCase,required this.signInWithPhoneNumberUseCase}):super(SignInWithPhoneNumberStateInitial()){
     on<SignInWithPhoneNumberEvent>((event,emit)async{
+
       if(event is PhoneNumberEvent)
         {
           emit(LoadingSignInWithPhoneNumberState());
@@ -21,8 +23,8 @@ class SignInWithPhoneNumberBloc extends Bloc<SignInWithPhoneNumberEvent,SignInWi
           failureOrDoneMessage.fold(
                   (failure)=>emit(ErrorSignInWithPhoneNumberState(error:_mapFailureToMessage(failure)),),
                   (_)=>emit(SuccessSignInWithPhoneNumberState()));
-
         }
+
       else if(event is VerifyOtpEvent)
         {
           emit(LoadingVerifyOtp());
@@ -38,6 +40,6 @@ String _mapFailureToMessage(Failure failure){
     case ServerAuthFailure:
       return SERVER_AUTH_FAILURE;
     default:
-      return "Unexpected Error , Please try again later .";
+      return FAILURE_ERROR;
   }
 }

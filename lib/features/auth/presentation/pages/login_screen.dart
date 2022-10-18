@@ -2,6 +2,7 @@ import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whatsapp/features/auth/presentation/pages/otp_screen.dart';
+import '../../../../core/strings/string_public.dart';
 import '../../../../core/widgets/loading_widget.dart';
 import '../bloc/sign_in_with_phone_number/sign_in_with_phone_number_bloc.dart';
 import '../../../../core/widgets/snak_bar.dart';
@@ -41,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
       BlocProvider.of<SignInWithPhoneNumberBloc>(context).add(PhoneNumberEvent(
           phoneNumber: '+${country!.phoneCode}$phoneNumber'.trim()));
     } else {
-      showSnackBar(context: context, content: 'Fill out all the fields');
+      showSnackBar(context: context, content: TEXT_SHOW_SNACKBAR);
     }
   }
 
@@ -57,7 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Enter your phone number'),
+        title: const Text(APPBAR_LOGIN_SCREEN),
       ),
       body: buildBody(size),
     );
@@ -71,14 +72,14 @@ class _LoginScreenState extends State<LoginScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            'WhatsApp will need to verify your phone number.',
+            WHATSAPP_NEED_VERIFY_NUMBER,
             style: Theme.of(context).textTheme.displayMedium,
           ),
           const SizedBox(height: 10),
           TextButton(
             onPressed: pickCountry,
             child: Text(
-              'Pick Country',
+              PICK_COUNTRY,
               style: Theme.of(context).textTheme.displaySmall,
             ),
           ),
@@ -97,7 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   style: Theme.of(context).textTheme.displayMedium,
                   controller: phoneController,
                   decoration: InputDecoration(
-                    hintText: 'phone number',
+                    hintText: HINT_TEXT_PHONE_NUMBER,
                     hintStyle: Theme.of(context).inputDecorationTheme.hintStyle,
                   ),
                 ),
@@ -129,7 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   onPressed: sendPhoneNumber,
                   style: Theme.of(context).elevatedButtonTheme.style,
                   child: Text(
-                    'NEXT',
+                   LOGIN_BTN,
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 );

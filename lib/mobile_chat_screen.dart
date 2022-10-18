@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'core/strings/string_public.dart';
 import 'features/calls/presentation/pages/calls.dart';
 import 'features/chat/presentation/pages/contacts.dart';
 import 'features/groups/presentation/pages/groups.dart';
@@ -18,29 +19,27 @@ class _MobileChatScreenState extends State<MobileChatScreen>
   late TabController tabController;
   static const List<Tab> tab = <Tab>[
     Tab(
-      text: 'CHATS',
+      text: CHATS ,
     ),
     Tab(
-      text: 'GROUPS',
+      text: GROUPS,
     ),
     Tab(
-      text: 'STATUS',
+      text: STATUS,
     ),
     Tab(
-      text: 'CALLS',
+      text: CALLS,
     ),
   ];
 
   @override
   void dispose() {
-    // TODO
     super.dispose();
     tabController.dispose();
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     tabController = TabController(length: tab.length, vsync: this);
   }
@@ -80,7 +79,7 @@ class _MobileChatScreenState extends State<MobileChatScreen>
 
   SliverAppBar buildSliverAppBar(bool innerBoxIsScrolled) {
     return SliverAppBar(
-      title: const Text('OBWhatsapp'),
+      title: const Text(OBWHATSAPP),
       actions: [
         IconButton(onPressed: () {}, icon: const Icon(Icons.signal_wifi_4_bar)),
         IconButton(onPressed: () {}, icon: const Icon(Icons.bedtime)),

@@ -5,7 +5,6 @@ abstract class GetContactsUserEvent extends Equatable {
 }
 class GetContactsUser extends GetContactsUserEvent{
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }
 

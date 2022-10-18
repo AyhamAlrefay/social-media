@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 import '../entities/user_entity.dart';
 import '../repositories/repository.dart';
-
 import '../../../../core/error/failures.dart';
 
 class GetAllUsersDataUseCase{

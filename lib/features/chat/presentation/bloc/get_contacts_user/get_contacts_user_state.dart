@@ -11,7 +11,6 @@ class GetContactsUserInitial extends GetContactsUserState {
 
 class GetContactsUserLoading extends GetContactsUserState{
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 
 }
@@ -20,7 +19,6 @@ class GetContactsUserError extends GetContactsUserState{
 
   const GetContactsUserError({required this.error});
   @override
-  // TODO: implement props
   List<Object?> get props => [error];
 
 }
@@ -32,7 +30,6 @@ class GetContactsUserSuccess extends GetContactsUserState{
   });
 
   @override
-  // TODO: implement props
   List<Object?> get props => [contacts];
 
 }

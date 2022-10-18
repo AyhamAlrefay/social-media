@@ -1,9 +1,5 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:whatsapp/features/chat/domain/entities/message.dart';
-
 import '../../../domain/entities/message_reply.dart';
 
 part 'save_data_event.dart';
@@ -24,10 +20,6 @@ class SaveDataBloc extends Bloc<SaveDataEvent, SaveDataState> {
          reply=null;
         emit(ChangeMessageReplyToNull());
       }
-
     });
-
-      }
-
-
+  }
 }

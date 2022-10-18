@@ -9,7 +9,6 @@ import '../../../../../core/enums/enum_message.dart';
 import '../../../domain/entities/message.dart';
 import '../../bloc/save_data/save_data_bloc.dart';
 import 'display_text_image.dart';
-import 'package:whatsapp/injection_container.dart' as di;
 
 class SenderMessageCard extends StatelessWidget {
   final Message message;

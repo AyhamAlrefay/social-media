@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import '../../../../core/strings/string_public.dart';
 import '../../../../mobile_chat_screen.dart';
 import 'landing_screen.dart';
 class SplashScreen extends StatefulWidget {
@@ -65,13 +66,13 @@ class _SplashScreenState extends State<SplashScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children:  [
            const Image(
-              image: AssetImage('assets/images/download (1).jpg'),
+              image: AssetImage(IMAGE_WHATSAPP),
             ),
             const SizedBox(
               height: 20,
             ),
             Text(
-              'WhatsApp',
+              WHATSAPP,
               style: Theme.of(context).textTheme.displayLarge,
             ),
 

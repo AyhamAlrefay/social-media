@@ -6,6 +6,7 @@ import 'package:equatable/equatable.dart';
 
 import '../../../../../core/error/failures.dart';
 import '../../../../../core/strings/failures.dart';
+import '../../../../../core/strings/string_public.dart';
 import '../../../domain/usecases/get_chat_contacts_use_case.dart';
 
 part 'get_contacts_user_event.dart';
@@ -28,7 +29,7 @@ class GetContactsUserBloc extends Bloc<GetContactsUserEvent, GetContactsUserStat
      case ServerChatFailure:
        return SERVER_CHAT_FAILURE;
      default:
-       return "Unexpected Error , Please try again later .";
+       return FAILURE_ERROR;
    }
 }
 }

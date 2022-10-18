@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import '../../../../../core/error/failures.dart';
 import '../../../../../core/strings/failures.dart';
+import '../../../../../core/strings/string_public.dart';
 import '../../../domain/usecases/get_message_user_usecase.dart';
 
 part 'get_message_user_event.dart';
@@ -33,7 +34,7 @@ String _mapFailureToMessage(failure) {
     case ServerChatFailure:
       return SERVER_CHAT_FAILURE;
     default:
-      return "Unexpected Error , Please try again later .";
+      return FAILURE_ERROR;
   }
 
 

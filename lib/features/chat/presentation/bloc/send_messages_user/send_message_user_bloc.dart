@@ -1,14 +1,10 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-
 import '../../../../../core/error/failures.dart';
 import '../../../../../core/strings/failures.dart';
-import '../../../../auth/data/models/user_model.dart';
+import '../../../../../core/strings/string_public.dart';
 import '../../../../auth/domain/entities/user_entity.dart';
-import '../../../data/models/message_model.dart';
 import '../../../domain/entities/message.dart';
 import '../../../domain/usecases/send_message_usecase.dart';
 
@@ -46,7 +42,7 @@ String _mapFailureToMessage(failure) {
     case ServerAuthFailure:
       return SERVER_CHAT_FAILURE;
     default:
-      return "Unexpected Error , Please try again later .";
+      return FAILURE_ERROR;
   }
 }
 }

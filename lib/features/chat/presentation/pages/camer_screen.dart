@@ -1,10 +1,10 @@
 import 'dart:math';
-
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whatsapp/features/chat/presentation/widgets/chat_screen/video_view.dart';
 import 'package:whatsapp/injection_container.dart' as di;
+import '../../../../core/strings/string_public.dart';
 import '../../../auth/domain/entities/user_entity.dart';
 import '../bloc/send_messages_user/send_message_user_bloc.dart';
 import '../widgets/chat_screen/camera/icon_button.dart';
@@ -142,7 +142,7 @@ class CameraScreenState extends State<CameraScreen> {
                     height: 4,
                   ),
                   const Text(
-                    "Hold for Video, tap for photo",
+                    HOLD_FOR_VIDIO_TAP_FOR_PHOTO,
                     style: TextStyle(
                       color: Colors.white,
                     ),

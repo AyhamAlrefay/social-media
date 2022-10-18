@@ -3,8 +3,8 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
-
 import '../../../../../../core/enums/enum_message.dart';
+import '../../../../core/strings/string_public.dart';
 import '../../../auth/domain/entities/user_entity.dart';
 import '../../domain/entities/message.dart';
 import '../bloc/send_messages_user/send_message_user_bloc.dart';
@@ -56,7 +56,7 @@ class CameraViewPage extends StatelessWidget {
                   minLines: 1,
                   decoration: InputDecoration(
                       border: InputBorder.none,
-                      hintText: "Add Caption....",
+                      hintText: HINT_TEXT_ADD_COPTION,
                       prefixIcon: const Icon(
                         Icons.add_photo_alternate,
                         color: Colors.white,

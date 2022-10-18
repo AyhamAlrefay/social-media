@@ -10,13 +10,11 @@ class SendMessageUserInitial extends SendMessageUserState {
 }
 class SendMessageUserLoading extends SendMessageUserState{
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }
 class SendMessageUserSuccess extends SendMessageUserState{
 
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }
 class SendMessageUserError extends SendMessageUserState{
@@ -27,7 +25,6 @@ class SendMessageUserError extends SendMessageUserState{
   });
 
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 
 }

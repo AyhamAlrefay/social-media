@@ -1,9 +1,6 @@
 import 'dart:io';
-
 import 'package:dartz/dartz.dart';
-import 'package:flutter/material.dart';
 import '../../../../core/error/failures.dart';
-
 import '../entities/user_entity.dart';
 
 abstract class AuthRepository{

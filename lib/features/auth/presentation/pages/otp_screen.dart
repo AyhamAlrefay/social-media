@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whatsapp/core/widgets/snak_bar.dart';
+import '../../../../core/strings/string_public.dart';
 import '../../../../core/widgets/loading_widget.dart';
 import 'user_information_screen.dart';
 import '../../../../injection_container.dart' as di;
@@ -21,14 +22,14 @@ class OtpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Verifying your number'),
+        title: const Text(APPBAR_OTP_SCREEN),
       ),
       body: Center(
         child: Column(
           children: [
             const SizedBox(height: 20),
             Text(
-              'We have sent an SMS with a code.',
+              WE_SENT_A_SMS,
               style: Theme.of(context).textTheme.displayMedium,
             ),
             BlocConsumer<SignInWithPhoneNumberBloc, SignInWithPhoneNumberState>(

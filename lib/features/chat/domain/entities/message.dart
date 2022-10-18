@@ -1,7 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter/material.dart';
-
 import '../../../../core/enums/enum_message.dart';
 
 class Message extends Equatable {
