@@ -7,7 +7,6 @@ import 'core/global/theme/theme_data/theme_data_light.dart';
 import 'core/route.dart';
 import 'features/auth/presentation/bloc/get_users_data/get_users_data_bloc.dart';
 import 'features/chat/presentation/bloc/get_contacts_user/get_contacts_user_bloc.dart';
-import 'features/chat/presentation/bloc/save_data/save_data_bloc.dart';
 import 'features/chat/presentation/pages/camer_screen.dart';
 import 'features/chat/presentation/bloc/get_messages_user/get_message_user_bloc.dart';
 import 'features/chat/presentation/bloc/send_messages_user/send_message_user_bloc.dart';
@@ -46,8 +45,6 @@ class _MyAppState extends State<MyApp> {
         //
         BlocProvider<GetMessageUserBloc>(
             create: (_) => di.sl<GetMessageUserBloc>()),
-        //
-        BlocProvider<SaveDataBloc>(create:(_)=>di.sl<SaveDataBloc>()),
         //
         BlocProvider<GetContactsUserBloc>(
             create: (_) => di.sl<GetContactsUserBloc>()..add(GetContactsUser())),

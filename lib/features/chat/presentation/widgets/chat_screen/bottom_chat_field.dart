@@ -11,14 +11,13 @@ import '../../../../../core/enums/enum_message.dart';
 import 'package:whatsapp/injection_container.dart' as di;
 import '../../../../auth/domain/entities/user_entity.dart';
 import '../../../domain/entities/message.dart';
-import '../../bloc/save_data/save_data_bloc.dart';
 import '../../bloc/send_messages_user/send_message_user_bloc.dart';
 import '../../pages/camer_screen.dart';
 
 class BottomChatField extends StatefulWidget {
   final UserEntity receiverUser;
   final UserEntity senderUser;
-
+  static final ManagingStateVariablesInChatScreenBloc managingStateVariablesBloc3=ManagingStateVariablesInChatScreenBloc();
   const BottomChatField(
       {Key? key, required this.receiverUser, required this.senderUser})
       : super(key: key);
@@ -33,9 +32,12 @@ class _BottomChatFieldState extends State<BottomChatField> {
   bool isShowEmojiContainer = false;
   FocusNode focusNode = FocusNode();
   XFile? image;
-
-  late SaveDataBloc saveDataBloc;
   MessageReply? messageReply;
+  final ManagingStateVariablesInChatScreenBloc managingStateVariablesBloc1 =
+      ManagingStateVariablesInChatScreenBloc();
+  final ManagingStateVariablesInChatScreenBloc managingStateVariablesBloc2 =
+      ManagingStateVariablesInChatScreenBloc();
+
 
   @override
   Widget build(BuildContext context) {
@@ -43,101 +45,124 @@ class _BottomChatFieldState extends State<BottomChatField> {
       create: (buildContext) => di.sl<ManagingStateVariablesInChatScreenBloc>(),
       child: Builder(
         builder: (BuildContext buildContext) {
-          return Column(
+          return Column(children: [
+            blocConsumerMessageReply(),
+            Row(
               children: [
-                BlocConsumer<SaveDataBloc, SaveDataState>(
-                  listener: (context,state){
-                     if(state is NotMessageReply){
-                    messageReply=null;
-
-                    }
-                  },
-                  builder: (context, state) {
-                    if (state is ChangeMessageRelyToData) {
-                      messageReply = state.messageReply;
-                      return MessageReplyPreview(
-                        messageReply: state.messageReply,
-                        senderName: widget.senderUser.name,
-                        receiverName: widget.receiverUser.name,
-                      );
-                    }
-                    else{
-                      return const SizedBox();
-                    }
-                  },
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                        child: Padding(
-                      padding: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).viewInsets.bottom),
-                      child: buildTextFormField(buildContext),
-                    )),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        bottom: 8,
-                        right: 2,
-                        left: 2,
-                      ),
-                      child: GestureDetector(
-                        onTap: () {
-                          BlocProvider.of<SendMessageUserBloc>(context).add(
-                              SendMessageUser(
-                                  message: buildMessage(),
-                                  senderUser: widget.senderUser,
-                                  receiverUser: widget.receiverUser));
-                          BlocProvider.of<SaveDataBloc>(context).add(DeleteMessageReply(messageReply: null));
-                            messageController.clear();
-                        },
-                        child: CircleAvatar(
-                            backgroundColor: const Color.fromRGBO(5, 96, 98, 1),
-                            radius: 25,
-                            child: Icon(
-                              isShowSendButton ? Icons.send : Icons.mic,
-                              color: Theme.of(context).iconTheme.color,
-                            )),
-                      ),
+                Expanded(
+                    child: Padding(
+                     padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).viewInsets.bottom),
+                     child: buildTextFormField(buildContext),
+                )),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    bottom: 8,
+                    right: 2,
+                    left: 2,
+                  ),
+                  child: GestureDetector(
+                    onTap: () {
+                      BlocProvider.of<SendMessageUserBloc>(context).add(
+                          SendMessageUser(
+                              message: buildMessage(),
+                              senderUser: widget.senderUser,
+                              receiverUser: widget.receiverUser));
+                      BottomChatField.managingStateVariablesBloc3
+                          .add(DeleteMessageReplyEvent());
+                      messageController.clear();
+                    },
+                    child: CircleAvatar(
+                      backgroundColor: const Color.fromRGBO(5, 96, 98, 1),
+                      radius: 25,
+                      child: blocBuilderSendMessage(),
                     ),
-                  ],
+                  ),
                 ),
-                BlocConsumer<ManagingStateVariablesInChatScreenBloc,
-                    ManagingStateVariablesInChatScreenState>(
-                    listener: (context, state) {
-                      if (state is NotShowKeyboardEmoji) {
-                        isShowEmojiContainer = state.isShowEmojiKeyboard;
-                      }
-                      if(state is NotShowSendButtonState)
-                        {
-                          isShowSendButton=state.notShowSendButton;
-                        }
-                    }, builder: (context, state) {
-                  if (state is ShowKeyboardEmojiState) {
-                    isShowEmojiContainer = state.isShowEmojiKeyboard;
-                    return ConstrainedBox(
-                      constraints: BoxConstraints(
-                        maxHeight:
-                        MediaQuery.of(context).size.height * 0.35,
-                      ),
-                      child: EmojiPicker(
-                        onEmojiSelected: ((category, emoji) {
-                            messageController.text =
-                                messageController.text + emoji.emoji;
-
-                          if (!isShowSendButton) {
-                            setState(() {
-                              isShowSendButton = true;
-                            });
-                          }
-                        }),
-                      ),
-                    );
-                  } else {
-                    return const SizedBox();
-                  }
-                }),
-              ]);
+              ],
+            ),
+            blocConsumerKeyboardEmoji(),
+          ]);
         },
+      ),
+    );
+  }
+
+  BlocConsumer<ManagingStateVariablesInChatScreenBloc, ManagingStateVariablesInChatScreenState> blocConsumerKeyboardEmoji() {
+    return BlocConsumer<ManagingStateVariablesInChatScreenBloc,
+                  ManagingStateVariablesInChatScreenState>(
+              bloc: managingStateVariablesBloc1,
+              listener: (context, state) {
+                if (state is NotShowKeyboardEmojiState) {
+                  isShowEmojiContainer = state.isShowEmojiKeyboard;
+                }
+              },
+              builder: (context, state) {
+                if (state is ShowKeyboardEmojiState) {
+                  isShowEmojiContainer = state.isShowEmojiKeyboard;
+                  return buildConstrainedBox(context);
+                } else {
+                  return const SizedBox();
+                }
+              });
+  }
+
+  BlocBuilder<ManagingStateVariablesInChatScreenBloc, ManagingStateVariablesInChatScreenState> blocBuilderSendMessage() {
+    return BlocBuilder<ManagingStateVariablesInChatScreenBloc,
+                            ManagingStateVariablesInChatScreenState>(
+                        bloc: managingStateVariablesBloc2,
+                        builder: (context, state) {
+                          if (state is ShowSendButtonState) {
+                            isShowSendButton = state.showSendButton;
+                            return Icon(
+                              Icons.send,
+                              color: Theme.of(context).iconTheme.color,
+                            );
+                          } else if (state is NotShowSendButtonState) {
+                            isShowSendButton = state.notShowSendButton;
+                            return Icon(Icons.mic,
+                                color: Theme.of(context).iconTheme.color);
+                          }
+                          return const SizedBox();
+                        });
+  }
+
+  BlocConsumer<ManagingStateVariablesInChatScreenBloc, ManagingStateVariablesInChatScreenState> blocConsumerMessageReply() {
+    return BlocConsumer<ManagingStateVariablesInChatScreenBloc, ManagingStateVariablesInChatScreenState>(
+            bloc: BottomChatField.managingStateVariablesBloc3,
+            listener: (context, state) {
+              if (state is NotMessageReplyState) {
+                messageReply = null;
+              }
+            },
+            builder: (context, state) {
+              if (state is ChangeMessageRelyToDataState) {
+                messageReply = state.messageReply;
+                return MessageReplyPreview(
+                  messageReply: state.messageReply,
+                  senderName: widget.senderUser.name,
+                  receiverName: widget.receiverUser.name,
+                );
+              } else {
+                return const SizedBox();
+              }
+            },
+          );
+  }
+
+  ConstrainedBox buildConstrainedBox(BuildContext context) {
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height * 0.35,
+      ),
+      child: EmojiPicker(
+        onEmojiSelected: ((category, emoji) {
+          messageController.text = messageController.text + emoji.emoji;
+
+          if (!isShowSendButton) {
+            managingStateVariablesBloc2.add(ShowSendButtonEvent());
+          }
+        }),
       ),
     );
   }
@@ -179,8 +204,7 @@ class _BottomChatFieldState extends State<BottomChatField> {
       maxLines: 6,
       minLines: 1,
       onTap: () {
-        BlocProvider.of<ManagingStateVariablesInChatScreenBloc>(buildContext)
-            .add(NotShowKeyboardEmojiEvent());
+        managingStateVariablesBloc1.add(NotShowKeyboardEmojiEvent());
       },
       autofocus: true,
       focusNode: focusNode,
@@ -188,13 +212,11 @@ class _BottomChatFieldState extends State<BottomChatField> {
       cursorColor: Colors.white,
       controller: messageController,
       onChanged: (value) {
-        setState(() {
-          if (value.isEmpty) {
-            isShowSendButton = false;
-          } else {
-            isShowSendButton = true;
-          }
-        });
+        if (value.isEmpty) {
+          managingStateVariablesBloc2.add(NotShowSendButtonEvent());
+        } else {
+          managingStateVariablesBloc2.add(ShowSendButtonEvent());
+        }
       },
       decoration: InputDecoration(
         hintText: 'Type a message!',
@@ -269,13 +291,11 @@ class _BottomChatFieldState extends State<BottomChatField> {
   }
 
   void hideEmojiContainer(BuildContext buildContext) {
-    BlocProvider.of<ManagingStateVariablesInChatScreenBloc>(buildContext)
-        .add(NotShowKeyboardEmojiEvent());
+    managingStateVariablesBloc1.add(NotShowKeyboardEmojiEvent());
   }
 
   void showEmojiContainer(BuildContext buildContext) {
-    BlocProvider.of<ManagingStateVariablesInChatScreenBloc>(buildContext)
-        .add(ShowKeyboardEmojiEvent());
+    managingStateVariablesBloc1.add(ShowKeyboardEmojiEvent());
   }
 
   void showKeyboard() => focusNode.requestFocus();

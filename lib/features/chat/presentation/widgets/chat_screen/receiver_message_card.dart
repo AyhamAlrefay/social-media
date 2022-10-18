@@ -1,16 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 import 'package:swipe_to/swipe_to.dart';
 import 'package:intl/intl.dart';
-import 'package:whatsapp/features/chat/presentation/bloc/save_data/save_data_bloc.dart';
+import 'package:whatsapp/features/chat/presentation/widgets/chat_screen/bottom_chat_field.dart';
 import '../../../../../core/enums/enum_message.dart';
 import '../../../domain/entities/message.dart';
 import '../../../domain/entities/message_reply.dart';
-import '../../bloc/get_messages_user/get_message_user_bloc.dart';
+import '../../bloc/managing_state_variables_in_chat_screen/managing_state_variables_in_chat_screen_bloc.dart';
 import 'display_text_image.dart';
-import 'package:whatsapp/injection_container.dart' as di;
 
 class ReceiverMessageCard extends StatelessWidget {
   final Message message;
@@ -21,8 +18,7 @@ class ReceiverMessageCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return SwipeTo(
       onRightSwipe: () {
-        BlocProvider.of<SaveDataBloc>(context)
-            .add(ChangeMessageReplyToDataEvent(messageReply:MessageReply(
+      BottomChatField.managingStateVariablesBloc3.add(ChangeMessageReplyToDataEvent(messageReply:MessageReply(
           message: message.messageContent,
           isMe: FirebaseAuth.instance.currentUser!.uid == message.senderId,
           messageEnum: message.type,
@@ -62,7 +58,7 @@ class ReceiverMessageCard extends StatelessWidget {
                         ),
                   child: Column(
                     children: [
-                      if (message.repliedMessage != null) ...[
+                      if (message.repliedMessage != null && message.repliedTo!='') ...[
                         Container(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 10, vertical: 10),
@@ -93,6 +89,18 @@ class ReceiverMessageCard extends StatelessWidget {
                         ),
                         const SizedBox(height: 2),
                       ],
+                       if(message.repliedTo==' ')...[
+                         ConstrainedBox(
+
+                           constraints: BoxConstraints(
+                             maxWidth:  MediaQuery.of(context).size.width,
+                             maxHeight: MediaQuery.of(context).size.height/3,
+                           ),
+                           child: Image(image: NetworkImage(
+                               message.messageContent
+                           )),
+                         ),
+                       ],
                       DisplayTextImage(
                         message: message.messageContent,
                         type: message.type,

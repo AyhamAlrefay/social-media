@@ -1,20 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:swipe_to/swipe_to.dart';
 import 'package:intl/intl.dart';
 import 'package:whatsapp/features/chat/domain/entities/message_reply.dart';
+import 'package:whatsapp/features/chat/presentation/widgets/chat_screen/bottom_chat_field.dart';
 import '../../../../../core/enums/enum_message.dart';
 import '../../../domain/entities/message.dart';
-import '../../bloc/save_data/save_data_bloc.dart';
+import '../../bloc/managing_state_variables_in_chat_screen/managing_state_variables_in_chat_screen_bloc.dart';
 import 'display_text_image.dart';
-import 'package:whatsapp/injection_container.dart' as di;
 
 class SenderMessageCard extends StatelessWidget {
   final Message message;
 
-  SenderMessageCard({
+  const SenderMessageCard({
     Key? key,
     required this.message,
   }) : super(key: key);
@@ -25,7 +24,7 @@ class SenderMessageCard extends StatelessWidget {
       return SwipeTo(
         onLeftSwipe: () {
 
-          BlocProvider.of<SaveDataBloc>(context).add(
+          BottomChatField.managingStateVariablesBloc3.add(
               ChangeMessageReplyToDataEvent(messageReply:MessageReply(
                   message: message.messageContent,
                   isMe: FirebaseAuth.instance.currentUser!.uid ==
@@ -66,7 +65,7 @@ class SenderMessageCard extends StatelessWidget {
                     ),
                     child: Column(
                       children: [
-                        if (message.repliedMessage != null) ...[
+                        if (message.repliedMessage != null && message.repliedTo!='') ...[
                           Container(
                             padding: const EdgeInsets.all(10),
                             decoration: const BoxDecoration(
@@ -95,6 +94,18 @@ class SenderMessageCard extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 8),
+                        ],
+                        if(message.repliedTo==' ')...[
+                          ConstrainedBox(
+
+                            constraints: BoxConstraints(
+                              maxWidth:  MediaQuery.of(context).size.width,
+                              maxHeight: MediaQuery.of(context).size.height/3,
+                            ),
+                            child: Image(image: NetworkImage(
+                                message.messageContent
+                            )),
+                          ),
                         ],
                         DisplayTextImage(
                           message: message.messageContent,

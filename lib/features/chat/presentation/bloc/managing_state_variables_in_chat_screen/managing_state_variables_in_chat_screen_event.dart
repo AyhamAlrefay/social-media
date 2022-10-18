@@ -26,3 +26,17 @@ class NotShowSendButtonEvent extends ManagingStateVariablesInChatScreenEvent{
   List<Object?> get props =>[];
 
 }
+class ChangeMessageReplyToDataEvent extends ManagingStateVariablesInChatScreenEvent{
+  final MessageReply messageReply;
+  ChangeMessageReplyToDataEvent({required this.messageReply});
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+
+}
+class DeleteMessageReplyEvent extends ManagingStateVariablesInChatScreenEvent{
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+
+}
