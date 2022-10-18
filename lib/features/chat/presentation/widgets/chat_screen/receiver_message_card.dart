@@ -41,71 +41,68 @@ class ReceiverMessageCard extends StatelessWidget {
               color: Colors.grey.shade400,
             ),
             margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
-            child: Stack(
-              children: [
-                Padding(
-                  padding: message.type == MessageEnum.text
-                      ? const EdgeInsets.only(
-                          left: 5,
-                          right: 10,
-                          top: 5,
-                          bottom: 10,
-                        )
-                      : const EdgeInsets.only(
-                          left: 5,
-                          top: 5,
-                          right: 5,
-                          bottom: 25,
+            child: Padding(
+              padding: message.type == MessageEnum.text
+                  ? const EdgeInsets.only(
+                      left: 5,
+                      right: 10,
+                      top: 5,
+                      bottom: 10,
+                    )
+                  : const EdgeInsets.only(
+                      left: 5,
+                      top: 5,
+                      right: 5,
+                      bottom: 25,
+                    ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  if (message.repliedMessage != null) ...[
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 10),
+                      decoration: const BoxDecoration(
+                        color: Colors.white54,
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(15),
+                          bottomRight: Radius.circular(15),
+                          topRight: Radius.circular(15),
                         ),
-                  child: Column(
-                    children: [
-                      if (message.repliedMessage != null) ...[
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 10),
-                          decoration: const BoxDecoration(
-                            color: Colors.white54,
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(15),
-                              bottomRight: Radius.circular(15),
-                              topRight: Radius.circular(15),
+                      ),
+                      child: Column(
+                        children: [
+                          Text(
+                            message.repliedTo!,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.green,
                             ),
                           ),
-                          child: Column(
-                            children: [
-                              Text(
-                                message.receiverUserName!,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.green,
-                                ),
-                              ),
-                              const SizedBox(height: 3),
-                              DisplayTextImage(
-                                message: message.repliedMessage!,
-                                type: message.repliedMessageType!,
-                              ),
-                            ],
+                          const SizedBox(height: 3),
+                          DisplayTextImage(
+                            message: message.repliedMessage!,
+                            type: message.repliedMessageType!,
                           ),
-                        ),
-                        const SizedBox(height: 2),
-                      ],
-                      DisplayTextImage(
-                        message: message.messageContent,
-                        type: message.type,
+                        ],
                       ),
-                      const SizedBox(height: 5),
-                      Text(
-                        DateFormat('hh:mm a').format(message.timeSent),
-                        style: TextStyle(
-                          fontSize: 8,
-                          color: Colors.grey[600],
-                        ),
-                      ),
-                    ],
+                    ),
+                    const SizedBox(height: 2),
+                  ],
+                  DisplayTextImage(
+                    message: message.messageContent,
+                    type: message.type,
                   ),
-                ),
-              ],
+                  const SizedBox(height:2),
+                  Text(
+                    DateFormat('hh:mm a').format(message.timeSent),
+                    style:const TextStyle(
+                      fontSize: 10,
+                      color: Colors.white38,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

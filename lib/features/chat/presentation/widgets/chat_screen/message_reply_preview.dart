@@ -7,13 +7,16 @@ import '../../../../../core/enums/enum_message.dart';
 import 'display_text_image.dart';
 
 class MessageReplyPreview extends StatelessWidget {
- MessageReply? messageReply;
- final String senderName;
- final String receiverName;
-   MessageReplyPreview(
+  MessageReply? messageReply;
+  final String senderName;
+  final String receiverName;
+
+  MessageReplyPreview(
       {Key? key,
-  required this.messageReply, required this.senderName, required this.receiverName})
-      : super(key: key) ;
+      required this.messageReply,
+      required this.senderName,
+      required this.receiverName})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +27,14 @@ class MessageReplyPreview extends StatelessWidget {
           width: 350,
           padding: const EdgeInsets.all(8),
           decoration: const BoxDecoration(
-            color:Color.fromRGBO(5, 100, 100, 1),
+            color: Color.fromRGBO(5, 100, 100, 1),
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(12),
               topRight: Radius.circular(12),
             ),
           ),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Row(
                 children: [
@@ -38,9 +42,7 @@ class MessageReplyPreview extends StatelessWidget {
                     child: Text(
                       messageReply!.isMe ? senderName : receiverName,
                       style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white
-                      ),
+                          fontWeight: FontWeight.bold, color: Colors.white),
                     ),
                   ),
                   GestureDetector(
@@ -50,14 +52,15 @@ class MessageReplyPreview extends StatelessWidget {
                       color: Colors.yellowAccent,
                     ),
                     onTap: () {
-                      BlocProvider.of<SaveDataBloc>(context).add(DeleteMessageReply(messageReply: null));
-                     },
+                      BlocProvider.of<SaveDataBloc>(context)
+                          .add(DeleteMessageReply(messageReply: null));
+                    },
                   ),
                 ],
               ),
               const SizedBox(height: 8),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left: 8),
