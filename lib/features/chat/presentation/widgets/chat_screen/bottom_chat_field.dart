@@ -8,11 +8,11 @@ import 'package:whatsapp/features/chat/presentation/bloc/managing_state_variable
 import 'package:whatsapp/features/chat/presentation/widgets/chat_screen/bottom_chat_field/bottom_sheet.dart';
 import 'package:whatsapp/features/chat/presentation/widgets/chat_screen/message_reply_preview.dart';
 import '../../../../../core/enums/enum_message.dart';
-import '../../../../../core/strings/string_public.dart';
 import 'package:whatsapp/injection_container.dart' as di;
 import '../../../../auth/domain/entities/user_entity.dart';
 import '../../../domain/entities/message.dart';
 import '../../bloc/save_data/save_data_bloc.dart';
+import '../../bloc/send_messages_user/send_message_user_bloc.dart';
 import '../../pages/camer_screen.dart';
 
 class BottomChatField extends StatefulWidget {
@@ -44,8 +44,6 @@ class _BottomChatFieldState extends State<BottomChatField> {
       child: Builder(
         builder: (BuildContext buildContext) {
           return Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 BlocBuilder<SaveDataBloc, SaveDataState>(
                   bloc: SaveDataBloc(),
@@ -63,58 +61,76 @@ class _BottomChatFieldState extends State<BottomChatField> {
                   },
                 ),
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Expanded(
                         child: Padding(
-                      padding: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).viewInsets.bottom),
-                      child: buildTextFormField(context),
-                    )),
+                          padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).viewInsets.bottom),
+                          child: buildTextFormField(buildContext),
+                        )),
                     Padding(
                       padding: const EdgeInsets.only(
                         bottom: 8,
                         right: 2,
                         left: 2,
                       ),
-                      child:  BlocConsumer<ManagingStateVariablesInChatScreenBloc,
-                          ManagingStateVariablesInChatScreenState>(
-                          listener: (context, state) {
-                            if (state is NotShowKeyboardEmojiSuccess) {
-                              isShowEmojiContainer = state.isShowEmojiKeyboard;
-                            }
-                          }, builder: (context, state) {
-                        if (state is ShowKeyboardEmojiStateSuccess) {
-                          isShowEmojiContainer = state.isShowEmojiKeyboard;
-                          return ConstrainedBox(
-                            constraints: BoxConstraints(
-                              maxHeight:
-                              MediaQuery.of(context).size.height * 0.35,
-                            ),
-                            child: EmojiPicker(
-                              onEmojiSelected: ((category, emoji) {
-                                setState(() {
-                                  messageController.text =
-                                      messageController.text + emoji.emoji;
-                                });
-
-                                if (!isShowSendButton) {
-                                  setState(() {
-                                    isShowSendButton = true;
-                                  });
-                                }
-                              }),
-                            ),
-                          );
-                        } else {
-                          return const SizedBox();
-                        }
-                      }),
+                      child: GestureDetector(
+                        onTap: () {
+                          BlocProvider.of<SendMessageUserBloc>(context).add(
+                              SendMessageUser(
+                                  message: buildMessage(),
+                                  senderUser: widget.senderUser,
+                                  receiverUser: widget.receiverUser));
+                          setState(() {
+                            messageController.clear();
+                            BlocProvider.of<SaveDataBloc>(context)
+                                .add(ChangeMessageReplyToNullEvent(messageReply: null));
+                          });
+                        },
+                        child: CircleAvatar(
+                            backgroundColor: const Color.fromRGBO(5, 96, 98, 1),
+                            radius: 25,
+                            child: Icon(
+                              isShowSendButton ? Icons.send : Icons.mic,
+                              color: Theme.of(context).iconTheme.color,
+                            )),
+                      ),
                     ),
-
                   ],
                 ),
+                BlocConsumer<ManagingStateVariablesInChatScreenBloc,
+                    ManagingStateVariablesInChatScreenState>(
+                    listener: (context, state) {
+                      if (state is NotShowKeyboardEmojiSuccess) {
+                        isShowEmojiContainer = state.isShowEmojiKeyboard;
+                      }
+                    }, builder: (context, state) {
+                  if (state is ShowKeyboardEmojiStateSuccess) {
+                    isShowEmojiContainer = state.isShowEmojiKeyboard;
+                    return ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxHeight:
+                        MediaQuery.of(context).size.height * 0.35,
+                      ),
+                      child: EmojiPicker(
+                        onEmojiSelected: ((category, emoji) {
+                          setState(() {
+                            messageController.text =
+                                messageController.text + emoji.emoji;
+                          });
 
+                          if (!isShowSendButton) {
+                            setState(() {
+                              isShowSendButton = true;
+                            });
+                          }
+                        }),
+                      ),
+                    );
+                  } else {
+                    return const SizedBox();
+                  }
+                }),
               ]);
         },
       ),
@@ -158,7 +174,7 @@ class _BottomChatFieldState extends State<BottomChatField> {
       maxLines: 6,
       minLines: 1,
       onTap: () {
-        BlocProvider.of<ManagingStateVariablesInChatScreenBloc>(context)
+        BlocProvider.of<ManagingStateVariablesInChatScreenBloc>(buildContext)
             .add(NotShowKeyboardEmojiEvent());
       },
       autofocus: true,
@@ -176,7 +192,7 @@ class _BottomChatFieldState extends State<BottomChatField> {
         });
       },
       decoration: InputDecoration(
-        hintText: HINT_TEXT_TYPE_MESSAGE,
+        hintText: 'Type a message!',
         hintStyle: const TextStyle(color: Colors.white),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20),
@@ -205,9 +221,9 @@ class _BottomChatFieldState extends State<BottomChatField> {
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => CameraScreen(
-                            receiverUser: widget.receiverUser,
-                            senderUser: widget.senderUser,
-                          )));
+                        receiverUser: widget.receiverUser,
+                        senderUser: widget.senderUser,
+                      )));
                 },
                 icon: Icon(
                   Icons.camera_alt,
@@ -219,7 +235,7 @@ class _BottomChatFieldState extends State<BottomChatField> {
                   showModalBottomSheet(
                     shape: const RoundedRectangleBorder(
                         borderRadius:
-                            BorderRadius.all(Radius.circular(1000.0))),
+                        BorderRadius.all(Radius.circular(1000.0))),
                     backgroundColor: Colors.black.withOpacity(0),
                     isScrollControlled: true,
                     anchorPoint: const Offset(5, 10),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:whatsapp/features/auth/domain/entities/user_entity.dart';
-import '../../../../core/global/theme/colors.dart';
 import '../widgets/chat_screen/bottom_chat_field.dart';
 import '../widgets/chat_screen/chat_lsit.dart';
 

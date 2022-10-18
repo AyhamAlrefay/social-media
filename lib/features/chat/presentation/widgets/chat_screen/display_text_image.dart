@@ -28,8 +28,8 @@ class DisplayTextImage extends StatelessWidget {
     ):Text(message,
       maxLines: null,
       style: const TextStyle(
-        fontSize: 14,
-
+        fontSize:16 ,
+color: Colors.white
       ));
 
   }
