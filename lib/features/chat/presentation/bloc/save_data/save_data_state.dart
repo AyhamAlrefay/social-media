@@ -9,13 +9,12 @@ class SaveDataInitial extends SaveDataState {
   List<Object> get props => [];
 }
 class ChangeMessageRelyToData extends SaveDataState{
-  MessageReply? messageReply;
-  ChangeMessageRelyToData(this.messageReply);
+  final MessageReply messageReply;
+  const ChangeMessageRelyToData({required this.messageReply});
   @override
   List<Object?> get props =>[];
 }
-class ChangeMessageReplyToNull extends SaveDataState{
-
+class NotMessageReply extends SaveDataState{
   @override
   List<Object?> get props =>[];
 }

@@ -17,12 +17,11 @@ class SaveDataBloc extends Bloc<SaveDataEvent, SaveDataState> {
       if(event is ChangeMessageReplyToDataEvent)
       {
         reply=event.messageReply;
-        emit(ChangeMessageRelyToData(reply));
-        reply=null;
+        emit(ChangeMessageRelyToData( messageReply: reply));
       }
-       else{
-         reply=null;
-        emit(ChangeMessageReplyToNull());
+       else if(event is DeleteMessageReply){
+         reply=event.messageReply;
+        emit(NotMessageReply());
       }
 
     });

@@ -7,15 +7,10 @@ class ShowKeyboardEmojiInitial extends ManagingStateVariablesInChatScreenState{
   // TODO: implement props
   List<Object?> get props =>[];
 }
-class ShowKeyboardEmojiLoading extends ManagingStateVariablesInChatScreenState{
-  @override
-  // TODO: implement props
-  List<Object?> get props =>[];
-}
-class ShowKeyboardEmojiStateSuccess extends ManagingStateVariablesInChatScreenState{
+class ShowKeyboardEmojiState extends ManagingStateVariablesInChatScreenState{
   final bool isShowEmojiKeyboard;
 
-  ShowKeyboardEmojiStateSuccess({
+  ShowKeyboardEmojiState({
     required this.isShowEmojiKeyboard,
   });
 
@@ -23,13 +18,33 @@ class ShowKeyboardEmojiStateSuccess extends ManagingStateVariablesInChatScreenSt
   // TODO: implement props
   List<Object?> get props =>[];
 }
-class NotShowKeyboardEmojiSuccess extends ManagingStateVariablesInChatScreenState{
+class NotShowKeyboardEmoji extends ManagingStateVariablesInChatScreenState{
   final bool isShowEmojiKeyboard;
 
 
-  NotShowKeyboardEmojiSuccess ({required this.isShowEmojiKeyboard});
+  NotShowKeyboardEmoji ({required this.isShowEmojiKeyboard});
 
   @override
   // TODO: implement props
   List<Object?> get props =>[];
+}
+class ShowSendButtonState extends ManagingStateVariablesInChatScreenState{
+  final bool showSendButton ;
+
+  ShowSendButtonState({required this.showSendButton});
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+}
+class NotShowSendButtonState extends ManagingStateVariablesInChatScreenState{
+  final bool notShowSendButton;
+
+  NotShowSendButtonState({
+   required  this.notShowSendButton,
+  });
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
 }

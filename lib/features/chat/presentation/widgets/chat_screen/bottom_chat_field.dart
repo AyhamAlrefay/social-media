@@ -45,8 +45,13 @@ class _BottomChatFieldState extends State<BottomChatField> {
         builder: (BuildContext buildContext) {
           return Column(
               children: [
-                BlocBuilder<SaveDataBloc, SaveDataState>(
-                  bloc: SaveDataBloc(),
+                BlocConsumer<SaveDataBloc, SaveDataState>(
+                  listener: (context,state){
+                     if(state is NotMessageReply){
+                    messageReply=null;
+
+                    }
+                  },
                   builder: (context, state) {
                     if (state is ChangeMessageRelyToData) {
                       messageReply = state.messageReply;
@@ -55,7 +60,8 @@ class _BottomChatFieldState extends State<BottomChatField> {
                         senderName: widget.senderUser.name,
                         receiverName: widget.receiverUser.name,
                       );
-                    } else {
+                    }
+                    else{
                       return const SizedBox();
                     }
                   },
@@ -81,11 +87,8 @@ class _BottomChatFieldState extends State<BottomChatField> {
                                   message: buildMessage(),
                                   senderUser: widget.senderUser,
                                   receiverUser: widget.receiverUser));
-                          setState(() {
+                          BlocProvider.of<SaveDataBloc>(context).add(DeleteMessageReply(messageReply: null));
                             messageController.clear();
-                            BlocProvider.of<SaveDataBloc>(context)
-                                .add(ChangeMessageReplyToNullEvent(messageReply: null));
-                          });
                         },
                         child: CircleAvatar(
                             backgroundColor: const Color.fromRGBO(5, 96, 98, 1),
@@ -101,11 +104,15 @@ class _BottomChatFieldState extends State<BottomChatField> {
                 BlocConsumer<ManagingStateVariablesInChatScreenBloc,
                     ManagingStateVariablesInChatScreenState>(
                     listener: (context, state) {
-                      if (state is NotShowKeyboardEmojiSuccess) {
+                      if (state is NotShowKeyboardEmoji) {
                         isShowEmojiContainer = state.isShowEmojiKeyboard;
                       }
+                      if(state is NotShowSendButtonState)
+                        {
+                          isShowSendButton=state.notShowSendButton;
+                        }
                     }, builder: (context, state) {
-                  if (state is ShowKeyboardEmojiStateSuccess) {
+                  if (state is ShowKeyboardEmojiState) {
                     isShowEmojiContainer = state.isShowEmojiKeyboard;
                     return ConstrainedBox(
                       constraints: BoxConstraints(
@@ -114,10 +121,8 @@ class _BottomChatFieldState extends State<BottomChatField> {
                       ),
                       child: EmojiPicker(
                         onEmojiSelected: ((category, emoji) {
-                          setState(() {
                             messageController.text =
                                 messageController.text + emoji.emoji;
-                          });
 
                           if (!isShowSendButton) {
                             setState(() {
