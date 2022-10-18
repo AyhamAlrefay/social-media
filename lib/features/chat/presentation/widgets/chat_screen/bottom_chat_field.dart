@@ -44,8 +44,6 @@ class _BottomChatFieldState extends State<BottomChatField> {
       child: Builder(
         builder: (BuildContext buildContext) {
           return Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 BlocBuilder<SaveDataBloc, SaveDataState>(
                   bloc: SaveDataBloc(),
@@ -63,13 +61,12 @@ class _BottomChatFieldState extends State<BottomChatField> {
                   },
                 ),
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Expanded(
                         child: Padding(
                       padding: EdgeInsets.only(
                           bottom: MediaQuery.of(context).viewInsets.bottom),
-                      child: buildTextFormField(context),
+                      child: buildTextFormField(buildContext),
                     )),
                     Padding(
                       padding: const EdgeInsets.only(
@@ -77,44 +74,63 @@ class _BottomChatFieldState extends State<BottomChatField> {
                         right: 2,
                         left: 2,
                       ),
-                      child: GestureDetector(onTap: () {
-                        BlocConsumer<ManagingStateVariablesInChatScreenBloc,
-                                ManagingStateVariablesInChatScreenState>(
-                            listener: (context, state) {
-                          if (state is NotShowKeyboardEmojiSuccess) {
-                            isShowEmojiContainer = state.isShowEmojiKeyboard;
-                          }
-                        }, builder: (context, state) {
-                          if (state is ShowKeyboardEmojiStateSuccess) {
-                            isShowEmojiContainer = state.isShowEmojiKeyboard;
-                            return ConstrainedBox(
-                              constraints: BoxConstraints(
-                                maxHeight:
-                                    MediaQuery.of(context).size.height * 0.35,
-                              ),
-                              child: EmojiPicker(
-                                onEmojiSelected: ((category, emoji) {
-                                  setState(() {
-                                    messageController.text =
-                                        messageController.text + emoji.emoji;
-                                  });
-
-                                  if (!isShowSendButton) {
-                                    setState(() {
-                                      isShowSendButton = true;
-                                    });
-                                  }
-                                }),
-                              ),
-                            );
-                          } else {
-                            return const SizedBox();
-                          }
-                        });
-                      }),
+                      child: GestureDetector(
+                        onTap: () {
+                          BlocProvider.of<SendMessageUserBloc>(context).add(
+                              SendMessageUser(
+                                  message: buildMessage(),
+                                  senderUser: widget.senderUser,
+                                  receiverUser: widget.receiverUser));
+                          setState(() {
+                            messageController.clear();
+                            BlocProvider.of<SaveDataBloc>(context)
+                                .add(ChangeMessageReplyToNullEvent(messageReply: null));
+                          });
+                        },
+                        child: CircleAvatar(
+                            backgroundColor: const Color.fromRGBO(5, 96, 98, 1),
+                            radius: 25,
+                            child: Icon(
+                              isShowSendButton ? Icons.send : Icons.mic,
+                              color: Theme.of(context).iconTheme.color,
+                            )),
+                      ),
                     ),
                   ],
                 ),
+                BlocConsumer<ManagingStateVariablesInChatScreenBloc,
+                    ManagingStateVariablesInChatScreenState>(
+                    listener: (context, state) {
+                      if (state is NotShowKeyboardEmojiSuccess) {
+                        isShowEmojiContainer = state.isShowEmojiKeyboard;
+                      }
+                    }, builder: (context, state) {
+                  if (state is ShowKeyboardEmojiStateSuccess) {
+                    isShowEmojiContainer = state.isShowEmojiKeyboard;
+                    return ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxHeight:
+                        MediaQuery.of(context).size.height * 0.35,
+                      ),
+                      child: EmojiPicker(
+                        onEmojiSelected: ((category, emoji) {
+                          setState(() {
+                            messageController.text =
+                                messageController.text + emoji.emoji;
+                          });
+
+                          if (!isShowSendButton) {
+                            setState(() {
+                              isShowSendButton = true;
+                            });
+                          }
+                        }),
+                      ),
+                    );
+                  } else {
+                    return const SizedBox();
+                  }
+                }),
               ]);
         },
       ),
@@ -158,7 +174,7 @@ class _BottomChatFieldState extends State<BottomChatField> {
       maxLines: 6,
       minLines: 1,
       onTap: () {
-        BlocProvider.of<ManagingStateVariablesInChatScreenBloc>(context)
+        BlocProvider.of<ManagingStateVariablesInChatScreenBloc>(buildContext)
             .add(NotShowKeyboardEmojiEvent());
       },
       autofocus: true,
