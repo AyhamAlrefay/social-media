@@ -4,7 +4,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:whatsapp/features/auth/domain/usecases/get_all_users_data.dart';
 import 'package:whatsapp/features/chat/presentation/bloc/managing_state_variables_in_chat_screen/managing_state_variables_in_chat_screen_bloc.dart';
-import 'package:whatsapp/features/chat/presentation/bloc/save_data/save_data_bloc.dart';
 import 'core/datasources/firebase_storage_datasources.dart';
 import 'features/auth/data/datasources/remote_data_sources.dart';
 import 'features/auth/data/repositories/repositories_impl.dart';
@@ -36,7 +35,6 @@ Future<void>init()async{
   sl.registerFactory(() => SendMessageUserBloc(sendMessageUserUseCase: sl()));
   sl.registerFactory(() => GetUsersDataBloc(getCurrentUserDataUseCase: sl(), getOtherUserDataUseCase: sl(),getAllUsersDataUseCase:sl()));
   sl.registerFactory(() =>GetContactsUserBloc(getChatContactsUseCase: sl()));
-  sl.registerFactory(() =>SaveDataBloc());
   sl.registerFactory(()=>ManagingStateVariablesInChatScreenBloc());
 
   /// UseCases

@@ -7,7 +7,7 @@ import 'package:whatsapp/injection_container.dart' as di;
 import '../../../../core/strings/string_public.dart';
 import '../../../auth/domain/entities/user_entity.dart';
 import '../bloc/send_messages_user/send_message_user_bloc.dart';
-import '../widgets/chat_screen/camera/icon_button.dart';
+import '../widgets/chat_screen/icon_button.dart';
 import 'camera_view.dart';
 
 late List<CameraDescription> cameras;

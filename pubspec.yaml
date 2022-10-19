@@ -39,6 +39,7 @@ dependencies:
   open_file: ^3.2.1
   camera:
   video_player:
+  drop_cap_text: ^1.1.3
 
 
 

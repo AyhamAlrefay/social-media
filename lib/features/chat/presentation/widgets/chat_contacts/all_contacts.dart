@@ -94,9 +94,6 @@ final TextEditingController _searchController=TextEditingController();
                     subtitle:
                         Text(listContacts[index].phoneNumber),
                     onTap: () async {
-                      BlocProvider.of<GetMessageUserBloc>(context)
-                          .add(GetChatMessageUserEvent(
-                          receiverUserId: listContacts[index].uid));
                       Navigator.push(context, MaterialPageRoute(builder: (context)=>ChatUser(receiver: listContacts[index], sender: senderUser)));
                     },
                   ),
@@ -104,5 +101,4 @@ final TextEditingController _searchController=TextEditingController();
               },
             ),
     );
-  }
-}
+  }}

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:whatsapp/core/global/theme/colors.dart';
 import 'package:whatsapp/features/chat/domain/entities/message_reply.dart';
-import 'package:whatsapp/features/chat/presentation/bloc/save_data/save_data_bloc.dart';
-import '../../../../../core/enums/enum_message.dart';
+import 'package:whatsapp/features/chat/presentation/bloc/managing_state_variables_in_chat_screen/managing_state_variables_in_chat_screen_bloc.dart';
+import 'package:whatsapp/features/chat/presentation/widgets/chat_screen/bottom_chat_field.dart';
 import 'display_text_image.dart';
 
 class MessageReplyPreview extends StatelessWidget {
@@ -34,7 +32,6 @@ class MessageReplyPreview extends StatelessWidget {
             ),
           ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Row(
                 children: [
@@ -52,21 +49,31 @@ class MessageReplyPreview extends StatelessWidget {
                       color: Colors.yellowAccent,
                     ),
                     onTap: () {
-                      BlocProvider.of<SaveDataBloc>(context)
-                          .add(DeleteMessageReply(messageReply: null));
+                      BottomChatField.managingStateVariablesBloc3
+                          .add(DeleteMessageReplyEvent());
                     },
                   ),
                 ],
               ),
               const SizedBox(height: 8),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8),
-                    child: DisplayTextImage(
-                      message: messageReply!.message,
-                      type: messageReply!.messageEnum,
+                  Flexible(
+                    child: Container(
+                      padding:  EdgeInsets.only(left: 8, right: 3),
+                        child: messageReply!.messageEnum.type == 'image'
+                            ?Text(messageReply!.message,
+                              overflow: TextOverflow.clip,
+                                maxLines: null,
+                                style: const TextStyle(
+                                    fontSize: 16, color: Colors.white))
+
+                            : DisplayTextImage(
+                                message: messageReply!.message,
+                                type: messageReply!.messageEnum,
+
+                      ),
                     ),
                   ),
                 ],

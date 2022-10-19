@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:whatsapp/core/widgets/loading_widget.dart';
 import 'package:whatsapp/features/auth/domain/entities/user_entity.dart';
 import 'package:whatsapp/features/chat/domain/entities/contact.dart';
 import 'package:intl/intl.dart';
 import '../../../../auth/presentation/bloc/get_users_data/get_users_data_bloc.dart';
 import '../../bloc/get_messages_user/get_message_user_bloc.dart';
 import '../../pages/chat_user.dart';
-
 class ChatContactsItemWidget extends StatelessWidget {
   final ChatContact chatContact;
 
@@ -48,25 +46,7 @@ class ChatContactsItemWidget extends StatelessWidget {
             .add(GetChatMessageUserEvent(
                 receiverUserId: chatContact.contactId.replaceAll(' ', '')));
           Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-            return BlocConsumer<GetUsersDataBloc, GetUsersDataState>(
-              listener: (BuildContext context, state) {
-                if (state is GetCurrentUserDataSuccess) {
-                  sender = state.currentUser;
-                }
-                if (state is GetOtherUserDataSateSuccess) {
-                  receiver = state.otherUser;
-                }
-              },
-              builder: (BuildContext context, state) {
-                if (receiver != null && sender != null) {
-                  return ChatUser(
-                    receiver: receiver!,
-                    sender: sender!,
-                  );
-                }
-                return const LoadingWidget();
-              },
-            );
+            return ChatUser();
           }));
         },
       ),

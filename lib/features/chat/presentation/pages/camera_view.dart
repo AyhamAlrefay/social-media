@@ -8,13 +8,13 @@ import '../../../../core/strings/string_public.dart';
 import '../../../auth/domain/entities/user_entity.dart';
 import '../../domain/entities/message.dart';
 import '../bloc/send_messages_user/send_message_user_bloc.dart';
-import '../widgets/chat_screen/camera/icon_button.dart';
+import '../widgets/chat_screen/icon_button.dart';
 class CameraViewPage extends StatelessWidget {
   final UserEntity receiverUser;
   final UserEntity senderUser;
-  const CameraViewPage({ Key? key, required this.file, required this.receiverUser, required this.senderUser}) : super(key: key);
+   CameraViewPage({ Key? key, required this.file, required this.receiverUser, required this.senderUser}) : super(key: key);
   final XFile file;
-
+  TextEditingController textController =TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,6 +48,7 @@ class CameraViewPage extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
                 child: TextFormField(
+                  controller:textController ,
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 17,
@@ -70,25 +71,17 @@ class CameraViewPage extends StatelessWidget {
                         radius: 27,
                         backgroundColor: Colors.tealAccent[700],
                         child: BuildIconButton.buildIconButton(icon:Icons.check,function: (){
-                          Message message;
-                          final timeSent = DateTime.now();
-                          var messageId = const Uuid().v1();
-                          message= Message(
-                              senderId: senderUser.uid,
-                              receiverId: receiverUser.uid,
-                              messageContent: file,
-                              type: MessageEnum.image,
-                              timeSent: timeSent,
-                              messageId: messageId,
-                              isSeen: false);
 
+                         Message message= buildMessage();
                           BlocProvider.of<SendMessageUserBloc>(context).add(
                               SendMessageUser(
                                   message: message,
                                   senderUser: senderUser,
                                   receiverUser: receiverUser));
+                          textController.clear();
                           int count = 0;
                           Navigator.of(context).popUntil((_) => count++ >= 2);
+
                         } ),
                       )),
                 ),
@@ -100,5 +93,34 @@ class CameraViewPage extends StatelessWidget {
     );
   }
 
+  Message buildMessage() {
+    final timeSent = DateTime.now();
+    var messageId = const Uuid().v1();
+    if (textController.text.isNotEmpty) {
+      return Message(
+        senderId: senderUser.uid,
+        receiverId: receiverUser.uid,
+        messageContent: file,
+        type: MessageEnum.image,
+        timeSent: timeSent,
+        messageId: messageId,
+        isSeen: false,
+        senderUserName: ' ',
+        receiverUserName:' ',
+        repliedMessage: textController.text,
+        repliedMessageType: MessageEnum.text,
+        repliedTo:' ',
+      );
+    } else {
+      return Message(
+        senderId: senderUser.uid,
+        receiverId: receiverUser.uid,
+        messageContent: file,
+        type: MessageEnum.image,
+        timeSent: timeSent,
+        messageId: messageId,
+        isSeen: false,);
+    }
+  }
 
 }
